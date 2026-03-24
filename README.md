@@ -1,5 +1,8 @@
 # gh-counter
 
+[![TODOs](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/todo.svg)](https://github.com/kitsuyui/gh-counter/search?q=TODO&type=code)
+[![@ts-ignore](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/type-ignore.svg)](https://github.com/kitsuyui/gh-counter/search?q=%22%40ts-ignore%22+path%3Asrc&type=code)
+
 `gh-counter` is a GitHub Action for counting configurable code markers in pull
 requests and on the default branch. It is meant for teams that want one small
 tool for debt counters such as `TODO`, `FIXME`, `@ts-ignore`, or
@@ -13,6 +16,9 @@ stable badge URLs, you can turn on publish-branch output and let the action
 write generated JSON and SVG files to a dedicated branch. That publish step is
 not enabled by default, because writing to another branch is more invasive than
 most users expect from a first-time setup.
+
+This repository uses `gh-counter` to track its own `TODO` and `@ts-ignore`
+markers and publishes the badges above from `gh-counter-assets`.
 
 ## Why the defaults look like this
 
