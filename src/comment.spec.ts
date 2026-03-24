@@ -76,7 +76,9 @@ describe('comment helpers', () => {
     expect(body).toContain(
       '<summary><code>TODOs</code> file breakdown</summary>'
     )
-    expect(body).toContain('| `src/index.ts` | 1 | 2 | +1 |')
+    expect(body).toContain(
+      '| [`src/index.ts`](https://github.com/kitsuyui/gh-counter/blob/head/src/index.ts) | 1 | 2 | +1 |'
+    )
     expect(body).toContain(
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
     )

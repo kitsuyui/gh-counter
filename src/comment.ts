@@ -31,6 +31,10 @@ function deltaLabel(counter: CounterStatus): string | null {
   return counter.delta > 0 ? `+${counter.delta}` : `${counter.delta}`
 }
 
+function blobUrl(repository: string, reference: string, path: string): string {
+  return `https://github.com/${repository}/blob/${reference}/${path}`
+}
+
 export function renderComment(
   summary: SummaryStatus,
   template: string,
@@ -56,6 +60,7 @@ export function renderComment(
       delta_label: deltaLabel(counter),
       file_deltas: counter.file_deltas.map((item) => ({
         ...item,
+        url: blobUrl(summary.repository, summary.head_reference, item.path),
         delta_label: item.delta > 0 ? `+${item.delta}` : `${item.delta}`,
       })),
       violations: counter.violations.map((item) => ({

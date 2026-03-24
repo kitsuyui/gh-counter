@@ -144,7 +144,7 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 | File | {{{base_header}}} | {{{head_header}}} | +/- |
 | --- | ---: | ---: | ---: |
 {{#file_deltas}}
-| \`{{{path}}}\` | {{base}} | {{current}} | {{delta_label}} |
+| [\`{{{path}}}\`]({{{url}}}) | {{base}} | {{current}} | {{delta_label}} |
 {{/file_deltas}}
 
 </details>
