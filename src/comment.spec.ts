@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 
 import { buildMarker, decideCommentAction, renderComment } from './comment'
+import { DEFAULT_COMMENT_TEMPLATE } from './config'
 
 describe('comment helpers', () => {
   test('builds an idempotent marker', () => {
@@ -49,11 +50,14 @@ describe('comment helpers', () => {
           },
         ],
       },
-      '{{{marker}}}\n{{#counters}}{{label}} {{current}} {{delta_label}}{{/counters}}',
+      DEFAULT_COMMENT_TEMPLATE,
       buildMarker('main')
     )
 
     expect(body).toContain('<!-- gh-counter:main -->')
-    expect(body).toContain('TODOs 3 +1')
+    expect(body).toContain('- TODOs: 3 (base: 2, delta: +1)')
+    expect(body).toContain(
+      'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
+    )
   })
 })
