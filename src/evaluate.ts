@@ -75,7 +75,7 @@ function evaluateViolations(
   if (counter.ratchet?.no_increase && base !== null && current > base) {
     violations.push({
       kind: 'no_increase',
-      message: `${base} -> ${current} (${deltaLabel})`,
+      message: `${base} → ${current} (${deltaLabel})`,
       fail: counter.ratchet.fail ?? false,
     })
   }

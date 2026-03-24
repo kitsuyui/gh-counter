@@ -148,6 +148,7 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 {{/file_deltas}}
 
 </details>
+
 {{/has_file_deltas}}
 {{#has_violations}}
 {{#violations}}
