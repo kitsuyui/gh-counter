@@ -33,4 +33,5 @@ jobs:
         with:
           name: gh-counter-output
           path: .gh-counter
+          include-hidden-files: true
           retention-days: 30
