@@ -1,0 +1,37 @@
+name: gh-counter
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  gh-counter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Run gh-counter
+        id: counter
+        uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload generated files
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: gh-counter-output
+          path: .gh-counter
+          include-hidden-files: true
+          retention-days: 30
