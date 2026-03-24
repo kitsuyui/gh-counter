@@ -17,6 +17,13 @@ export function buildMarker(key: string): string {
   return `<!-- gh-counter:${key} -->`
 }
 
+function shortReference(reference: string | null): string | null {
+  if (!reference) {
+    return null
+  }
+  return reference.slice(0, 7)
+}
+
 function deltaLabel(counter: CounterStatus): string | null {
   if (counter.delta === null) {
     return null
@@ -35,6 +42,12 @@ export function renderComment(
   const view = {
     marker,
     bootstrap_message: summary.bootstrap_message,
+    base_header: shortReference(summary.base_reference)
+      ? `${summary.base_label} (${shortReference(summary.base_reference)})`
+      : summary.base_label,
+    head_header: shortReference(summary.head_reference)
+      ? `${summary.head_label} (${shortReference(summary.head_reference)})`
+      : summary.head_label,
     counters: commentableCounters.map((counter) => ({
       ...counter,
       hasBase: counter.base !== null,

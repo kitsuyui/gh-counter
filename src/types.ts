@@ -128,7 +128,9 @@ export interface SummaryStatus {
   default_branch: string
   publish_branch: string | null
   event_name: string
+  base_label: string
   base_reference: string | null
+  head_label: string
   head_reference: string
   bootstrap_message: string | null
   counters: CounterStatus[]

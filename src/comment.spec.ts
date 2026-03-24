@@ -33,7 +33,9 @@ describe('comment helpers', () => {
         default_branch: 'main',
         publish_branch: 'gh-counter',
         event_name: 'pull_request',
+        base_label: 'main',
         base_reference: 'base',
+        head_label: '#8',
         head_reference: 'head',
         counters: [
           {
@@ -69,12 +71,12 @@ describe('comment helpers', () => {
     )
 
     expect(body).toContain('<!-- gh-counter:main -->')
-    expect(body).toContain('| Label | Current | Base | Delta |')
-    expect(body).toContain('| `TODOs` | 3 | 2 | +1 |')
+    expect(body).toContain('|  | main (base) | #8 (head) | +/- |')
+    expect(body).toContain('| `TODOs` | 2 | 3 | +1 |')
     expect(body).toContain(
       '<summary><code>TODOs</code> file breakdown</summary>'
     )
-    expect(body).toContain('| `src/index.ts` | 2 | 1 | +1 |')
+    expect(body).toContain('| `src/index.ts` | 1 | 2 | +1 |')
     expect(body).toContain(
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
     )
@@ -88,7 +90,9 @@ describe('comment helpers', () => {
         default_branch: 'main',
         publish_branch: 'gh-counter',
         event_name: 'pull_request',
+        base_label: 'main',
         base_reference: 'base',
+        head_label: '#8',
         head_reference: 'head',
         bootstrap_message:
           'gh-counter was added in this pull request, but no configured matcher targets were touched in the diff yet.',
