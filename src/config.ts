@@ -129,6 +129,11 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 {{#counters}}
 - {{label}}: {{current}}{{#hasBase}} (base: {{base}}, delta: {{delta_label}}){{/hasBase}}{{#has_violations}} [violations: {{violation_messages}}]{{/has_violations}}
 {{/counters}}
+{{^counters}}
+{{#bootstrap_message}}
+{{bootstrap_message}}
+{{/bootstrap_message}}
+{{/counters}}
 
 ---
 Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)`

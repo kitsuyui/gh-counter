@@ -61,9 +61,11 @@ export async function updatePullRequestComment(
     return
   }
   const marker = buildMarker(config.comment.key)
-  const body = summary.counters.some((counter) => counter.commentable)
-    ? renderComment(summary, config.comment.template, marker)
-    : null
+  const body =
+    summary.counters.some((counter) => counter.commentable) ||
+    summary.bootstrap_message
+      ? renderComment(summary, config.comment.template, marker)
+      : null
 
   try {
     const existing = await findManagedComment(octokit, marker)
