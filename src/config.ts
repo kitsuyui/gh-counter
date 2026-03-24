@@ -126,13 +126,35 @@ const validateConfig = ajv.compile(schema)
 export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 ## gh-counter
 
+|  | {{{base_header}}} | {{{head_header}}} | +/- |
+| --- | ---: | ---: | ---: |
 {{#counters}}
-- {{label}}: {{current}}{{#hasBase}} (base: {{base}}, delta: {{delta_label}}){{/hasBase}}{{#has_violations}} [violations: {{violation_messages}}]{{/has_violations}}
+| \`{{label}}\` | {{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} | {{current}} | {{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} |
 {{/counters}}
 {{^counters}}
 {{#bootstrap_message}}
 {{bootstrap_message}}
 {{/bootstrap_message}}
+{{/counters}}
+{{#counters}}
+{{#has_file_deltas}}
+<details>
+<summary><code>{{label}}</code> file breakdown</summary>
+
+| File | {{{base_header}}} | {{{head_header}}} | +/- |
+| --- | ---: | ---: | ---: |
+{{#file_deltas}}
+| [\`{{{path}}}\`]({{{url}}}) | {{base}} | {{current}} | {{delta_label}} |
+{{/file_deltas}}
+
+</details>
+
+{{/has_file_deltas}}
+{{#has_violations}}
+{{#violations}}
+- {{icon}} \`{{label}}\`: {{message}}
+{{/violations}}
+{{/has_violations}}
 {{/counters}}
 
 ---

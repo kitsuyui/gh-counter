@@ -17,11 +17,22 @@ export function buildMarker(key: string): string {
   return `<!-- gh-counter:${key} -->`
 }
 
+function shortReference(reference: string | null): string | null {
+  if (!reference) {
+    return null
+  }
+  return reference.slice(0, 7)
+}
+
 function deltaLabel(counter: CounterStatus): string | null {
   if (counter.delta === null) {
     return null
   }
   return counter.delta > 0 ? `+${counter.delta}` : `${counter.delta}`
+}
+
+function blobUrl(repository: string, reference: string, path: string): string {
+  return `https://github.com/${repository}/blob/${reference}/${path}`
 }
 
 export function renderComment(
@@ -35,14 +46,27 @@ export function renderComment(
   const view = {
     marker,
     bootstrap_message: summary.bootstrap_message,
+    base_header: shortReference(summary.base_reference)
+      ? `${summary.base_label} (${shortReference(summary.base_reference)})`
+      : summary.base_label,
+    head_header: shortReference(summary.head_reference)
+      ? `${summary.head_label} (${shortReference(summary.head_reference)})`
+      : summary.head_label,
     counters: commentableCounters.map((counter) => ({
       ...counter,
       hasBase: counter.base !== null,
+      has_file_deltas: counter.file_deltas.length > 0,
       has_violations: counter.violations.length > 0,
       delta_label: deltaLabel(counter),
-      violation_messages: counter.violations
-        .map((item) => item.message)
-        .join(', '),
+      file_deltas: counter.file_deltas.map((item) => ({
+        ...item,
+        url: blobUrl(summary.repository, summary.head_reference, item.path),
+        delta_label: item.delta > 0 ? `+${item.delta}` : `${item.delta}`,
+      })),
+      violations: counter.violations.map((item) => ({
+        ...item,
+        icon: item.fail ? '❌' : '⚠️',
+      })),
     })),
   }
   return Mustache.render(template, view).trim()

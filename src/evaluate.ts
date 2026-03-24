@@ -3,7 +3,45 @@ import type {
   CounterSnapshot,
   CounterStatus,
   CounterViolation,
+  FileDeltaStatus,
 } from './types'
+
+function buildFileDeltas(
+  currentSnapshot: CounterSnapshot,
+  baseSnapshot: CounterSnapshot | null
+): FileDeltaStatus[] {
+  const currentCounts = new Map<string, number>()
+  const baseCounts = new Map<string, number>()
+
+  for (const match of currentSnapshot.matches) {
+    currentCounts.set(match.path, (currentCounts.get(match.path) ?? 0) + 1)
+  }
+
+  for (const match of baseSnapshot?.matches ?? []) {
+    baseCounts.set(match.path, (baseCounts.get(match.path) ?? 0) + 1)
+  }
+
+  const paths = new Set([...currentCounts.keys(), ...baseCounts.keys()])
+  return [...paths]
+    .map((path) => {
+      const current = currentCounts.get(path) ?? 0
+      const base = baseCounts.get(path) ?? 0
+      return {
+        path,
+        current,
+        base,
+        delta: current - base,
+      }
+    })
+    .filter((item) => item.delta !== 0)
+    .sort((left, right) => {
+      const deltaDiff = Math.abs(right.delta) - Math.abs(left.delta)
+      if (deltaDiff !== 0) {
+        return deltaDiff
+      }
+      return left.path.localeCompare(right.path)
+    })
+}
 
 function evaluateViolations(
   counter: CounterConfig & { label: string },
@@ -11,11 +49,14 @@ function evaluateViolations(
   base: number | null
 ): CounterViolation[] {
   const violations: CounterViolation[] = []
+  const delta = base === null ? null : current - base
+  const deltaLabel =
+    delta === null ? null : delta > 0 ? `+${delta}` : `${delta}`
 
   if (counter.limit && current > counter.limit.max) {
     violations.push({
       kind: 'limit',
-      message: `current value ${current} exceeds limit ${counter.limit.max}`,
+      message: `${current} > limit ${counter.limit.max}`,
       fail: counter.limit.fail ?? false,
     })
   }
@@ -26,7 +67,7 @@ function evaluateViolations(
   ) {
     violations.push({
       kind: 'target',
-      message: `current value ${current} exceeds target ${counter.ratchet.target}`,
+      message: `${current} > target ${counter.ratchet.target}`,
       fail: counter.ratchet.fail ?? false,
     })
   }
@@ -34,7 +75,7 @@ function evaluateViolations(
   if (counter.ratchet?.no_increase && base !== null && current > base) {
     violations.push({
       kind: 'no_increase',
-      message: `current value ${current} increased from baseline ${base}`,
+      message: `${base} → ${current} (${deltaLabel})`,
       fail: counter.ratchet.fail ?? false,
     })
   }
@@ -70,6 +111,7 @@ export function evaluateCounters(
       delta,
       commentable: !isPullRequest || touchedFilesByCounter.has(snapshot.id),
       touched_files: touchedFilesByCounter.get(snapshot.id) ?? [],
+      file_deltas: buildFileDeltas(snapshot, baseSnapshot),
       violations: evaluateViolations(counter, snapshot.count, base),
       badge_path: '',
       counter_path: '',

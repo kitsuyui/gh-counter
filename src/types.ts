@@ -96,6 +96,13 @@ export interface CounterViolation {
   fail: boolean
 }
 
+export interface FileDeltaStatus {
+  path: string
+  current: number
+  base: number
+  delta: number
+}
+
 export interface CounterStatus {
   id: string
   label: string
@@ -104,6 +111,7 @@ export interface CounterStatus {
   delta: number | null
   commentable: boolean
   touched_files: string[]
+  file_deltas: FileDeltaStatus[]
   violations: CounterViolation[]
   badge_path: string
   counter_path: string
@@ -120,7 +128,9 @@ export interface SummaryStatus {
   default_branch: string
   publish_branch: string | null
   event_name: string
+  base_label: string
   base_reference: string | null
+  head_label: string
   head_reference: string
   bootstrap_message: string | null
   counters: CounterStatus[]

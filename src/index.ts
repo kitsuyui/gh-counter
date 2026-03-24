@@ -30,7 +30,9 @@ async function resolveDefaultBranch(configDefault?: string): Promise<string> {
 function buildSummary(
   defaultBranch: string,
   publishBranch: string | null,
+  baseLabel: string,
   baseReference: string | null,
+  headLabel: string,
   headReference: string,
   bootstrapMessage: string | null,
   counters: ReturnType<typeof evaluateCounters>
@@ -41,7 +43,9 @@ function buildSummary(
     default_branch: defaultBranch,
     publish_branch: publishBranch,
     event_name: github.context.eventName,
+    base_label: baseLabel,
     base_reference: baseReference,
+    head_label: headLabel,
     head_reference: headReference,
     bootstrap_message: bootstrapMessage,
     counters,
@@ -92,6 +96,11 @@ async function run(): Promise<void> {
   let baseSnapshots: CounterSnapshot[] = []
   let changedFiles: string[] = []
   let bootstrapMessage: string | null = null
+  let baseLabel = defaultBranch
+  let headLabel =
+    github.context.eventName === 'pull_request'
+      ? `#${github.context.payload.pull_request?.number ?? 'pr'}`
+      : defaultBranch
 
   if (github.context.eventName === 'pull_request') {
     baseReference = await resolvePullRequestBaseReference(defaultBranch)
@@ -143,7 +152,9 @@ async function run(): Promise<void> {
     buildSummary(
       defaultBranch,
       publishBranch,
+      baseLabel,
       baseReference,
+      headLabel,
       headReference,
       bootstrapMessage,
       evaluatedCounters
