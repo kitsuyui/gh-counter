@@ -1,7 +1,7 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 18,
+  "count": 21,
   "matches": [
     {
       "path": "README.md",
@@ -50,13 +50,28 @@
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 41,
+      "line": 43,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 58,
-      "text": "expect(body).toContain('- TODOs: 3 (base: 2, delta: +1)')"
+      "line": 75,
+      "text": "expect(body).toContain('| `TODOs` | 2 | 3 | +1 |')"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 77,
+      "text": "'<summary><code>TODOs</code> file breakdown</summary>'"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 103,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 126,
+      "text": "expect(body).toContain('- ❌ `TODOs`: 18 → 19 (+1)')"
     },
     {
       "path": "src/config.spec.ts",

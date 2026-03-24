@@ -1,22 +1,62 @@
 {
-  "generated_at": "2026-03-24T15:30:05.297Z",
+  "generated_at": "2026-03-24T16:13:05.538Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-counter-assets",
   "event_name": "push",
-  "base_reference": "2e054a34b5c2f633a55e667f91dc13d92dbe66a1",
-  "head_reference": "5769f24ff64c0da26f06daed62f37e8f81e7a8f7",
+  "base_label": "main",
+  "base_reference": "5769f24ff64c0da26f06daed62f37e8f81e7a8f7",
+  "head_label": "main",
+  "head_reference": "6b0d4a42329611f990f63cafa173aa1749129b0e",
   "bootstrap_message": null,
   "counters": [
     {
       "id": "todo",
       "label": "TODOs",
-      "current": 18,
+      "current": 21,
       "base": 18,
-      "delta": 0,
+      "delta": 3,
       "commentable": true,
       "touched_files": [],
-      "violations": [],
+      "file_deltas": [
+        {
+          "path": "README.md",
+          "current": 9,
+          "base": 0,
+          "delta": 9
+        },
+        {
+          "path": "src/comment.spec.ts",
+          "current": 5,
+          "base": 0,
+          "delta": 5
+        },
+        {
+          "path": "src/evaluate.spec.ts",
+          "current": 4,
+          "base": 0,
+          "delta": 4
+        },
+        {
+          "path": "src/count.spec.ts",
+          "current": 2,
+          "base": 0,
+          "delta": 2
+        },
+        {
+          "path": "src/config.spec.ts",
+          "current": 1,
+          "base": 0,
+          "delta": 1
+        }
+      ],
+      "violations": [
+        {
+          "kind": "no_increase",
+          "message": "18 → 21 (+3)",
+          "fail": false
+        }
+      ],
       "badge_path": ".gh-counter/badges/todo.svg",
       "counter_path": ".gh-counter/counters/todo.json"
     },
@@ -28,6 +68,7 @@
       "delta": 0,
       "commentable": true,
       "touched_files": [],
+      "file_deltas": [],
       "violations": [],
       "badge_path": ".gh-counter/badges/type-ignore.svg",
       "counter_path": ".gh-counter/counters/type-ignore.json"
