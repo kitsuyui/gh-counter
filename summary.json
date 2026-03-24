@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-03-24T16:13:05.538Z",
+  "generated_at": "2026-03-24T16:16:36.271Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-counter-assets",
   "event_name": "push",
   "base_label": "main",
-  "base_reference": "5769f24ff64c0da26f06daed62f37e8f81e7a8f7",
+  "base_reference": "6b0d4a42329611f990f63cafa173aa1749129b0e",
   "head_label": "main",
-  "head_reference": "6b0d4a42329611f990f63cafa173aa1749129b0e",
+  "head_reference": "674d8bc017474829566bbb82106ecaa1c4178596",
   "bootstrap_message": null,
   "counters": [
     {
       "id": "todo",
       "label": "TODOs",
       "current": 21,
-      "base": 18,
-      "delta": 3,
+      "base": 21,
+      "delta": 0,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
@@ -50,13 +50,7 @@
           "delta": 1
         }
       ],
-      "violations": [
-        {
-          "kind": "no_increase",
-          "message": "18 → 21 (+3)",
-          "fail": false
-        }
-      ],
+      "violations": [],
       "badge_path": ".gh-counter/badges/todo.svg",
       "counter_path": ".gh-counter/counters/todo.json"
     },

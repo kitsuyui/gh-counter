@@ -10,42 +10,42 @@
     },
     {
       "path": "README.md",
-      "line": 8,
+      "line": 11,
       "text": "small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or"
     },
     {
       "path": "README.md",
-      "line": 14,
+      "line": 17,
       "text": "`gh-counter` to track its own `TODO` and `@ts-ignore` markers and publishes the"
     },
     {
       "path": "README.md",
-      "line": 54,
+      "line": 57,
       "text": "label: TODOs"
     },
     {
       "path": "README.md",
-      "line": 58,
+      "line": 61,
       "text": "pattern: \"(?:#|//|/\\\\*+|\\\\*)\\\\s*TODO\\\\b\""
     },
     {
       "path": "README.md",
-      "line": 165,
+      "line": 168,
       "text": "label: TODOs"
     },
     {
       "path": "README.md",
-      "line": 169,
+      "line": 172,
       "text": "pattern: \"TODO\""
     },
     {
       "path": "README.md",
-      "line": 184,
+      "line": 187,
       "text": "[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/search?q=TODO&type=code)"
     },
     {
       "path": "README.md",
-      "line": 191,
+      "line": 194,
       "text": "line such as `// FIXME: TODO because ...` should count as one debt instance for"
     },
     {
