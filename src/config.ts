@@ -137,6 +137,18 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 {{/bootstrap_message}}
 {{/counters}}
 {{#counters}}
+{{#has_file_deltas}}
+<details>
+<summary><code>{{label}}</code> file breakdown</summary>
+
+| File | Current | Base | Delta |
+| --- | ---: | ---: | ---: |
+{{#file_deltas}}
+| \`{{{path}}}\` | {{current}} | {{base}} | {{delta_label}} |
+{{/file_deltas}}
+
+</details>
+{{/has_file_deltas}}
 {{#has_violations}}
 - \`{{label}}\` violations: {{violation_messages}}
 {{/has_violations}}

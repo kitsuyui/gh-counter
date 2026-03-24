@@ -44,6 +44,20 @@ describe('comment helpers', () => {
             delta: 1,
             commentable: true,
             touched_files: ['src/index.ts'],
+            file_deltas: [
+              {
+                path: 'src/index.ts',
+                current: 2,
+                base: 1,
+                delta: 1,
+              },
+              {
+                path: 'src/other.ts',
+                current: 1,
+                base: 0,
+                delta: 1,
+              },
+            ],
             violations: [],
             badge_path: '.gh-counter/badges/todo.svg',
             counter_path: '.gh-counter/counters/todo.json',
@@ -57,6 +71,8 @@ describe('comment helpers', () => {
     expect(body).toContain('<!-- gh-counter:main -->')
     expect(body).toContain('| Label | Current | Base | Delta |')
     expect(body).toContain('| `TODOs` | 3 | 2 | +1 |')
+    expect(body).toContain('<summary><code>TODOs</code> file breakdown</summary>')
+    expect(body).toContain('| `src/index.ts` | 2 | 1 | +1 |')
     expect(body).toContain(
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
     )

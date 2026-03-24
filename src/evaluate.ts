@@ -1,9 +1,47 @@
 import type {
   CounterConfig,
+  FileDeltaStatus,
   CounterSnapshot,
   CounterStatus,
   CounterViolation,
 } from './types'
+
+function buildFileDeltas(
+  currentSnapshot: CounterSnapshot,
+  baseSnapshot: CounterSnapshot | null
+): FileDeltaStatus[] {
+  const currentCounts = new Map<string, number>()
+  const baseCounts = new Map<string, number>()
+
+  for (const match of currentSnapshot.matches) {
+    currentCounts.set(match.path, (currentCounts.get(match.path) ?? 0) + 1)
+  }
+
+  for (const match of baseSnapshot?.matches ?? []) {
+    baseCounts.set(match.path, (baseCounts.get(match.path) ?? 0) + 1)
+  }
+
+  const paths = new Set([...currentCounts.keys(), ...baseCounts.keys()])
+  return [...paths]
+    .map((path) => {
+      const current = currentCounts.get(path) ?? 0
+      const base = baseCounts.get(path) ?? 0
+      return {
+        path,
+        current,
+        base,
+        delta: current - base,
+      }
+    })
+    .filter((item) => item.delta !== 0)
+    .sort((left, right) => {
+      const deltaDiff = Math.abs(right.delta) - Math.abs(left.delta)
+      if (deltaDiff !== 0) {
+        return deltaDiff
+      }
+      return left.path.localeCompare(right.path)
+    })
+}
 
 function evaluateViolations(
   counter: CounterConfig & { label: string },
@@ -70,6 +108,7 @@ export function evaluateCounters(
       delta,
       commentable: !isPullRequest || touchedFilesByCounter.has(snapshot.id),
       touched_files: touchedFilesByCounter.get(snapshot.id) ?? [],
+      file_deltas: buildFileDeltas(snapshot, baseSnapshot),
       violations: evaluateViolations(counter, snapshot.count, base),
       badge_path: '',
       counter_path: '',

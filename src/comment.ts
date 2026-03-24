@@ -38,8 +38,13 @@ export function renderComment(
     counters: commentableCounters.map((counter) => ({
       ...counter,
       hasBase: counter.base !== null,
+      has_file_deltas: counter.file_deltas.length > 0,
       has_violations: counter.violations.length > 0,
       delta_label: deltaLabel(counter),
+      file_deltas: counter.file_deltas.map((item) => ({
+        ...item,
+        delta_label: item.delta > 0 ? `+${item.delta}` : `${item.delta}`,
+      })),
       violation_messages: counter.violations
         .map((item) => item.message)
         .join(', '),
