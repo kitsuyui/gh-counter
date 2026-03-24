@@ -1,30 +1,42 @@
 # gh-counter
 
-`gh-counter` is a GitHub Action for counting configurable code markers, posting
-pull request summaries, and publishing stable badge assets to a dedicated
-branch.
+`gh-counter` is a GitHub Action for counting configurable code markers in pull
+requests and on the default branch. It is meant for teams that want one small
+tool for debt counters such as `TODO`, `FIXME`, `@ts-ignore`, or
+`# type: ignore`, while still being flexible enough to define their own
+patterns and badge labels.
 
-## Features
+The action is designed to be useful before you customize it heavily. If you run
+it on a pull request, it compares the current branch with the merge base and
+updates one managed comment in place. If you later decide that you also want
+stable badge URLs, you can turn on publish-branch output and let the action
+write generated JSON and SVG files to a dedicated branch. That publish step is
+not enabled by default, because writing to another branch is more invasive than
+most users expect from a first-time setup.
 
-- Count multiple markers at once
-- Configure multiple matchers per counter
-- Compare pull requests against the merge base
-- Publish stable badge files and JSON summaries to a dedicated branch
-- Update a single pull request comment in place using an HTML marker
-- Enforce optional `limit`, `no_increase`, and `target` policies
-- Fall back gracefully when pull request comments or branch publishing are not
-  permitted
+## Why the defaults look like this
 
-## Requirements
+The default behavior is intentionally conservative. Pull request comments are
+enabled by default because they are the main value of the action and require
+only `pull-requests: write`. Publishing badges is disabled by default because it
+requires `contents: write`, creates or overwrites a dedicated branch, and is not
+needed to get useful signal from the action. The default branch is resolved from
+the repository metadata so that most users do not need to configure `main`,
+`master`, or a custom default branch explicitly. Counter labels default to the
+counter id so that a minimal configuration stays readable without repetition.
 
-- Run [`actions/checkout`](https://github.com/actions/checkout) before this
-  action
-- Use `fetch-depth: 0` if you want accurate merge-base comparisons on pull
-  requests
-- Grant `pull-requests: write` if you want PR comments
-- Grant `contents: write` if you want publish-branch updates
+Another important default is that pull requests only comment on counters whose
+matcher target files are actually touched by the pull request. This keeps the
+comment focused on the work being reviewed and avoids failing a pull request for
+an unrelated counter in an untouched area of the repository. On the default
+branch, by contrast, all configured counters are evaluated because the action is
+acting as a repository-level report rather than a review-time hint.
 
-## Example
+## Basic usage
+
+In the simplest setup, you check out the repository with full history, run the
+action, and give it a token that can write pull request comments. A repository
+that only wants PR comments does not need to enable branch publishing at all.
 
 ```yaml
 name: gh-counter
@@ -32,11 +44,9 @@ name: gh-counter
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
 
 jobs:
@@ -52,16 +62,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## Configuration
-
-Create `.github/gh-counter.yml`:
+The action looks for `.github/gh-counter.yml` by default. A minimal
+configuration only needs counters and matchers.
 
 ```yaml
 version: 1
-publish:
-  branch: badge-assets
-comment:
-  key: default
 counters:
   - id: todo
     label: TODOs
@@ -69,83 +74,82 @@ counters:
       - files: ["**/*.ts", "**/*.js", "**/*.py"]
         type: regex
         pattern: "(?:#|//|/\\*+|\\*)\\s*TODO\\b"
-    limit:
-      max: 100
-      fail: false
-    ratchet:
-      no_increase: true
-      fail: true
-  - id: type-ignore
-    label: type: ignore
+```
+
+With that setup, pull requests get one managed comment that compares the current
+count to the merge base. The comment is updated in place through an HTML marker,
+so reruns do not spam the thread with duplicates.
+
+## When to enable publishing
+
+Publishing is the part that turns `gh-counter` from a review tool into a badge
+and reporting tool. When publishing is enabled, the action writes `summary.json`
+and per-counter JSON and SVG files to a dedicated branch. That gives you stable
+raw URLs that can be embedded in a README. Because this behavior force-updates a
+generated branch, it is opt-in and should be enabled only when you actually want
+repository-level assets.
+
+```yaml
+version: 1
+publish:
+  enabled: true
+  branch: badge-assets
+counters:
+  - id: todo
+    label: TODOs
     matchers:
-      - files: ["**/*.py"]
+      - files: ["**/*.ts"]
         type: contains
-        pattern: "# type: ignore"
-    badge:
-      label: type: ignore
+        pattern: "TODO"
 ```
 
-## Matching semantics
+If you choose to publish, the workflow needs `contents: write`. Without that
+permission, the action will skip branch publication and emit a warning instead
+of failing unexpectedly.
 
-- Matching is line-based
-- A single line counts at most once per counter, even if multiple matchers match
-  the same line
-- `contains` checks whether the line contains the configured string
-- `regex` checks whether the line matches the configured regular expression
+## How matching works
 
-## Published files
+Matching is line-based. A line counts at most once per counter, even when
+multiple matchers on the same counter would match it. This is deliberate: a
+line such as `// FIXME: TODO because ...` should count as one debt instance for
+that counter, not two. The current implementation supports `contains` and
+`regex` matchers, and each matcher combines file globs with a single line
+pattern. Counters can have multiple matchers, which makes it practical to group
+related debt markers under one label without forcing one giant regular
+expression.
 
-When the action runs on a push to the default branch and publishing is enabled,
-it force-replaces the publish branch contents with these generated files:
+## Limits, ratchets, and failure behavior
 
-- `summary.json`
-- `badges/<counter-id>.svg`
-- `counters/<counter-id>.json`
+`gh-counter` supports two different control styles. A `limit` is an absolute
+maximum. A ratchet is directional: `no_increase` prevents a counter from going
+up relative to the baseline, while `target` expresses a longer-term threshold
+that the counter should eventually stay under. Each rule has its own `fail`
+switch so that teams can begin by observing a metric before they start enforcing
+it. On pull requests, only counters that are relevant to the current diff are
+allowed to fail the workflow. On default-branch pushes, all counters are
+evaluated because the baseline is the previously published summary or, if
+publishing is disabled, the run is informational only.
 
-That gives you stable raw URLs such as:
+## Outputs and artifacts
 
-```md
-![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/<publish-branch>/badges/todo.svg)
-```
+The action always writes generated files to `.gh-counter` unless you override
+the output directory. This is useful even when publishing is disabled, because a
+workflow can upload those files as artifacts or inspect them in later steps.
+The action also exposes the summary path, the full summary JSON, the number of
+failing violations, and the publish branch through action outputs.
 
-## Pull request comments
+## Documentation
 
-The action updates a single managed comment using an HTML marker:
+The README is intentionally focused on first-time adoption. The full
+configuration reference, field semantics, and publishing details live in
+[docs/configuration.md](docs/configuration.md).
 
-```html
-<!-- gh-counter:<comment-key> -->
-```
+## Marketplace and release notes
 
-If you run multiple `gh-counter` instances in the same repository, set a unique
-`comment.key` or `comment-key` for each one.
-
-## Policies
-
-- `limit.max`: absolute maximum allowed count
-- `ratchet.no_increase`: fail if the counter increases relative to the baseline
-- `ratchet.target`: fail if the current count is above the target value
-- `fail: true`: make the corresponding violation fail the action
-
-On pull requests, the baseline is the merge base with the target branch. On
-pushes to the default branch, the baseline is the previously published
-`summary.json` from the publish branch.
-
-## Artifacts
-
-The action writes generated files to `.gh-counter` by default and exposes their
-paths as outputs. If you also want workflow artifacts, upload those files in
-your workflow after running this action.
-
-## Marketplace notes
-
-This repository is intended to be publishable as a JavaScript action. Before
-publishing a Marketplace release, make sure:
-
-- the repository is public
-- `action.yml` remains at the repository root
-- `dist/` is committed for the release tag
-- your GitHub account or organization has accepted the Marketplace developer
-  agreement
+This repository is intended to be used as a JavaScript action. In practice that
+means `action.yml` stays at the repository root and `dist/` is committed for the
+release tag that users reference. Marketplace publication may also require
+account-level setup on GitHub's side, including agreement and listing metadata.
 
 ## License
 

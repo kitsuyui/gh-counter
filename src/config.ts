@@ -173,7 +173,7 @@ export function normalizeConfig(
   return {
     defaultBranch: inputs.defaultBranch ?? config.default_branch,
     publish: {
-      enabled: config.publish?.enabled ?? true,
+      enabled: config.publish?.enabled ?? false,
       branch: inputs.publishBranch ?? config.publish?.branch ?? 'gh-counter',
       directory: config.publish?.directory ?? '.',
       summary_filename: config.publish?.summary_filename ?? 'summary.json',
