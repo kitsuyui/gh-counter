@@ -82,6 +82,48 @@ describe('comment helpers', () => {
     )
   })
 
+  test('renders concise violation messages', () => {
+    const body = renderComment(
+      {
+        generated_at: '2026-03-24T00:00:00Z',
+        repository: 'kitsuyui/gh-counter',
+        default_branch: 'main',
+        publish_branch: 'gh-counter',
+        event_name: 'pull_request',
+        base_label: 'main',
+        base_reference: 'base',
+        head_label: '#8',
+        head_reference: 'head',
+        bootstrap_message: null,
+        counters: [
+          {
+            id: 'todo',
+            label: 'TODOs',
+            current: 19,
+            base: 18,
+            delta: 1,
+            commentable: true,
+            touched_files: ['src/index.ts'],
+            file_deltas: [],
+            violations: [
+              {
+                kind: 'no_increase',
+                message: '+1 (18 -> 19)',
+                fail: true,
+              },
+            ],
+            badge_path: '.gh-counter/badges/todo.svg',
+            counter_path: '.gh-counter/counters/todo.json',
+          },
+        ],
+      },
+      DEFAULT_COMMENT_TEMPLATE,
+      buildMarker('main')
+    )
+
+    expect(body).toContain('- `TODOs`: +1 (18 -&gt; 19)')
+  })
+
   test('renders bootstrap message when the PR only introduces gh-counter', () => {
     const body = renderComment(
       {

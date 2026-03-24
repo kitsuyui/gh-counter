@@ -49,11 +49,14 @@ function evaluateViolations(
   base: number | null
 ): CounterViolation[] {
   const violations: CounterViolation[] = []
+  const delta = base === null ? null : current - base
+  const deltaLabel =
+    delta === null ? null : delta > 0 ? `+${delta}` : `${delta}`
 
   if (counter.limit && current > counter.limit.max) {
     violations.push({
       kind: 'limit',
-      message: `current value ${current} exceeds limit ${counter.limit.max}`,
+      message: `${current} > limit ${counter.limit.max}`,
       fail: counter.limit.fail ?? false,
     })
   }
@@ -64,7 +67,7 @@ function evaluateViolations(
   ) {
     violations.push({
       kind: 'target',
-      message: `current value ${current} exceeds target ${counter.ratchet.target}`,
+      message: `${current} > target ${counter.ratchet.target}`,
       fail: counter.ratchet.fail ?? false,
     })
   }
@@ -72,7 +75,7 @@ function evaluateViolations(
   if (counter.ratchet?.no_increase && base !== null && current > base) {
     violations.push({
       kind: 'no_increase',
-      message: `current value ${current} increased from baseline ${base}`,
+      message: `${deltaLabel} (${base} -> ${current})`,
       fail: counter.ratchet.fail ?? false,
     })
   }
