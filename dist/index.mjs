@@ -155,7 +155,7 @@ $&`).replace(/(?:^|\n)([\t ].*)(?:([\n\t ]*)\n(?![\n\t ]))?/g,`$1$2`).replace(/\
 | Label | Current | Base | Delta |
 | --- | ---: | ---: | ---: |
 {{#counters}}
-| {{label}} | {{current}} | {{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} | {{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} |
+| \`{{label}}\` | {{current}} | {{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} | {{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} |
 {{/counters}}
 {{^counters}}
 {{#bootstrap_message}}
@@ -164,7 +164,7 @@ $&`).replace(/(?:^|\n)([\t ].*)(?:([\n\t ]*)\n(?![\n\t ]))?/g,`$1$2`).replace(/\
 {{/counters}}
 {{#counters}}
 {{#has_violations}}
-- {{label}} violations: {{violation_messages}}
+- \`{{label}}\` violations: {{violation_messages}}
 {{/has_violations}}
 {{/counters}}
 

@@ -129,7 +129,7 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 | Label | Current | Base | Delta |
 | --- | ---: | ---: | ---: |
 {{#counters}}
-| {{label}} | {{current}} | {{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} | {{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} |
+| \`{{label}}\` | {{current}} | {{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} | {{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} |
 {{/counters}}
 {{^counters}}
 {{#bootstrap_message}}
@@ -138,7 +138,7 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 {{/counters}}
 {{#counters}}
 {{#has_violations}}
-- {{label}} violations: {{violation_messages}}
+- \`{{label}}\` violations: {{violation_messages}}
 {{/has_violations}}
 {{/counters}}
 
