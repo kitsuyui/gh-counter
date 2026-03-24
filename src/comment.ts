@@ -58,9 +58,10 @@ export function renderComment(
         ...item,
         delta_label: item.delta > 0 ? `+${item.delta}` : `${item.delta}`,
       })),
-      violation_messages: counter.violations
-        .map((item) => item.message)
-        .join(', '),
+      violations: counter.violations.map((item) => ({
+        ...item,
+        icon: item.fail ? '❌' : '⚠️',
+      })),
     })),
   }
   return Mustache.render(template, view).trim()

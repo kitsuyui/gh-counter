@@ -108,7 +108,7 @@ describe('comment helpers', () => {
             violations: [
               {
                 kind: 'no_increase',
-                message: '+1 (18 -> 19)',
+                message: '18 -> 19 (+1)',
                 fail: true,
               },
             ],
@@ -121,7 +121,7 @@ describe('comment helpers', () => {
       buildMarker('main')
     )
 
-    expect(body).toContain('- `TODOs`: +1 (18 -&gt; 19)')
+    expect(body).toContain('- ❌ `TODOs`: 18 -&gt; 19 (+1)')
   })
 
   test('renders bootstrap message when the PR only introduces gh-counter', () => {

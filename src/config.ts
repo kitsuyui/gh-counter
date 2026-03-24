@@ -150,7 +150,9 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 </details>
 {{/has_file_deltas}}
 {{#has_violations}}
-- \`{{label}}\`: {{violation_messages}}
+{{#violations}}
+- {{icon}} \`{{label}}\`: {{message}}
+{{/violations}}
 {{/has_violations}}
 {{/counters}}
 
