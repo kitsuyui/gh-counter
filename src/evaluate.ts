@@ -45,7 +45,9 @@ function evaluateViolations(
 export function evaluateCounters(
   counters: Array<CounterConfig & { label: string }>,
   currentSnapshots: CounterSnapshot[],
-  baseSnapshots: CounterSnapshot[]
+  baseSnapshots: CounterSnapshot[],
+  touchedFilesByCounter: Map<string, string[]>,
+  isPullRequest: boolean
 ): CounterStatus[] {
   const baseMap = new Map(
     baseSnapshots.map((snapshot) => [snapshot.id, snapshot])
@@ -66,6 +68,8 @@ export function evaluateCounters(
       current: snapshot.count,
       base,
       delta,
+      commentable: !isPullRequest || touchedFilesByCounter.has(snapshot.id),
+      touched_files: touchedFilesByCounter.get(snapshot.id) ?? [],
       violations: evaluateViolations(counter, snapshot.count, base),
       badge_path: '',
       counter_path: '',
@@ -75,6 +79,9 @@ export function evaluateCounters(
 
 export function countFailingViolations(counters: CounterStatus[]): number {
   return counters.reduce((count, counter) => {
+    if (!counter.commentable) {
+      return count
+    }
     return (
       count + counter.violations.filter((violation) => violation.fail).length
     )

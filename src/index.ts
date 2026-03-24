@@ -5,7 +5,12 @@ import * as github from '@actions/github'
 import { getInputs, loadConfig, normalizeConfig } from './config'
 import { countCounters } from './count'
 import { countFailingViolations, evaluateCounters } from './evaluate'
-import { currentHeadReference, resolvePullRequestBaseReference } from './git'
+import {
+  currentHeadReference,
+  listChangedFiles,
+  resolvePullRequestBaseReference,
+  touchedFilesForCounter,
+} from './git'
 import {
   fetchPublishedSummary,
   publishAssets,
@@ -82,10 +87,12 @@ async function run(): Promise<void> {
 
   let baseReference: string | null = null
   let baseSnapshots: CounterSnapshot[] = []
+  let changedFiles: string[] = []
 
   if (github.context.eventName === 'pull_request') {
     baseReference = await resolvePullRequestBaseReference(defaultBranch)
     if (baseReference) {
+      changedFiles = await listChangedFiles(baseReference)
       baseSnapshots = await countCounters(
         { kind: 'revision', revision: baseReference },
         config.counters
@@ -105,10 +112,20 @@ async function run(): Promise<void> {
     baseSnapshots = baseSnapshotsFromPublishedSummary(publishedSummary)
   }
 
+  const touchedFilesByCounter = new Map(
+    config.counters
+      .map(
+        (counter) =>
+          [counter.id, touchedFilesForCounter(counter, changedFiles)] as const
+      )
+      .filter(([, touchedFiles]) => touchedFiles.length > 0)
+  )
   const evaluatedCounters = evaluateCounters(
     config.counters,
     currentSnapshots,
-    baseSnapshots
+    baseSnapshots,
+    touchedFilesByCounter,
+    github.context.eventName === 'pull_request'
   )
   const publishBranch =
     github.context.eventName === 'push' &&

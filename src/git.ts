@@ -1,6 +1,9 @@
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import * as github from '@actions/github'
+import micromatch from 'micromatch'
+
+import type { CounterConfig } from './types'
 
 const execFileAsync = promisify(execFile)
 
@@ -39,4 +42,33 @@ export async function resolvePullRequestBaseReference(
 
 export async function currentHeadReference(): Promise<string> {
   return git(['rev-parse', 'HEAD'])
+}
+
+export async function listChangedFiles(
+  baseReference: string
+): Promise<string[]> {
+  const stdout = await git(['diff', '--name-only', `${baseReference}...HEAD`])
+  if (!stdout) {
+    return []
+  }
+  return stdout
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+}
+
+export function touchedFilesForCounter(
+  counter: CounterConfig,
+  changedFiles: string[]
+): string[] {
+  const touched = new Set<string>()
+  for (const matcher of counter.matchers) {
+    for (const file of micromatch(changedFiles, matcher.files, {
+      ignore: matcher.exclude ?? [],
+      dot: true,
+    })) {
+      touched.add(file)
+    }
+  }
+  return [...touched].sort()
 }

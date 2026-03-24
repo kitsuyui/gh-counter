@@ -5,6 +5,7 @@ import type { CounterStatus, SummaryStatus } from './types'
 export type CommentAction =
   | { type: 'create'; body: string }
   | { type: 'update'; commentId: number; body: string }
+  | { type: 'delete'; commentId: number }
   | { type: 'noop' }
 
 export interface ExistingComment {
@@ -28,9 +29,12 @@ export function renderComment(
   template: string,
   marker: string
 ): string {
+  const commentableCounters = summary.counters.filter(
+    (counter) => counter.commentable
+  )
   const view = {
     marker,
-    counters: summary.counters.map((counter) => ({
+    counters: commentableCounters.map((counter) => ({
       ...counter,
       hasBase: counter.base !== null,
       has_violations: counter.violations.length > 0,
@@ -45,8 +49,14 @@ export function renderComment(
 
 export function decideCommentAction(
   existing: ExistingComment | null,
-  body: string
+  body: string | null
 ): CommentAction {
+  if (!body) {
+    if (existing) {
+      return { type: 'delete', commentId: existing.id }
+    }
+    return { type: 'noop' }
+  }
   if (!existing) {
     return { type: 'create', body }
   }

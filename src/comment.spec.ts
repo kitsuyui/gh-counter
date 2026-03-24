@@ -16,6 +16,14 @@ describe('comment helpers', () => {
     })
   })
 
+  test('deletes an existing comment when there is nothing to comment', () => {
+    const action = decideCommentAction({ id: 1, body: 'before' }, null)
+    expect(action).toEqual({
+      type: 'delete',
+      commentId: 1,
+    })
+  })
+
   test('renders comment with marker and counters', () => {
     const body = renderComment(
       {
@@ -33,6 +41,8 @@ describe('comment helpers', () => {
             current: 3,
             base: 2,
             delta: 1,
+            commentable: true,
+            touched_files: ['src/index.ts'],
             violations: [],
             badge_path: '.gh-counter/badges/todo.svg',
             counter_path: '.gh-counter/counters/todo.json',

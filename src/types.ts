@@ -102,6 +102,8 @@ export interface CounterStatus {
   current: number
   base: number | null
   delta: number | null
+  commentable: boolean
+  touched_files: string[]
   violations: CounterViolation[]
   badge_path: string
   counter_path: string

@@ -61,7 +61,9 @@ export async function updatePullRequestComment(
     return
   }
   const marker = buildMarker(config.comment.key)
-  const body = renderComment(summary, config.comment.template, marker)
+  const body = summary.counters.some((counter) => counter.commentable)
+    ? renderComment(summary, config.comment.template, marker)
+    : null
 
   try {
     const existing = await findManagedComment(octokit, marker)
@@ -77,6 +79,11 @@ export async function updatePullRequestComment(
         ...github.context.repo,
         comment_id: action.commentId,
         body: action.body,
+      })
+    } else if (action.type === 'delete') {
+      await octokit.rest.issues.deleteComment({
+        ...github.context.repo,
+        comment_id: action.commentId,
       })
     }
   } catch (error) {
