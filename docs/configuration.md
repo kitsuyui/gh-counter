@@ -1,10 +1,61 @@
 # Configuration Reference
 
 `gh-counter` is configured through a YAML or JSON file, by default
-`.github/gh-counter.yml`. The configuration is intentionally split into three
-levels. Repository-level behavior such as publishing and comment handling lives
-at the top. Counter-level behavior defines what you are measuring. Matcher-level
-behavior defines how files and lines are selected.
+`.github/gh-counter.yml`. The configuration has three layers. Top-level fields
+control repository-wide behavior such as comments and publishing. Counter fields
+describe what you want to measure. Matcher fields describe how files and lines
+are selected.
+
+## Field summary
+
+The tables below are meant to answer the first questions quickly: what is
+required, what is optional, and what happens if you omit a field.
+
+### Top-level fields
+
+| Field | Required | Default | Meaning |
+| --- | --- | --- | --- |
+| `version` | No | none | Schema version. `1` is the current value |
+| `default_branch` | No | repository default branch | Baseline branch for default-branch pushes |
+| `comment.enabled` | No | `true` | Enables or disables PR comments |
+| `comment.key` | No | `default` | Unique marker key for idempotent comments |
+| `comment.template` | No | built-in Mustache template | Custom PR comment body |
+| `publish.enabled` | No | `false` | Enables publish-branch writes |
+| `publish.branch` | No | `gh-counter` | Publish branch name |
+| `publish.directory` | No | `.` | Root directory within the publish branch |
+| `publish.summary_filename` | No | `summary.json` | Summary JSON file name |
+| `publish.badges_directory` | No | `badges` | Badge SVG directory |
+| `publish.counters_directory` | No | `counters` | Per-counter JSON directory |
+| `counters` | Yes | none | List of counters to evaluate |
+
+### Counter fields
+
+| Field | Required | Default | Meaning |
+| --- | --- | --- | --- |
+| `counters[].id` | Yes | none | Stable identifier used in outputs and file names |
+| `counters[].label` | No | `id` | Human-friendly label for comments and badges |
+| `counters[].matchers` | Yes | none | Matchers belonging to the counter |
+| `counters[].limit.max` | No | none | Absolute maximum |
+| `counters[].limit.fail` | No | `false` | Fails the workflow when over the limit |
+| `counters[].ratchet.no_increase` | No | none | Forbids regression relative to the baseline |
+| `counters[].ratchet.target` | No | none | Long-term target threshold |
+| `counters[].ratchet.fail` | No | `false` | Fails the workflow on ratchet violations |
+| `counters[].badge.label` | No | counter label | Badge label override |
+| `counters[].badge.colors.ok` | No | built-in color | Badge color below warning level |
+| `counters[].badge.colors.warn` | No | built-in color | Badge color at warning level |
+| `counters[].badge.colors.error` | No | built-in color | Badge color at error level |
+| `counters[].badge.thresholds.warn_above` | No | none | Warning threshold for badge color |
+| `counters[].badge.thresholds.error_above` | No | none | Error threshold for badge color |
+
+### Matcher fields
+
+| Field | Required | Default | Meaning |
+| --- | --- | --- | --- |
+| `matchers[].files` | Yes | none | Include globs |
+| `matchers[].exclude` | No | none | Extra exclude globs |
+| `matchers[].type` | Yes | none | `contains` or `regex` |
+| `matchers[].pattern` | Yes | none | Literal string or regular expression |
+| `matchers[].case_sensitive` | No | `false` | Enables case-sensitive matching |
 
 ## Top-level behavior
 
@@ -25,11 +76,15 @@ Templates are written in Mustache. The built-in template is intentionally plain
 and readable, so most users should start there and customize only when they
 have a clear reporting need.
 
+The template receives `marker`, `bootstrap_message`, and `counters`. Each
+rendered counter includes the normalized summary fields plus `hasBase`,
+`has_violations`, `delta_label`, and `violation_messages`.
+
 The `publish` section controls branch publication. Publishing is disabled by
 default. This is the safest default because it avoids writing to repository
 branches until a user explicitly decides they need stable JSON or badge output.
-When enabled, the default branch name is `gh-counter`, which is short, specific,
-and unlikely to conflict with a human-maintained branch.
+When enabled, the default branch name is `gh-counter`, which is short,
+specific, and unlikely to conflict with a human-maintained branch.
 
 ## Counter definitions
 
@@ -124,6 +179,16 @@ publish:
   branch: badge-assets
 comment:
   key: engineering-metrics
+  template: |
+    {{{marker}}}
+    ## Engineering metrics
+
+    {{#counters}}
+    - {{label}}: {{current}}{{#hasBase}} (base: {{base}}, delta: {{delta_label}}){{/hasBase}}
+    {{/counters}}
+
+    ---
+    Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)
 counters:
   - id: todo
     label: TODOs
