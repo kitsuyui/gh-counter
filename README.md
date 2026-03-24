@@ -32,6 +32,13 @@ an unrelated counter in an untouched area of the repository. On the default
 branch, by contrast, all configured counters are evaluated because the action is
 acting as a repository-level report rather than a review-time hint.
 
+There is one deliberate exception for first-time adoption. If a pull request
+adds `.github/gh-counter.yml` or adds a new workflow that uses `gh-counter`,
+but does not yet touch any matcher target files, the action posts a short
+bootstrap comment instead of staying silent. That gives maintainers a visible
+confirmation that the action is wired correctly without making ordinary
+unrelated pull requests noisy later.
+
 ## Basic usage
 
 In the simplest setup, you check out the repository with full history, run the
@@ -78,7 +85,9 @@ counters:
 
 With that setup, pull requests get one managed comment that compares the current
 count to the merge base. The comment is updated in place through an HTML marker,
-so reruns do not spam the thread with duplicates.
+so reruns do not spam the thread with duplicates. If the pull request is only
+introducing `gh-counter` itself, the managed comment falls back to a short
+bootstrap message until a later pull request touches relevant matcher targets.
 
 ## When to enable publishing
 

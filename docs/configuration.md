@@ -82,6 +82,12 @@ any files in the diff, it is excluded from PR comments and from PR failure
 evaluation. This keeps reviews focused on the code that is actually under
 discussion.
 
+The one exception is bootstrap detection for first-time setup. If the pull
+request adds `.github/gh-counter.yml` or adds a new workflow file that uses
+`kitsuyui/gh-counter@...`, and no counters are otherwise relevant yet,
+`gh-counter` posts a short bootstrap comment. This is meant to make adoption PRs
+observable without changing the relevance rule for ordinary pull requests.
+
 On pushes to the default branch, repository-wide reporting is more useful than
 diff-local relevance, so all counters are evaluated.
 

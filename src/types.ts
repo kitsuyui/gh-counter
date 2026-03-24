@@ -109,6 +109,11 @@ export interface CounterStatus {
   counter_path: string
 }
 
+export interface ChangedFileStatus {
+  path: string
+  status: string
+}
+
 export interface SummaryStatus {
   generated_at: string
   repository: string
@@ -117,6 +122,7 @@ export interface SummaryStatus {
   event_name: string
   base_reference: string | null
   head_reference: string
+  bootstrap_message: string | null
   counters: CounterStatus[]
 }
 

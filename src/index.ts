@@ -7,7 +7,8 @@ import { countCounters } from './count'
 import { countFailingViolations, evaluateCounters } from './evaluate'
 import {
   currentHeadReference,
-  listChangedFiles,
+  detectBootstrapComment,
+  listChangedFileStatuses,
   resolvePullRequestBaseReference,
   touchedFilesForCounter,
 } from './git'
@@ -31,6 +32,7 @@ function buildSummary(
   publishBranch: string | null,
   baseReference: string | null,
   headReference: string,
+  bootstrapMessage: string | null,
   counters: ReturnType<typeof evaluateCounters>
 ): SummaryStatus {
   return {
@@ -41,6 +43,7 @@ function buildSummary(
     event_name: github.context.eventName,
     base_reference: baseReference,
     head_reference: headReference,
+    bootstrap_message: bootstrapMessage,
     counters,
   }
 }
@@ -88,11 +91,14 @@ async function run(): Promise<void> {
   let baseReference: string | null = null
   let baseSnapshots: CounterSnapshot[] = []
   let changedFiles: string[] = []
+  let bootstrapMessage: string | null = null
 
   if (github.context.eventName === 'pull_request') {
     baseReference = await resolvePullRequestBaseReference(defaultBranch)
     if (baseReference) {
-      changedFiles = await listChangedFiles(baseReference)
+      const changedFileStatuses = await listChangedFileStatuses(baseReference)
+      changedFiles = changedFileStatuses.map((entry) => entry.path)
+      bootstrapMessage = await detectBootstrapComment(changedFileStatuses)
       baseSnapshots = await countCounters(
         { kind: 'revision', revision: baseReference },
         config.counters
@@ -139,6 +145,7 @@ async function run(): Promise<void> {
       publishBranch,
       baseReference,
       headReference,
+      bootstrapMessage,
       evaluatedCounters
     ),
     inputs.outputDir

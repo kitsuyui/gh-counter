@@ -60,4 +60,29 @@ describe('comment helpers', () => {
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
     )
   })
+
+  test('renders bootstrap message when the PR only introduces gh-counter', () => {
+    const body = renderComment(
+      {
+        generated_at: '2026-03-24T00:00:00Z',
+        repository: 'kitsuyui/gh-counter',
+        default_branch: 'main',
+        publish_branch: 'gh-counter',
+        event_name: 'pull_request',
+        base_reference: 'base',
+        head_reference: 'head',
+        bootstrap_message:
+          'gh-counter was added in this pull request, but no configured matcher targets were touched in the diff yet.',
+        counters: [],
+      },
+      DEFAULT_COMMENT_TEMPLATE,
+      buildMarker('main')
+    )
+
+    expect(body).toContain('<!-- gh-counter:main -->')
+    expect(body).toContain('gh-counter was added in this pull request')
+    expect(body).toContain(
+      'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
+    )
+  })
 })

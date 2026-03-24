@@ -34,6 +34,7 @@ export function renderComment(
   )
   const view = {
     marker,
+    bootstrap_message: summary.bootstrap_message,
     counters: commentableCounters.map((counter) => ({
       ...counter,
       hasBase: counter.base !== null,
