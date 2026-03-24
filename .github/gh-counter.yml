@@ -1,5 +1,6 @@
 version: 1
 publish:
+  enabled: true
   branch: gh-counter-assets
 comment:
   key: self-check
@@ -16,10 +17,10 @@ counters:
     badge:
       label: TODOs
   - id: type-ignore
-    label: 'type: ignore'
+    label: '@ts-ignore'
     matchers:
       - files: ['src/**/*.ts']
         type: contains
         pattern: '@ts-ignore'
     badge:
-      label: 'type: ignore'
+      label: '@ts-ignore'
