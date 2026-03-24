@@ -71,7 +71,9 @@ describe('comment helpers', () => {
     expect(body).toContain('<!-- gh-counter:main -->')
     expect(body).toContain('| Label | Current | Base | Delta |')
     expect(body).toContain('| `TODOs` | 3 | 2 | +1 |')
-    expect(body).toContain('<summary><code>TODOs</code> file breakdown</summary>')
+    expect(body).toContain(
+      '<summary><code>TODOs</code> file breakdown</summary>'
+    )
     expect(body).toContain('| `src/index.ts` | 2 | 1 | +1 |')
     expect(body).toContain(
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'

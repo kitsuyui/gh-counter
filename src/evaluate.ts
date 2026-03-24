@@ -1,9 +1,9 @@
 import type {
   CounterConfig,
-  FileDeltaStatus,
   CounterSnapshot,
   CounterStatus,
   CounterViolation,
+  FileDeltaStatus,
 } from './types'
 
 function buildFileDeltas(
