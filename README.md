@@ -3,6 +3,9 @@
 [![TODOs](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/todo.svg)](https://github.com/kitsuyui/gh-counter/search?q=TODO&type=code)
 [![@ts-ignore](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/type-ignore.svg)](https://github.com/kitsuyui/gh-counter/search?q=%22%40ts-ignore%22+path%3Asrc&type=code)
 
+<img width="898" height="515" alt="gh-counter-example" src="https://github.com/user-attachments/assets/5b98db5d-5c76-467b-826c-b6da1cccb58a" />
+
+
 `gh-counter` is a GitHub Action for counting configurable code markers in pull
 requests and on the default branch. It is designed for repositories that want a
 small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or
