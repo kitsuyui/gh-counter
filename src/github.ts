@@ -144,23 +144,7 @@ async function ensureBranch(
       throw error
     }
   }
-
-  const emptyTree = await octokit.rest.git.createTree({
-    ...github.context.repo,
-    tree: [],
-  })
-  const rootCommit = await octokit.rest.git.createCommit({
-    ...github.context.repo,
-    message: 'Initialize gh-counter publish branch',
-    tree: emptyTree.data.sha,
-    parents: [],
-  })
-  await octokit.rest.git.createRef({
-    ...github.context.repo,
-    ref: `refs/heads/${branch}`,
-    sha: rootCommit.data.sha,
-  })
-  return { commitSha: rootCommit.data.sha }
+  return { commitSha: null }
 }
 
 export async function publishAssets(
@@ -230,12 +214,20 @@ export async function publishAssets(
       tree: tree.data.sha,
       parents: branchState.commitSha ? [branchState.commitSha] : [],
     })
-    await octokit.rest.git.updateRef({
-      ...github.context.repo,
-      ref: `heads/${branch}`,
-      sha: commit.data.sha,
-      force: true,
-    })
+    if (branchState.commitSha) {
+      await octokit.rest.git.updateRef({
+        ...github.context.repo,
+        ref: `heads/${branch}`,
+        sha: commit.data.sha,
+        force: true,
+      })
+    } else {
+      await octokit.rest.git.createRef({
+        ...github.context.repo,
+        ref: `refs/heads/${branch}`,
+        sha: commit.data.sha,
+      })
+    }
   } catch (error) {
     if (isPermissionError(error)) {
       core.warning(
