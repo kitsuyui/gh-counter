@@ -107,6 +107,14 @@ machine-readable data. Users who only care about README badges can ignore the
 JSON files, while teams that want to build dashboards or secondary tooling can
 consume them directly.
 
+In many repositories, the most useful README badge is a linked badge rather
+than a standalone image. The generated SVG can stay in the publish branch, while
+the surrounding Markdown link points to a GitHub code search that approximates
+the counter's matcher. This is intentionally only a recommendation. Search
+queries are repository-specific, and they often use a looser approximation than
+the exact `gh-counter` matcher because GitHub code search and `gh-counter`
+matcher semantics are not identical.
+
 ## Example configuration
 
 ```yaml

@@ -116,6 +116,19 @@ If you choose to publish, the workflow needs `contents: write`. Without that
 permission, the action will skip branch publication and emit a warning instead
 of failing unexpectedly.
 
+When you embed a badge in a README, it is usually better to make the image
+clickable instead of leaving it as a bare image. A raw SVG link only opens the
+image itself, which is rarely the most useful destination for a reader. In
+practice, many repositories will get a better result by linking the badge to a
+GitHub code search for the underlying marker text. That search is not expected
+to match `gh-counter` perfectly, because repository search may use broader file
+scope or simpler terms than the configured matcher, but it often gives readers
+a much more useful starting point than a full-screen image.
+
+```md
+[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/search?q=TODO&type=code)
+```
+
 ## How matching works
 
 Matching is line-based. A line counts at most once per counter, even when
