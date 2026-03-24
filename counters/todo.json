@@ -1,0 +1,97 @@
+{
+  "id": "todo",
+  "label": "TODOs",
+  "count": 18,
+  "matches": [
+    {
+      "path": "README.md",
+      "line": 3,
+      "text": "[![TODOs](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/todo.svg)](https://github.com/kitsuyui/gh-counter/search?q=TODO&type=code)"
+    },
+    {
+      "path": "README.md",
+      "line": 8,
+      "text": "tool for debt counters such as `TODO`, `FIXME`, `@ts-ignore`, or"
+    },
+    {
+      "path": "README.md",
+      "line": 20,
+      "text": "This repository uses `gh-counter` to track its own `TODO` and `@ts-ignore`"
+    },
+    {
+      "path": "README.md",
+      "line": 85,
+      "text": "label: TODOs"
+    },
+    {
+      "path": "README.md",
+      "line": 89,
+      "text": "pattern: \"(?:#|//|/\\\\*+|\\\\*)\\\\s*TODO\\\\b\""
+    },
+    {
+      "path": "README.md",
+      "line": 114,
+      "text": "label: TODOs"
+    },
+    {
+      "path": "README.md",
+      "line": 118,
+      "text": "pattern: \"TODO\""
+    },
+    {
+      "path": "README.md",
+      "line": 135,
+      "text": "[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/search?q=TODO&type=code)"
+    },
+    {
+      "path": "README.md",
+      "line": 142,
+      "text": "line such as `// FIXME: TODO because ...` should count as one debt instance for"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 41,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 58,
+      "text": "expect(body).toContain('- TODOs: 3 (base: 2, delta: +1)')"
+    },
+    {
+      "path": "src/config.spec.ts",
+      "line": 16,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/count.spec.ts",
+      "line": 28,
+      "text": "['// TODO: first', '// FIXME: TODO reason', '// TODO FIXME'].join('\\n'),"
+    },
+    {
+      "path": "src/count.spec.ts",
+      "line": 41,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 11,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 16,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 25,
+      "text": "[{ id: 'todo', label: 'TODOs', count: 3, matches: [] }],"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 26,
+      "text": "[{ id: 'todo', label: 'TODOs', count: 1, matches: [] }],"
+    }
+  ]
+}
