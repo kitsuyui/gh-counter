@@ -55,7 +55,8 @@ describe('comment helpers', () => {
     )
 
     expect(body).toContain('<!-- gh-counter:main -->')
-    expect(body).toContain('- TODOs: 3 (base: 2, delta: +1)')
+    expect(body).toContain('| Label | Current | Base | Delta |')
+    expect(body).toContain('| TODOs | 3 | 2 | +1 |')
     expect(body).toContain(
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
     )
