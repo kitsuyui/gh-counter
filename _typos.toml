@@ -1,0 +1,5 @@
+[default.extend-words]
+inferrable = "inferrable"
+
+[files]
+extend-exclude = ["dist", "node_modules", "vendor", "coverage", "build"]
