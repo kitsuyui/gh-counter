@@ -1,0 +1,25 @@
+version: 1
+publish:
+  branch: gh-counter-assets
+comment:
+  key: self-check
+counters:
+  - id: todo
+    label: TODOs
+    matchers:
+      - files: ['src/**/*.ts', 'README.md']
+        type: contains
+        pattern: 'TODO'
+    ratchet:
+      no_increase: true
+      fail: false
+    badge:
+      label: TODOs
+  - id: type-ignore
+    label: 'type: ignore'
+    matchers:
+      - files: ['src/**/*.ts']
+        type: contains
+        pattern: '@ts-ignore'
+    badge:
+      label: 'type: ignore'
