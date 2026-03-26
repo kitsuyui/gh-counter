@@ -76,11 +76,17 @@ describe('comment helpers', () => {
     )
 
     expect(body).toContain('<!-- gh-counter:main -->')
-    expect(body).toContain('|  | main (base) | #8 (head) | +/- |')
-    expect(body).toContain('| <code>TODOs</code> | 2 | 3 | +1 |')
-    expect(body).toContain('<summary><code>TODOs</code> file breakdown</summary>')
+    expect(body).toContain('<th align="right">main (base)</th>')
+    expect(body).toContain('<th align="right">#8 (head)</th>')
+    expect(body).toContain('<td><code>TODOs</code></td>')
+    expect(body).toContain('<td align="right">2</td>')
+    expect(body).toContain('<td align="right">3</td>')
+    expect(body).toContain('<td align="right">+1</td>')
     expect(body).toContain(
-      '| [`src/index.ts`](https://github.com/kitsuyui/gh-counter/blob/head/src/index.ts) | 1 | 2 | +1 |'
+      '<summary><code>TODOs</code> file breakdown</summary>'
+    )
+    expect(body).toContain(
+      '<td><a href="https://github.com/kitsuyui/gh-counter/blob/head/src/index.ts"><code>src&#x2F;index.ts</code></a></td>'
     )
     expect(body).toContain(
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
@@ -139,62 +145,7 @@ describe('comment helpers', () => {
     )
   })
 
-  test('decodes html entities inside markdown code spans', () => {
-    const body = renderComment(
-      {
-        ...baseSummary,
-        counters: [
-          {
-            id: 'todo',
-            label: '<TODO>',
-            current: 3,
-            base: 2,
-            delta: 1,
-            commentable: true,
-            touched_files: ['src/index.ts'],
-            file_deltas: [],
-            violations: [],
-            badge_path: '.gh-counter/badges/todo.svg',
-            counter_path: '.gh-counter/counters/todo.json',
-          },
-        ],
-      },
-      '| Counter |\n| --- |\n{{#counters}}| `{{label}}` |\n{{/counters}}',
-      buildMarker('main')
-    )
-
-    expect(body).toContain('| `<TODO>` |')
-    expect(body).not.toContain('&lt;TODO&gt;')
-  })
-
-  test('keeps html entities escaped outside markdown code spans', () => {
-    const body = renderComment(
-      {
-        ...baseSummary,
-        counters: [
-          {
-            id: 'todo',
-            label: '<TODO>',
-            current: 3,
-            base: 2,
-            delta: 1,
-            commentable: true,
-            touched_files: ['src/index.ts'],
-            file_deltas: [],
-            violations: [],
-            badge_path: '.gh-counter/badges/todo.svg',
-            counter_path: '.gh-counter/counters/todo.json',
-          },
-        ],
-      },
-      '{{#counters}}{{label}}{{/counters}}',
-      buildMarker('main')
-    )
-
-    expect(body).toBe('&lt;TODO&gt;')
-  })
-
-  test('decodes only the code span content in mixed markdown', () => {
+  test('keeps html entities escaped in plain markdown text', () => {
     const body = renderComment(
       {
         ...baseSummary,
@@ -214,12 +165,11 @@ describe('comment helpers', () => {
           },
         ],
       },
-      '{{#counters}}plain={{label}} code=`{{label}}`{{/counters}}',
+      '{{#counters}}plain={{label}}{{/counters}}',
       buildMarker('main')
     )
 
     expect(body).toContain('plain=&lt;TODO&gt; &amp; &quot;fix&quot;')
-    expect(body).toContain('code=`<TODO> & "fix"`')
   })
 
   test('renders code helper as safe html for symbol-heavy labels', () => {
@@ -242,11 +192,11 @@ describe('comment helpers', () => {
           },
         ],
       },
-      '| Counter |\n| --- |\n{{#counters}}| {{#code}}{{label}}{{/code}} |\n{{/counters}}',
+      '{{#counters}}<div>{{#code}}{{label}}{{/code}}</div>{{/counters}}',
       buildMarker('main')
     )
 
-    expect(body).toContain('| <code>&lt;TODO|fix&gt;`now`</code> |')
+    expect(body).toContain('<div><code>&lt;TODO|fix&gt;`now`</code></div>')
   })
 
   test('default template keeps symbol-heavy labels valid in tables and summaries', () => {
@@ -280,7 +230,10 @@ describe('comment helpers', () => {
       buildMarker('main')
     )
 
-    expect(body).toContain('| <code>&lt;code&gt;|`</code> | 2 | 8 | +6 |')
+    expect(body).toContain('<td><code>&lt;code&gt;|`</code></td>')
+    expect(body).toContain('<td align="right">2</td>')
+    expect(body).toContain('<td align="right">8</td>')
+    expect(body).toContain('<td align="right">+6</td>')
     expect(body).toContain(
       '<summary><code>&lt;code&gt;|`</code> file breakdown</summary>'
     )

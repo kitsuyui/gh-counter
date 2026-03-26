@@ -81,16 +81,25 @@ rendered counter includes the normalized summary fields plus `hasBase`,
 `has_violations`, `delta_label`, and `violation_messages`. The root context also
 includes a `code` section helper for safely rendering arbitrary values as
 `<code>...</code>` HTML, which is more robust than wrapping `{{label}}` in
-backticks when values may contain symbols such as `` ` `` or `|`.
+backticks when values may contain symbols such as `` ` `` or `|`. For
+table-oriented templates, prefer HTML `<table>` markup over Markdown tables,
+because Markdown table parsing will treat literal `|` inside a cell as a column
+separator.
 
 For example, a table-oriented template can render labels safely like this:
 
 ```mustache
-| Counter | Current |
-| --- | ---: |
+<table>
+<thead><tr><th>Counter</th><th align="right">Current</th></tr></thead>
+<tbody>
 {{#counters}}
-| {{#code}}{{label}}{{/code}} | {{current}} |
+<tr>
+  <td>{{#code}}{{label}}{{/code}}</td>
+  <td align="right">{{current}}</td>
+</tr>
 {{/counters}}
+</tbody>
+</table>
 ```
 
 The `publish` section controls branch publication. Publishing is disabled by

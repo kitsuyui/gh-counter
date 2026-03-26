@@ -126,11 +126,26 @@ const validateConfig = ajv.compile(schema)
 export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 ## gh-counter
 
-|  | {{{base_header}}} | {{{head_header}}} | +/- |
-| --- | ---: | ---: | ---: |
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="right">{{base_header}}</th>
+<th align="right">{{head_header}}</th>
+<th align="right">+/-</th>
+</tr>
+</thead>
+<tbody>
 {{#counters}}
-| {{#code}}{{label}}{{/code}} | {{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} | {{current}} | {{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} |
+<tr>
+<td>{{#code}}{{label}}{{/code}}</td>
+<td align="right">{{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}}</td>
+<td align="right">{{current}}</td>
+<td align="right">{{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}}</td>
+</tr>
 {{/counters}}
+</tbody>
+</table>
 {{^counters}}
 {{#bootstrap_message}}
 {{bootstrap_message}}
@@ -141,11 +156,26 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 <details>
 <summary>{{#code}}{{label}}{{/code}} file breakdown</summary>
 
-| File | {{{base_header}}} | {{{head_header}}} | +/- |
-| --- | ---: | ---: | ---: |
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th align="right">{{base_header}}</th>
+<th align="right">{{head_header}}</th>
+<th align="right">+/-</th>
+</tr>
+</thead>
+<tbody>
 {{#file_deltas}}
-| [\`{{{path}}}\`]({{{url}}}) | {{base}} | {{current}} | {{delta_label}} |
+<tr>
+<td><a href="{{{url}}}">{{#code}}{{path}}{{/code}}</a></td>
+<td align="right">{{base}}</td>
+<td align="right">{{current}}</td>
+<td align="right">{{delta_label}}</td>
+</tr>
 {{/file_deltas}}
+</tbody>
+</table>
 
 </details>
 

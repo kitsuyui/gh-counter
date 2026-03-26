@@ -35,48 +35,8 @@ function blobUrl(repository: string, reference: string, path: string): string {
   return `https://github.com/${repository}/blob/${reference}/${path}`
 }
 
-function decodeHtmlEntities(value: string): string {
-  return value
-    .replaceAll('&amp;', '&')
-    .replaceAll('&lt;', '<')
-    .replaceAll('&gt;', '>')
-    .replaceAll('&quot;', '"')
-    .replaceAll('&#39;', "'")
-    .replaceAll('&#96;', '`')
-    .replaceAll('&#x60;', '`')
-}
-
-function escapeHtml(value: string): string {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;')
-}
-
 function renderCodeElement(value: string): string {
-  return `<code>${escapeHtml(decodeHtmlEntities(value))}</code>`
-}
-
-function decodeHtmlEntitiesInCodeSpans(markdown: string): string {
-  const codeElements: string[] = []
-  const maskedMarkdown = markdown.replaceAll(/<code>[\s\S]*?<\/code>/g, (tag) => {
-    const marker = `__GH_COUNTER_CODE_ELEMENT_${codeElements.length}__`
-    codeElements.push(tag)
-    return marker
-  })
-  const decodedMarkdown = maskedMarkdown.replaceAll(
-    /(`+)([\s\S]*?)\1/g,
-    (_, fence, content) => {
-      return `${fence}${decodeHtmlEntities(content)}${fence}`
-    }
-  )
-
-  return decodedMarkdown.replaceAll(
-    /__GH_COUNTER_CODE_ELEMENT_(\d+)__/g,
-    (_, index) => codeElements[Number(index)] ?? ''
-  )
+  return `<code>${value.replaceAll('&#x60;', '`').replaceAll('&#96;', '`')}</code>`
 }
 
 export function renderComment(
@@ -116,7 +76,7 @@ export function renderComment(
       })),
     })),
   }
-  return decodeHtmlEntitiesInCodeSpans(Mustache.render(template, view)).trim()
+  return Mustache.render(template, view).trim()
 }
 
 export function decideCommentAction(
