@@ -104,6 +104,14 @@ publishing is off by default, and labels fall back to counter ids.
 | `publish.counters_directory` | No | `counters` | Directory for per-counter JSON files |
 | `counters` | Yes | none | At least one counter is required |
 
+Custom comment templates are written in Mustache, but the main rendering
+constraints come from GitHub Flavored Markdown rather than Mustache itself.
+When a custom template places arbitrary labels or file paths inside Markdown
+tables, use the pre-encoded `label_code` and `path_code` fields. When a custom
+template writes into raw HTML contexts such as `<summary>`, use
+`label_code_html` instead. This keeps escaping local to the output boundary and
+avoids broken tables when labels contain `|` or backticks.
+
 ### Counter fields
 
 | Field | Required | Default | Notes |
