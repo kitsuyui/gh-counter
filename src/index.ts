@@ -96,8 +96,8 @@ async function run(): Promise<void> {
   let baseSnapshots: CounterSnapshot[] = []
   let changedFiles: string[] = []
   let bootstrapMessage: string | null = null
-  let baseLabel = defaultBranch
-  let headLabel =
+  const baseLabel = defaultBranch
+  const headLabel =
     github.context.eventName === 'pull_request'
       ? `#${github.context.payload.pull_request?.number ?? 'pr'}`
       : defaultBranch

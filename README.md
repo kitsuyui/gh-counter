@@ -2,6 +2,7 @@
 
 [![TODOs](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/todo.svg)](https://github.com/kitsuyui/gh-counter/search?q=TODO&type=code)
 [![@ts-ignore](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/type-ignore.svg)](https://github.com/kitsuyui/gh-counter/search?q=%22%40ts-ignore%22+path%3Asrc&type=code)
+[![code symbols](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/code-tag.svg)](https://github.com/kitsuyui/gh-counter/search?q=%22%3Ccode%3E%22&type=code)
 
 <img width="898" height="515" alt="gh-counter-example" src="https://github.com/user-attachments/assets/5b98db5d-5c76-467b-826c-b6da1cccb58a" />
 
@@ -14,8 +15,8 @@ small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or
 On pull requests, it compares the head branch with the merge base and updates
 one managed comment in place. On pushes to the default branch, it can also
 publish JSON and SVG badge assets to a dedicated branch. This repository uses
-`gh-counter` to track its own `TODO` and `@ts-ignore` markers and publishes the
-badges above from `gh-counter-assets`.
+`gh-counter` to track its own `TODO`, `@ts-ignore`, and symbol-heavy `<code>`
+markers and publishes the badges above from `gh-counter-assets`.
 
 ## Quick start
 
@@ -102,6 +103,14 @@ publishing is off by default, and labels fall back to counter ids.
 | `publish.badges_directory` | No | `badges` | Directory for generated SVG badges |
 | `publish.counters_directory` | No | `counters` | Directory for per-counter JSON files |
 | `counters` | Yes | none | At least one counter is required |
+
+Custom comment templates are written in Mustache, but the main rendering
+constraints come from GitHub Flavored Markdown rather than Mustache itself.
+When a custom template places arbitrary labels or file paths inside Markdown
+tables, use the pre-encoded `label_code` and `path_code` fields. When a custom
+template writes into raw HTML contexts such as `<summary>`, use
+`label_code_html` instead. This keeps escaping local to the output boundary and
+avoids broken tables when labels contain `|` or backticks.
 
 ### Counter fields
 
