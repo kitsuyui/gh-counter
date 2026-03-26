@@ -35,8 +35,22 @@ function blobUrl(repository: string, reference: string, path: string): string {
   return `https://github.com/${repository}/blob/${reference}/${path}`
 }
 
-function renderCodeElement(value: string): string {
-  return `<code>${value.replaceAll('&#x60;', '`').replaceAll('&#96;', '`')}</code>`
+function renderGfmCodeSpan(value: string): string {
+  const content = value.replaceAll('|', '\\|')
+  const longestBacktickRun = Math.max(
+    0,
+    ...Array.from(content.matchAll(/`+/g), (match) => match[0].length)
+  )
+  const fence = '`'.repeat(Math.max(1, longestBacktickRun + 1))
+  const paddedContent =
+    content.startsWith(' ') ||
+    content.endsWith(' ') ||
+    content.startsWith('`') ||
+    content.endsWith('`')
+      ? ` ${content} `
+      : content
+
+  return `${fence}${paddedContent}${fence}`
 }
 
 export function renderComment(
@@ -56,23 +70,23 @@ export function renderComment(
     head_header: shortReference(summary.head_reference)
       ? `${summary.head_label} (${shortReference(summary.head_reference)})`
       : summary.head_label,
-    code(): (text: string, render: (template: string) => string) => string {
-      return (text, render) => renderCodeElement(render(text))
-    },
     counters: commentableCounters.map((counter) => ({
       ...counter,
+      label_code: renderGfmCodeSpan(counter.label),
       hasBase: counter.base !== null,
       has_file_deltas: counter.file_deltas.length > 0,
       has_violations: counter.violations.length > 0,
       delta_label: deltaLabel(counter),
       file_deltas: counter.file_deltas.map((item) => ({
         ...item,
+        path_code: renderGfmCodeSpan(item.path),
         url: blobUrl(summary.repository, summary.head_reference, item.path),
         delta_label: item.delta > 0 ? `+${item.delta}` : `${item.delta}`,
       })),
       violations: counter.violations.map((item) => ({
         ...item,
         icon: item.fail ? '❌' : '⚠️',
+        label_code: renderGfmCodeSpan(counter.label),
       })),
     })),
   }

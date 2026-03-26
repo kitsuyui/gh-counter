@@ -78,28 +78,19 @@ have a clear reporting need.
 
 The template receives `marker`, `bootstrap_message`, and `counters`. Each
 rendered counter includes the normalized summary fields plus `hasBase`,
-`has_violations`, `delta_label`, and `violation_messages`. The root context also
-includes a `code` section helper for safely rendering arbitrary values as
-`<code>...</code>` HTML, which is more robust than wrapping `{{label}}` in
-backticks when values may contain symbols such as `` ` `` or `|`. For
-table-oriented templates, prefer HTML `<table>` markup over Markdown tables,
-because Markdown table parsing will treat literal `|` inside a cell as a column
-separator.
+`has_violations`, `delta_label`, and `violation_messages`. Each rendered
+counter also includes `label_code`, and each `file_deltas` item includes
+`path_code`. These fields are pre-encoded as GFM-safe code spans, including the
+extra escaping needed for pipes and embedded backticks inside Markdown tables.
 
 For example, a table-oriented template can render labels safely like this:
 
 ```mustache
-<table>
-<thead><tr><th>Counter</th><th align="right">Current</th></tr></thead>
-<tbody>
+| Counter | Current |
+| --- | ---: |
 {{#counters}}
-<tr>
-  <td>{{#code}}{{label}}{{/code}}</td>
-  <td align="right">{{current}}</td>
-</tr>
+| {{{label_code}}} | {{current}} |
 {{/counters}}
-</tbody>
-</table>
 ```
 
 The `publish` section controls branch publication. Publishing is disabled by

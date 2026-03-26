@@ -76,17 +76,11 @@ describe('comment helpers', () => {
     )
 
     expect(body).toContain('<!-- gh-counter:main -->')
-    expect(body).toContain('<th align="right">main (base)</th>')
-    expect(body).toContain('<th align="right">#8 (head)</th>')
-    expect(body).toContain('<td><code>TODOs</code></td>')
-    expect(body).toContain('<td align="right">2</td>')
-    expect(body).toContain('<td align="right">3</td>')
-    expect(body).toContain('<td align="right">+1</td>')
+    expect(body).toContain('|  | main (base) | #8 (head) | +/- |')
+    expect(body).toContain('| `TODOs` | 2 | 3 | +1 |')
+    expect(body).toContain('<summary>`TODOs` file breakdown</summary>')
     expect(body).toContain(
-      '<summary><code>TODOs</code> file breakdown</summary>'
-    )
-    expect(body).toContain(
-      '<td><a href="https://github.com/kitsuyui/gh-counter/blob/head/src/index.ts"><code>src&#x2F;index.ts</code></a></td>'
+      '| [`src/index.ts`](https://github.com/kitsuyui/gh-counter/blob/head/src/index.ts) | 1 | 2 | +1 |'
     )
     expect(body).toContain(
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
@@ -192,11 +186,11 @@ describe('comment helpers', () => {
           },
         ],
       },
-      '{{#counters}}<div>{{#code}}{{label}}{{/code}}</div>{{/counters}}',
+      '{{#counters}}{{{label_code}}}{{/counters}}',
       buildMarker('main')
     )
 
-    expect(body).toContain('<div><code>&lt;TODO|fix&gt;`now`</code></div>')
+    expect(body).toContain('`` <TODO\\|fix>`now` ``')
   })
 
   test('default template keeps symbol-heavy labels valid in tables and summaries', () => {
@@ -230,12 +224,7 @@ describe('comment helpers', () => {
       buildMarker('main')
     )
 
-    expect(body).toContain('<td><code>&lt;code&gt;|`</code></td>')
-    expect(body).toContain('<td align="right">2</td>')
-    expect(body).toContain('<td align="right">8</td>')
-    expect(body).toContain('<td align="right">+6</td>')
-    expect(body).toContain(
-      '<summary><code>&lt;code&gt;|`</code> file breakdown</summary>'
-    )
+    expect(body).toContain('| `` <code>\\|` `` | 2 | 8 | +6 |')
+    expect(body).toContain('<summary>`` <code>\\|` `` file breakdown</summary>')
   })
 })
