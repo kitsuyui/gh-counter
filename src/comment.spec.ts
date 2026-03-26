@@ -78,7 +78,9 @@ describe('comment helpers', () => {
     expect(body).toContain('<!-- gh-counter:main -->')
     expect(body).toContain('|  | main (base) | #8 (head) | +/- |')
     expect(body).toContain('| `TODOs` | 2 | 3 | +1 |')
-    expect(body).toContain('<summary>`TODOs` file breakdown</summary>')
+    expect(body).toContain(
+      '<summary><code>TODOs</code> file breakdown</summary>'
+    )
     expect(body).toContain(
       '| [`src/index.ts`](https://github.com/kitsuyui/gh-counter/blob/head/src/index.ts) | 1 | 2 | +1 |'
     )
@@ -225,6 +227,8 @@ describe('comment helpers', () => {
     )
 
     expect(body).toContain('| `` <code>\\|` `` | 2 | 8 | +6 |')
-    expect(body).toContain('<summary>`` <code>\\|` `` file breakdown</summary>')
+    expect(body).toContain(
+      '<summary><code>&lt;code&gt;|`</code> file breakdown</summary>'
+    )
   })
 })

@@ -53,6 +53,19 @@ function renderGfmCodeSpan(value: string): string {
   return `${fence}${paddedContent}${fence}`
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+}
+
+function renderHtmlCode(value: string): string {
+  return `<code>${escapeHtml(value)}</code>`
+}
+
 export function renderComment(
   summary: SummaryStatus,
   template: string,
@@ -73,6 +86,7 @@ export function renderComment(
     counters: commentableCounters.map((counter) => ({
       ...counter,
       label_code: renderGfmCodeSpan(counter.label),
+      label_code_html: renderHtmlCode(counter.label),
       hasBase: counter.base !== null,
       has_file_deltas: counter.file_deltas.length > 0,
       has_violations: counter.violations.length > 0,

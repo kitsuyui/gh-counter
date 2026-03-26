@@ -139,7 +139,7 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 {{#counters}}
 {{#has_file_deltas}}
 <details>
-<summary>{{{label_code}}} file breakdown</summary>
+<summary>{{{label_code_html}}} file breakdown</summary>
 
 | File | {{base_header}} | {{head_header}} | +/- |
 | --- | ---: | ---: | ---: |
