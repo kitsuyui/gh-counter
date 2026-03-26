@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-03-24T16:16:36.271Z",
+  "generated_at": "2026-03-26T13:43:59.379Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-counter-assets",
   "event_name": "push",
   "base_label": "main",
-  "base_reference": "6b0d4a42329611f990f63cafa173aa1749129b0e",
+  "base_reference": "674d8bc017474829566bbb82106ecaa1c4178596",
   "head_label": "main",
-  "head_reference": "674d8bc017474829566bbb82106ecaa1c4178596",
+  "head_reference": "d607ff3e80bd7baaeecb4bb62c33775636770e35",
   "bootstrap_message": null,
   "counters": [
     {
       "id": "todo",
       "label": "TODOs",
-      "current": 21,
+      "current": 25,
       "base": 21,
-      "delta": 0,
+      "delta": 4,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
@@ -27,9 +27,9 @@
         },
         {
           "path": "src/comment.spec.ts",
-          "current": 5,
+          "current": 9,
           "base": 0,
-          "delta": 5
+          "delta": 9
         },
         {
           "path": "src/evaluate.spec.ts",
@@ -50,7 +50,13 @@
           "delta": 1
         }
       ],
-      "violations": [],
+      "violations": [
+        {
+          "kind": "no_increase",
+          "message": "21 → 25 (+4)",
+          "fail": false
+        }
+      ],
       "badge_path": ".gh-counter/badges/todo.svg",
       "counter_path": ".gh-counter/counters/todo.json"
     },
@@ -66,6 +72,38 @@
       "violations": [],
       "badge_path": ".gh-counter/badges/type-ignore.svg",
       "counter_path": ".gh-counter/counters/type-ignore.json"
+    },
+    {
+      "id": "code-tag",
+      "label": "<code>|`",
+      "current": 8,
+      "base": null,
+      "delta": null,
+      "commentable": true,
+      "touched_files": [],
+      "file_deltas": [
+        {
+          "path": "src/comment.spec.ts",
+          "current": 4,
+          "base": 0,
+          "delta": 4
+        },
+        {
+          "path": "src/badge.spec.ts",
+          "current": 3,
+          "base": 0,
+          "delta": 3
+        },
+        {
+          "path": "src/comment.ts",
+          "current": 1,
+          "base": 0,
+          "delta": 1
+        }
+      ],
+      "violations": [],
+      "badge_path": ".gh-counter/badges/code-tag.svg",
+      "counter_path": ".gh-counter/counters/code-tag.json"
     }
   ]
 }

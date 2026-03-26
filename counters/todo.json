@@ -1,7 +1,7 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 21,
+  "count": 25,
   "matches": [
     {
       "path": "README.md",
@@ -10,68 +10,88 @@
     },
     {
       "path": "README.md",
-      "line": 11,
+      "line": 12,
       "text": "small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or"
     },
     {
       "path": "README.md",
-      "line": 17,
-      "text": "`gh-counter` to track its own `TODO` and `@ts-ignore` markers and publishes the"
+      "line": 18,
+      "text": "`gh-counter` to track its own `TODO`, `@ts-ignore`, and symbol-heavy `<code>`"
     },
     {
       "path": "README.md",
-      "line": 57,
+      "line": 58,
       "text": "label: TODOs"
     },
     {
       "path": "README.md",
-      "line": 61,
+      "line": 62,
       "text": "pattern: \"(?:#|//|/\\\\*+|\\\\*)\\\\s*TODO\\\\b\""
     },
     {
       "path": "README.md",
-      "line": 168,
+      "line": 177,
       "text": "label: TODOs"
     },
     {
       "path": "README.md",
-      "line": 172,
+      "line": 181,
       "text": "pattern: \"TODO\""
     },
     {
       "path": "README.md",
-      "line": 187,
+      "line": 196,
       "text": "[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/search?q=TODO&type=code)"
     },
     {
       "path": "README.md",
-      "line": 194,
+      "line": 203,
       "text": "line such as `// FIXME: TODO because ...` should count as one debt instance for"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 43,
+      "line": 48,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 75,
+      "line": 80,
       "text": "expect(body).toContain('| `TODOs` | 2 | 3 | +1 |')"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 77,
+      "line": 82,
       "text": "'<summary><code>TODOs</code> file breakdown</summary>'"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 103,
+      "line": 99,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 126,
+      "line": 122,
       "text": "expect(body).toContain('- ❌ `TODOs`: 18 → 19 (+1)')"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 151,
+      "text": "label: '<TODO> & \"fix\"',"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 168,
+      "text": "expect(body).toContain('plain=&lt;TODO&gt; &amp; &quot;fix&quot;')"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 178,
+      "text": "label: '<TODO|fix>`now`',"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 195,
+      "text": "expect(body).toContain('`` <TODO\\\\|fix>`now` ``')"
     },
     {
       "path": "src/config.spec.ts",

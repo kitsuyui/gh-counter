@@ -1,0 +1,47 @@
+{
+  "id": "code-tag",
+  "label": "<code>|`",
+  "count": 8,
+  "matches": [
+    {
+      "path": "src/badge.spec.ts",
+      "line": 10,
+      "text": "label: '<code>|`&\"\\'',"
+    },
+    {
+      "path": "src/badge.spec.ts",
+      "line": 22,
+      "text": "label: '<code>|`&\"\\'',"
+    },
+    {
+      "path": "src/badge.spec.ts",
+      "line": 28,
+      "text": "expect(svg).not.toContain('<text x=\"55\" y=\"14\"><code>')"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 82,
+      "text": "'<summary><code>TODOs</code> file breakdown</summary>'"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 205,
+      "text": "label: '<code>|`',"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 229,
+      "text": "expect(body).toContain('| `` <code>\\\\|` `` | 2 | 8 | +6 |')"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 231,
+      "text": "'<summary><code>&lt;code&gt;|`</code> file breakdown</summary>'"
+    },
+    {
+      "path": "src/comment.ts",
+      "line": 66,
+      "text": "return `<code>${escapeHtml(value)}</code>`"
+    }
+  ]
+}
