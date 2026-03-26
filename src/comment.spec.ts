@@ -77,10 +77,8 @@ describe('comment helpers', () => {
 
     expect(body).toContain('<!-- gh-counter:main -->')
     expect(body).toContain('|  | main (base) | #8 (head) | +/- |')
-    expect(body).toContain('| `TODOs` | 2 | 3 | +1 |')
-    expect(body).toContain(
-      '<summary><code>TODOs</code> file breakdown</summary>'
-    )
+    expect(body).toContain('| <code>TODOs</code> | 2 | 3 | +1 |')
+    expect(body).toContain('<summary><code>TODOs</code> file breakdown</summary>')
     expect(body).toContain(
       '| [`src/index.ts`](https://github.com/kitsuyui/gh-counter/blob/head/src/index.ts) | 1 | 2 | +1 |'
     )
@@ -249,5 +247,42 @@ describe('comment helpers', () => {
     )
 
     expect(body).toContain('| <code>&lt;TODO|fix&gt;`now`</code> |')
+  })
+
+  test('default template keeps symbol-heavy labels valid in tables and summaries', () => {
+    const body = renderComment(
+      {
+        ...baseSummary,
+        counters: [
+          {
+            id: 'code-tag',
+            label: '<code>|`',
+            current: 8,
+            base: 2,
+            delta: 6,
+            commentable: true,
+            touched_files: ['src/comment.ts'],
+            file_deltas: [
+              {
+                path: 'src/comment.ts',
+                current: 1,
+                base: 0,
+                delta: 1,
+              },
+            ],
+            violations: [],
+            badge_path: '.gh-counter/badges/code-tag.svg',
+            counter_path: '.gh-counter/counters/code-tag.json',
+          },
+        ],
+      },
+      DEFAULT_COMMENT_TEMPLATE,
+      buildMarker('main')
+    )
+
+    expect(body).toContain('| <code>&lt;code&gt;|`</code> | 2 | 8 | +6 |')
+    expect(body).toContain(
+      '<summary><code>&lt;code&gt;|`</code> file breakdown</summary>'
+    )
   })
 })

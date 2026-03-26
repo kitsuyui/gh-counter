@@ -129,7 +129,7 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 |  | {{{base_header}}} | {{{head_header}}} | +/- |
 | --- | ---: | ---: | ---: |
 {{#counters}}
-| \`{{label}}\` | {{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} | {{current}} | {{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} |
+| {{#code}}{{label}}{{/code}} | {{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} | {{current}} | {{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} |
 {{/counters}}
 {{^counters}}
 {{#bootstrap_message}}
@@ -139,7 +139,7 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 {{#counters}}
 {{#has_file_deltas}}
 <details>
-<summary><code>{{label}}</code> file breakdown</summary>
+<summary>{{#code}}{{label}}{{/code}} file breakdown</summary>
 
 | File | {{{base_header}}} | {{{head_header}}} | +/- |
 | --- | ---: | ---: | ---: |

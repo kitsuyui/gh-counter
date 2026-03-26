@@ -60,9 +60,23 @@ function renderCodeElement(value: string): string {
 }
 
 function decodeHtmlEntitiesInCodeSpans(markdown: string): string {
-  return markdown.replaceAll(/(`+)([\s\S]*?)\1/g, (_, fence, content) => {
-    return `${fence}${decodeHtmlEntities(content)}${fence}`
+  const codeElements: string[] = []
+  const maskedMarkdown = markdown.replaceAll(/<code>[\s\S]*?<\/code>/g, (tag) => {
+    const marker = `__GH_COUNTER_CODE_ELEMENT_${codeElements.length}__`
+    codeElements.push(tag)
+    return marker
   })
+  const decodedMarkdown = maskedMarkdown.replaceAll(
+    /(`+)([\s\S]*?)\1/g,
+    (_, fence, content) => {
+      return `${fence}${decodeHtmlEntities(content)}${fence}`
+    }
+  )
+
+  return decodedMarkdown.replaceAll(
+    /__GH_COUNTER_CODE_ELEMENT_(\d+)__/g,
+    (_, index) => codeElements[Number(index)] ?? ''
+  )
 }
 
 export function renderComment(
