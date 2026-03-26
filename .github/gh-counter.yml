@@ -24,3 +24,11 @@ counters:
         pattern: '@ts-ignore'
     badge:
       label: '@ts-ignore'
+  - id: code-tag
+    label: '<code>|`'
+    matchers:
+      - files: ['src/**/*.ts', 'docs/**/*.md']
+        type: contains
+        pattern: '<code>'
+    badge:
+      label: '<code>|`'

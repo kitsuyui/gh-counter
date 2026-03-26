@@ -6,6 +6,15 @@ const DEFAULT_COLORS = {
   error: 'cf222e',
 } as const
 
+function escapeXml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;')
+}
+
 function pickColor(counter: CounterStatus, badge?: BadgeConfig): string {
   const colors = {
     ...DEFAULT_COLORS,
@@ -41,14 +50,16 @@ export function renderBadge(
 ): string {
   const label = badge?.label ?? counter.label
   const value = String(counter.current)
+  const escapedLabel = escapeXml(label)
+  const escapedValue = escapeXml(value)
   const color = pickColor(counter, badge)
   const leftWidth = Math.max(54, 14 + label.length * 7)
   const rightWidth = Math.max(34, 14 + value.length * 8)
   const totalWidth = leftWidth + rightWidth
   const rightCenter = leftWidth + rightWidth / 2
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="20" role="img" aria-label="${label}: ${value}">
-<title>${label}: ${value}</title>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="20" role="img" aria-label="${escapedLabel}: ${escapedValue}">
+<title>${escapedLabel}: ${escapedValue}</title>
 <linearGradient id="smooth" x2="0" y2="100%">
 <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
 <stop offset=".1" stop-color="#aaa" stop-opacity=".1"/>
@@ -62,10 +73,10 @@ export function renderBadge(
 <rect width="${totalWidth}" height="20" fill="url(#smooth)"/>
 </g>
 <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">
-<text x="${leftWidth / 2}" y="15" fill="#010101" fill-opacity=".3">${label}</text>
-<text x="${leftWidth / 2}" y="14">${label}</text>
-<text x="${rightCenter}" y="15" fill="#010101" fill-opacity=".3">${value}</text>
-<text x="${rightCenter}" y="14">${value}</text>
+<text x="${leftWidth / 2}" y="15" fill="#010101" fill-opacity=".3">${escapedLabel}</text>
+<text x="${leftWidth / 2}" y="14">${escapedLabel}</text>
+<text x="${rightCenter}" y="15" fill="#010101" fill-opacity=".3">${escapedValue}</text>
+<text x="${rightCenter}" y="14">${escapedValue}</text>
 </g>
 </svg>
 `
