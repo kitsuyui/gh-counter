@@ -78,7 +78,20 @@ have a clear reporting need.
 
 The template receives `marker`, `bootstrap_message`, and `counters`. Each
 rendered counter includes the normalized summary fields plus `hasBase`,
-`has_violations`, `delta_label`, and `violation_messages`.
+`has_violations`, `delta_label`, and `violation_messages`. The root context also
+includes a `code` section helper for safely rendering arbitrary values as
+`<code>...</code>` HTML, which is more robust than wrapping `{{label}}` in
+backticks when values may contain symbols such as `` ` `` or `|`.
+
+For example, a table-oriented template can render labels safely like this:
+
+```mustache
+| Counter | Current |
+| --- | ---: |
+{{#counters}}
+| {{#code}}{{label}}{{/code}} | {{current}} |
+{{/counters}}
+```
 
 The `publish` section controls branch publication. Publishing is disabled by
 default. This is the safest default because it avoids writing to repository

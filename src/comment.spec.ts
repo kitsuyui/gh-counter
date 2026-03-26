@@ -3,6 +3,19 @@ import { describe, expect, test } from 'vitest'
 import { buildMarker, decideCommentAction, renderComment } from './comment'
 import { DEFAULT_COMMENT_TEMPLATE } from './config'
 
+const baseSummary = {
+  generated_at: '2026-03-24T00:00:00Z',
+  repository: 'kitsuyui/gh-counter',
+  default_branch: 'main',
+  publish_branch: 'gh-counter',
+  event_name: 'pull_request',
+  base_label: 'main',
+  base_reference: 'base',
+  head_label: '#8',
+  head_reference: 'head',
+  bootstrap_message: null,
+}
+
 describe('comment helpers', () => {
   test('builds an idempotent marker', () => {
     expect(buildMarker('default')).toBe('<!-- gh-counter:default -->')
@@ -28,15 +41,7 @@ describe('comment helpers', () => {
   test('renders comment with marker and counters', () => {
     const body = renderComment(
       {
-        generated_at: '2026-03-24T00:00:00Z',
-        repository: 'kitsuyui/gh-counter',
-        default_branch: 'main',
-        publish_branch: 'gh-counter',
-        event_name: 'pull_request',
-        base_label: 'main',
-        base_reference: 'base',
-        head_label: '#8',
-        head_reference: 'head',
+        ...baseSummary,
         counters: [
           {
             id: 'todo',
@@ -87,16 +92,7 @@ describe('comment helpers', () => {
   test('renders concise violation messages', () => {
     const body = renderComment(
       {
-        generated_at: '2026-03-24T00:00:00Z',
-        repository: 'kitsuyui/gh-counter',
-        default_branch: 'main',
-        publish_branch: 'gh-counter',
-        event_name: 'pull_request',
-        base_label: 'main',
-        base_reference: 'base',
-        head_label: '#8',
-        head_reference: 'head',
-        bootstrap_message: null,
+        ...baseSummary,
         counters: [
           {
             id: 'todo',
@@ -129,15 +125,7 @@ describe('comment helpers', () => {
   test('renders bootstrap message when the PR only introduces gh-counter', () => {
     const body = renderComment(
       {
-        generated_at: '2026-03-24T00:00:00Z',
-        repository: 'kitsuyui/gh-counter',
-        default_branch: 'main',
-        publish_branch: 'gh-counter',
-        event_name: 'pull_request',
-        base_label: 'main',
-        base_reference: 'base',
-        head_label: '#8',
-        head_reference: 'head',
+        ...baseSummary,
         bootstrap_message:
           'gh-counter was added in this pull request, but no configured matcher targets were touched in the diff yet.',
         counters: [],
@@ -151,5 +139,115 @@ describe('comment helpers', () => {
     expect(body).toContain(
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
     )
+  })
+
+  test('decodes html entities inside markdown code spans', () => {
+    const body = renderComment(
+      {
+        ...baseSummary,
+        counters: [
+          {
+            id: 'todo',
+            label: '<TODO>',
+            current: 3,
+            base: 2,
+            delta: 1,
+            commentable: true,
+            touched_files: ['src/index.ts'],
+            file_deltas: [],
+            violations: [],
+            badge_path: '.gh-counter/badges/todo.svg',
+            counter_path: '.gh-counter/counters/todo.json',
+          },
+        ],
+      },
+      '| Counter |\n| --- |\n{{#counters}}| `{{label}}` |\n{{/counters}}',
+      buildMarker('main')
+    )
+
+    expect(body).toContain('| `<TODO>` |')
+    expect(body).not.toContain('&lt;TODO&gt;')
+  })
+
+  test('keeps html entities escaped outside markdown code spans', () => {
+    const body = renderComment(
+      {
+        ...baseSummary,
+        counters: [
+          {
+            id: 'todo',
+            label: '<TODO>',
+            current: 3,
+            base: 2,
+            delta: 1,
+            commentable: true,
+            touched_files: ['src/index.ts'],
+            file_deltas: [],
+            violations: [],
+            badge_path: '.gh-counter/badges/todo.svg',
+            counter_path: '.gh-counter/counters/todo.json',
+          },
+        ],
+      },
+      '{{#counters}}{{label}}{{/counters}}',
+      buildMarker('main')
+    )
+
+    expect(body).toBe('&lt;TODO&gt;')
+  })
+
+  test('decodes only the code span content in mixed markdown', () => {
+    const body = renderComment(
+      {
+        ...baseSummary,
+        counters: [
+          {
+            id: 'todo',
+            label: '<TODO> & "fix"',
+            current: 3,
+            base: 2,
+            delta: 1,
+            commentable: true,
+            touched_files: ['src/index.ts'],
+            file_deltas: [],
+            violations: [],
+            badge_path: '.gh-counter/badges/todo.svg',
+            counter_path: '.gh-counter/counters/todo.json',
+          },
+        ],
+      },
+      '{{#counters}}plain={{label}} code=`{{label}}`{{/counters}}',
+      buildMarker('main')
+    )
+
+    expect(body).toContain('plain=&lt;TODO&gt; &amp; &quot;fix&quot;')
+    expect(body).toContain('code=`<TODO> & "fix"`')
+  })
+
+  test('renders code helper as safe html for symbol-heavy labels', () => {
+    const body = renderComment(
+      {
+        ...baseSummary,
+        counters: [
+          {
+            id: 'todo',
+            label: '<TODO|fix>`now`',
+            current: 3,
+            base: 2,
+            delta: 1,
+            commentable: true,
+            touched_files: ['src/index.ts'],
+            file_deltas: [],
+            violations: [],
+            badge_path: '.gh-counter/badges/todo.svg',
+            counter_path: '.gh-counter/counters/todo.json',
+          },
+        ],
+      },
+      '| Counter |\n| --- |\n{{#counters}}| {{#code}}{{label}}{{/code}} |\n{{/counters}}',
+      buildMarker('main')
+    )
+
+    expect(body).toContain('| <code>&lt;TODO|fix&gt;`now`</code> |')
   })
 })

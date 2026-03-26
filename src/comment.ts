@@ -35,6 +35,36 @@ function blobUrl(repository: string, reference: string, path: string): string {
   return `https://github.com/${repository}/blob/${reference}/${path}`
 }
 
+function decodeHtmlEntities(value: string): string {
+  return value
+    .replaceAll('&amp;', '&')
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&quot;', '"')
+    .replaceAll('&#39;', "'")
+    .replaceAll('&#96;', '`')
+    .replaceAll('&#x60;', '`')
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+}
+
+function renderCodeElement(value: string): string {
+  return `<code>${escapeHtml(decodeHtmlEntities(value))}</code>`
+}
+
+function decodeHtmlEntitiesInCodeSpans(markdown: string): string {
+  return markdown.replaceAll(/(`+)([\s\S]*?)\1/g, (_, fence, content) => {
+    return `${fence}${decodeHtmlEntities(content)}${fence}`
+  })
+}
+
 export function renderComment(
   summary: SummaryStatus,
   template: string,
@@ -52,6 +82,9 @@ export function renderComment(
     head_header: shortReference(summary.head_reference)
       ? `${summary.head_label} (${shortReference(summary.head_reference)})`
       : summary.head_label,
+    code(): (text: string, render: (template: string) => string) => string {
+      return (text, render) => renderCodeElement(render(text))
+    },
     counters: commentableCounters.map((counter) => ({
       ...counter,
       hasBase: counter.base !== null,
@@ -69,7 +102,7 @@ export function renderComment(
       })),
     })),
   }
-  return Mustache.render(template, view).trim()
+  return decodeHtmlEntitiesInCodeSpans(Mustache.render(template, view)).trim()
 }
 
 export function decideCommentAction(
