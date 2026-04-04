@@ -141,7 +141,9 @@ function parseHunkHeader(header: string): {
   newStart: number
   newCount: number
 } {
-  const match = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@$/.exec(header)
+  const match = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(?: .+)?$/.exec(
+    header
+  )
   if (!match) {
     throw new Error(`Unable to parse diff hunk header: ${header}`)
   }

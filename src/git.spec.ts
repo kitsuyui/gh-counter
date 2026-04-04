@@ -101,4 +101,37 @@ describe('git helpers', () => {
       },
     ])
   })
+
+  test('parses unified diff hunks with trailing section headers', () => {
+    expect(
+      parseUnifiedDiff(
+        [
+          'diff --git a/README.md b/README.md',
+          '--- a/README.md',
+          '+++ b/README.md',
+          '@@ -12,1 +12,3 @@ small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or',
+          '-old line',
+          '+new line',
+          '+another line',
+        ].join('\n')
+      )
+    ).toEqual([
+      {
+        path: 'README.md',
+        hunks: [
+          {
+            oldStart: 12,
+            oldCount: 1,
+            newStart: 12,
+            newCount: 3,
+            removed: [{ path: 'README.md', line: 12, text: 'old line' }],
+            added: [
+              { path: 'README.md', line: 12, text: 'new line' },
+              { path: 'README.md', line: 13, text: 'another line' },
+            ],
+          },
+        ],
+      },
+    ])
+  })
 })
