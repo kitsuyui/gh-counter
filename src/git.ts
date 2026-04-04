@@ -274,11 +274,16 @@ export async function listChangedPatchSnapshots(
 
     for (const matcher of counter.matchers) {
       for (const file of files) {
+        const candidatePaths = [file.newPath, file.oldPath].filter(
+          (path): path is string => Boolean(path)
+        )
         if (
-          !micromatch.isMatch(file.path, matcher.files, {
-            ignore: [...DEFAULT_EXCLUDES, ...(matcher.exclude ?? [])],
-            dot: true,
-          })
+          !candidatePaths.some((path) =>
+            micromatch.isMatch(path, matcher.files, {
+              ignore: [...DEFAULT_EXCLUDES, ...(matcher.exclude ?? [])],
+              dot: true,
+            })
+          )
         ) {
           continue
         }
