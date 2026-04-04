@@ -155,7 +155,7 @@ $&`).replace(/(?:^|\n)([\t ].*)(?:([\n\t ]*)\n(?![\n\t ]))?/g,`$1$2`).replace(/\
 {{#is_pull_request}}
 ### PR gate
 
-|  | {{base_header}} | {{head_header}} | +/- |
+|  | Removed | Added | +/- |
 | --- | ---: | ---: | ---: |
 {{#counters}}
 | {{{label_code}}} | {{#hasBase}}{{base}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} | {{current}} | {{#hasBase}}{{delta_label}}{{/hasBase}}{{^hasBase}}n/a{{/hasBase}} |

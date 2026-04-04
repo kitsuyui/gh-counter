@@ -89,6 +89,8 @@ describe('comment helpers', () => {
     expect(body).toContain('<!-- gh-counter:main -->')
     expect(body).toContain('### PR gate')
     expect(body).toContain('### Repo dashboard')
+    expect(body).toContain('|  | Removed | Added | +/- |')
+    expect(body).toContain('|  | main (base) | #8 (head) | +/- |')
     expect(body).toContain('| `TODOs` | 0 | 1 | +1 |')
     expect(body).toContain('| `TODOs` | 2 | 3 | +1 |')
     expect(body).toContain(
