@@ -1,6 +1,10 @@
 import { describe, expect, test } from 'vitest'
 
-import { bootstrapMessageForAddedFiles, parseChangedFileStatuses } from './git'
+import {
+  bootstrapMessageForAddedFiles,
+  parseChangedFileStatuses,
+  parseUnifiedDiff,
+} from './git'
 
 describe('git helpers', () => {
   test('parses changed file statuses', () => {
@@ -53,5 +57,48 @@ describe('git helpers', () => {
         ]
       )
     ).toBeNull()
+  })
+
+  test('parses unified diff hunks into added and removed lines', () => {
+    expect(
+      parseUnifiedDiff(
+        [
+          'diff --git a/src/index.ts b/src/index.ts',
+          '--- a/src/index.ts',
+          '+++ b/src/index.ts',
+          '@@ -2 +2 @@',
+          '-// TODO: old',
+          '+// TODO: new',
+          '@@ -5,0 +6,2 @@',
+          '+// TODO: another',
+          '+const value = 1',
+        ].join('\n')
+      )
+    ).toEqual([
+      {
+        path: 'src/index.ts',
+        hunks: [
+          {
+            oldStart: 2,
+            oldCount: 1,
+            newStart: 2,
+            newCount: 1,
+            removed: [{ path: 'src/index.ts', line: 2, text: '// TODO: old' }],
+            added: [{ path: 'src/index.ts', line: 2, text: '// TODO: new' }],
+          },
+          {
+            oldStart: 5,
+            oldCount: 0,
+            newStart: 6,
+            newCount: 2,
+            removed: [],
+            added: [
+              { path: 'src/index.ts', line: 6, text: '// TODO: another' },
+              { path: 'src/index.ts', line: 7, text: 'const value = 1' },
+            ],
+          },
+        ],
+      },
+    ])
   })
 })

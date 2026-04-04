@@ -144,12 +144,21 @@ becomes trusted enough to gate merges.
 
 ## Pull request relevance
 
-On pull requests, `gh-counter` first asks whether each counter is relevant to
-the current diff. Relevance is determined by intersecting the pull request's
-changed files with the counter's matcher file globs. If a counter does not touch
-any files in the diff, it is excluded from PR comments and from PR failure
-evaluation. This keeps reviews focused on the code that is actually under
-discussion.
+On pull requests, `gh-counter` separates two views.
+
+- The PR gate is patch-level and is based on changed lines in the diff.
+- The repo dashboard is repository-wide and is shown as reference information.
+
+`gh-counter` first asks whether each counter is relevant to the current diff.
+Relevance is determined by intersecting the pull request's changed files with
+the counter's matcher file globs. If a counter does not touch any files in the
+diff, it is excluded from PR comments and from PR failure evaluation. This
+keeps reviews focused on the code that is actually under discussion.
+
+For relevant counters, the PR gate is computed from changed lines rather than
+from the full repository count. This means existing debt elsewhere in the same
+file does not fail the PR by itself unless the patch changed the relevant lines
+or otherwise worsened the patch-level result.
 
 The one exception is bootstrap detection for first-time setup. If the pull
 request adds `.github/gh-counter.yml` or adds a new workflow file that uses
@@ -158,7 +167,8 @@ request adds `.github/gh-counter.yml` or adds a new workflow file that uses
 observable without changing the relevance rule for ordinary pull requests.
 
 On pushes to the default branch, repository-wide reporting is more useful than
-diff-local relevance, so all counters are evaluated.
+diff-local relevance, so all counters are evaluated as part of the repo
+dashboard.
 
 ## Published output layout
 

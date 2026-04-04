@@ -46,9 +46,12 @@ describe('comment helpers', () => {
           {
             id: 'todo',
             label: 'TODOs',
-            current: 3,
-            base: 2,
+            current: 1,
+            base: 0,
             delta: 1,
+            dashboard_current: 3,
+            dashboard_base: 2,
+            dashboard_delta: 1,
             commentable: true,
             touched_files: ['src/index.ts'],
             file_deltas: [
@@ -65,6 +68,14 @@ describe('comment helpers', () => {
                 delta: 1,
               },
             ],
+            patch_file_deltas: [
+              {
+                path: 'src/index.ts',
+                added: 1,
+                removed: 0,
+                delta: 1,
+              },
+            ],
             violations: [],
             badge_path: '.gh-counter/badges/todo.svg',
             counter_path: '.gh-counter/counters/todo.json',
@@ -76,10 +87,18 @@ describe('comment helpers', () => {
     )
 
     expect(body).toContain('<!-- gh-counter:main -->')
-    expect(body).toContain('|  | main (base) | #8 (head) | +/- |')
+    expect(body).toContain('### PR gate')
+    expect(body).toContain('### Repo dashboard')
+    expect(body).toContain('| `TODOs` | 0 | 1 | +1 |')
     expect(body).toContain('| `TODOs` | 2 | 3 | +1 |')
     expect(body).toContain(
-      '<summary><code>TODOs</code> file breakdown</summary>'
+      '<summary><code>TODOs</code> patch breakdown</summary>'
+    )
+    expect(body).toContain(
+      '| [`src/index.ts`](https://github.com/kitsuyui/gh-counter/blob/head/src/index.ts) | 0 | 1 | +1 |'
+    )
+    expect(body).toContain(
+      '<summary><code>TODOs</code> repository breakdown</summary>'
     )
     expect(body).toContain(
       '| [`src/index.ts`](https://github.com/kitsuyui/gh-counter/blob/head/src/index.ts) | 1 | 2 | +1 |'
@@ -97,16 +116,20 @@ describe('comment helpers', () => {
           {
             id: 'todo',
             label: 'TODOs',
-            current: 19,
-            base: 18,
+            current: 1,
+            base: 0,
             delta: 1,
+            dashboard_current: 19,
+            dashboard_base: 18,
+            dashboard_delta: 1,
             commentable: true,
             touched_files: ['src/index.ts'],
             file_deltas: [],
+            patch_file_deltas: [],
             violations: [
               {
                 kind: 'no_increase',
-                message: '18 → 19 (+1)',
+                message: '0 → 1 (+1)',
                 fail: true,
               },
             ],
@@ -119,7 +142,7 @@ describe('comment helpers', () => {
       buildMarker('main')
     )
 
-    expect(body).toContain('- ❌ `TODOs`: 18 → 19 (+1)')
+    expect(body).toContain('- ❌ `TODOs`: 0 → 1 (+1)')
   })
 
   test('renders bootstrap message when the PR only introduces gh-counter', () => {
@@ -149,12 +172,16 @@ describe('comment helpers', () => {
           {
             id: 'todo',
             label: '<TODO> & "fix"',
-            current: 3,
-            base: 2,
+            current: 1,
+            base: 0,
             delta: 1,
+            dashboard_current: 3,
+            dashboard_base: 2,
+            dashboard_delta: 1,
             commentable: true,
             touched_files: ['src/index.ts'],
             file_deltas: [],
+            patch_file_deltas: [],
             violations: [],
             badge_path: '.gh-counter/badges/todo.svg',
             counter_path: '.gh-counter/counters/todo.json',
@@ -176,12 +203,16 @@ describe('comment helpers', () => {
           {
             id: 'todo',
             label: '<TODO|fix>`now`',
-            current: 3,
-            base: 2,
+            current: 1,
+            base: 0,
             delta: 1,
+            dashboard_current: 3,
+            dashboard_base: 2,
+            dashboard_delta: 1,
             commentable: true,
             touched_files: ['src/index.ts'],
             file_deltas: [],
+            patch_file_deltas: [],
             violations: [],
             badge_path: '.gh-counter/badges/todo.svg',
             counter_path: '.gh-counter/counters/todo.json',
@@ -203,9 +234,12 @@ describe('comment helpers', () => {
           {
             id: 'code-tag',
             label: '<code>|`',
-            current: 8,
-            base: 2,
-            delta: 6,
+            current: 2,
+            base: 0,
+            delta: 2,
+            dashboard_current: 8,
+            dashboard_base: 2,
+            dashboard_delta: 6,
             commentable: true,
             touched_files: ['src/comment.ts'],
             file_deltas: [
@@ -214,6 +248,14 @@ describe('comment helpers', () => {
                 current: 1,
                 base: 0,
                 delta: 1,
+              },
+            ],
+            patch_file_deltas: [
+              {
+                path: 'src/comment.ts',
+                added: 2,
+                removed: 0,
+                delta: 2,
               },
             ],
             violations: [],
@@ -226,9 +268,9 @@ describe('comment helpers', () => {
       buildMarker('main')
     )
 
-    expect(body).toContain('| `` <code>\\|` `` | 2 | 8 | +6 |')
+    expect(body).toContain('| `` <code>\\|` `` | 0 | 2 | +2 |')
     expect(body).toContain(
-      '<summary><code>&lt;code&gt;|`</code> file breakdown</summary>'
+      '<summary><code>&lt;code&gt;|`</code> patch breakdown</summary>'
     )
   })
 })

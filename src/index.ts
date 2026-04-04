@@ -9,6 +9,7 @@ import {
   currentHeadReference,
   detectBootstrapComment,
   listChangedFileStatuses,
+  listChangedPatchSnapshots,
   resolvePullRequestBaseReference,
   touchedFilesForCounter,
 } from './git'
@@ -19,7 +20,11 @@ import {
   writeOutputFiles,
 } from './github'
 
-import type { CounterSnapshot, SummaryStatus } from './types'
+import type {
+  CounterSnapshot,
+  PatchCounterSnapshot,
+  SummaryStatus,
+} from './types'
 
 async function resolveDefaultBranch(configDefault?: string): Promise<string> {
   return (
@@ -94,6 +99,7 @@ async function run(): Promise<void> {
 
   let baseReference: string | null = null
   let baseSnapshots: CounterSnapshot[] = []
+  let patchSnapshots: PatchCounterSnapshot[] = []
   let changedFiles: string[] = []
   let bootstrapMessage: string | null = null
   const baseLabel = defaultBranch
@@ -110,6 +116,10 @@ async function run(): Promise<void> {
       bootstrapMessage = await detectBootstrapComment(changedFileStatuses)
       baseSnapshots = await countCounters(
         { kind: 'revision', revision: baseReference },
+        config.counters
+      )
+      patchSnapshots = await listChangedPatchSnapshots(
+        baseReference,
         config.counters
       )
     }
@@ -139,6 +149,7 @@ async function run(): Promise<void> {
     config.counters,
     currentSnapshots,
     baseSnapshots,
+    patchSnapshots,
     touchedFilesByCounter,
     github.context.eventName === 'pull_request'
   )

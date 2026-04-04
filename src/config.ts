@@ -126,6 +126,9 @@ const validateConfig = ajv.compile(schema)
 export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 ## gh-counter
 
+{{#is_pull_request}}
+### PR gate
+
 |  | {{base_header}} | {{head_header}} | +/- |
 | --- | ---: | ---: | ---: |
 {{#counters}}
@@ -136,10 +139,47 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 {{bootstrap_message}}
 {{/bootstrap_message}}
 {{/counters}}
+{{/is_pull_request}}
+{{#is_pull_request}}
+
+### Repo dashboard
+
+|  | {{base_header}} | {{head_header}} | +/- |
+| --- | ---: | ---: | ---: |
 {{#counters}}
+| {{{label_code}}} | {{#hasDashboardBase}}{{dashboard_base}}{{/hasDashboardBase}}{{^hasDashboardBase}}n/a{{/hasDashboardBase}} | {{dashboard_current}} | {{#hasDashboardBase}}{{dashboard_delta_label}}{{/hasDashboardBase}}{{^hasDashboardBase}}n/a{{/hasDashboardBase}} |
+{{/counters}}
+{{/is_pull_request}}
+{{^is_pull_request}}
+
+|  | {{base_header}} | {{head_header}} | +/- |
+| --- | ---: | ---: | ---: |
+{{#counters}}
+| {{{label_code}}} | {{#hasDashboardBase}}{{dashboard_base}}{{/hasDashboardBase}}{{^hasDashboardBase}}n/a{{/hasDashboardBase}} | {{dashboard_current}} | {{#hasDashboardBase}}{{dashboard_delta_label}}{{/hasDashboardBase}}{{^hasDashboardBase}}n/a{{/hasDashboardBase}} |
+{{/counters}}
+{{^counters}}
+{{#bootstrap_message}}
+{{bootstrap_message}}
+{{/bootstrap_message}}
+{{/counters}}
+{{/is_pull_request}}
+{{#counters}}
+{{#has_patch_file_deltas}}
+<details>
+<summary>{{{label_code_html}}} patch breakdown</summary>
+
+| File | Removed | Added | +/- |
+| --- | ---: | ---: | ---: |
+{{#patch_file_deltas}}
+| [{{{path_code}}}]({{{url}}}) | {{removed}} | {{added}} | {{delta_label}} |
+{{/patch_file_deltas}}
+
+</details>
+
+{{/has_patch_file_deltas}}
 {{#has_file_deltas}}
 <details>
-<summary>{{{label_code_html}}} file breakdown</summary>
+<summary>{{{label_code_html}}} repository breakdown</summary>
 
 | File | {{base_header}} | {{head_header}} | +/- |
 | --- | ---: | ---: | ---: |
