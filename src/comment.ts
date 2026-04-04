@@ -31,8 +31,39 @@ function deltaLabel(counter: CounterStatus): string | null {
   return counter.delta > 0 ? `+${counter.delta}` : `${counter.delta}`
 }
 
+function dashboardDeltaLabel(counter: CounterStatus): string | null {
+  if (counter.dashboard_delta === null) {
+    return null
+  }
+  return counter.dashboard_delta > 0
+    ? `+${counter.dashboard_delta}`
+    : `${counter.dashboard_delta}`
+}
+
 function blobUrl(repository: string, reference: string, path: string): string {
   return `https://github.com/${repository}/blob/${reference}/${path}`
+}
+
+function patchBlobUrl(
+  summary: SummaryStatus,
+  item: CounterStatus['patch_file_deltas'][number]
+): string {
+  const reference =
+    item.added === 0 && item.removed > 0 && summary.base_reference
+      ? summary.base_reference
+      : summary.head_reference
+  return blobUrl(summary.repository, reference, item.path)
+}
+
+function fileDeltaBlobUrl(
+  summary: SummaryStatus,
+  item: CounterStatus['file_deltas'][number]
+): string {
+  const reference =
+    item.current === 0 && item.base > 0 && summary.base_reference
+      ? summary.base_reference
+      : summary.head_reference
+  return blobUrl(summary.repository, reference, item.path)
 }
 
 function renderGfmCodeSpan(value: string): string {
@@ -76,6 +107,8 @@ export function renderComment(
   )
   const view = {
     marker,
+    is_pull_request: summary.event_name === 'pull_request',
+    has_commentable_counters: commentableCounters.length > 0,
     bootstrap_message: summary.bootstrap_message,
     base_header: shortReference(summary.base_reference)
       ? `${summary.base_label} (${shortReference(summary.base_reference)})`
@@ -88,13 +121,22 @@ export function renderComment(
       label_code: renderGfmCodeSpan(counter.label),
       label_code_html: renderHtmlCode(counter.label),
       hasBase: counter.base !== null,
+      hasDashboardBase: counter.dashboard_base !== null,
       has_file_deltas: counter.file_deltas.length > 0,
+      has_patch_file_deltas: counter.patch_file_deltas.length > 0,
       has_violations: counter.violations.length > 0,
       delta_label: deltaLabel(counter),
+      dashboard_delta_label: dashboardDeltaLabel(counter),
       file_deltas: counter.file_deltas.map((item) => ({
         ...item,
         path_code: renderGfmCodeSpan(item.path),
-        url: blobUrl(summary.repository, summary.head_reference, item.path),
+        url: fileDeltaBlobUrl(summary, item),
+        delta_label: item.delta > 0 ? `+${item.delta}` : `${item.delta}`,
+      })),
+      patch_file_deltas: counter.patch_file_deltas.map((item) => ({
+        ...item,
+        path_code: renderGfmCodeSpan(item.path),
+        url: patchBlobUrl(summary, item),
         delta_label: item.delta > 0 ? `+${item.delta}` : `${item.delta}`,
       })),
       violations: counter.violations.map((item) => ({

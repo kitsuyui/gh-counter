@@ -4,7 +4,14 @@ import { promisify } from 'node:util'
 import * as github from '@actions/github'
 import micromatch from 'micromatch'
 
-import type { ChangedFileStatus, CounterConfig } from './types'
+import { createMatchKey, DEFAULT_EXCLUDES, lineMatches } from './files'
+
+import type {
+  ChangedFileStatus,
+  CounterConfig,
+  MatchRecord,
+  PatchCounterSnapshot,
+} from './types'
 
 const execFileAsync = promisify(execFile)
 
@@ -17,9 +24,20 @@ async function git(args: string[]): Promise<string> {
 }
 
 export async function ensureBaseFetched(baseBranch: string): Promise<void> {
+  const isShallow = await git(['rev-parse', '--is-shallow-repository'])
+  if (isShallow === 'true') {
+    await execFileAsync(
+      'git',
+      ['fetch', '--no-tags', '--prune', '--unshallow', 'origin'],
+      {
+        encoding: 'utf8',
+        maxBuffer: 32 * 1024 * 1024,
+      }
+    )
+  }
   await execFileAsync(
     'git',
-    ['fetch', '--no-tags', 'origin', baseBranch, '--depth=1'],
+    ['fetch', '--no-tags', '--prune', 'origin', baseBranch],
     {
       encoding: 'utf8',
       maxBuffer: 32 * 1024 * 1024,
@@ -29,16 +47,25 @@ export async function ensureBaseFetched(baseBranch: string): Promise<void> {
 
 export async function resolvePullRequestBaseReference(
   defaultBranch: string
-): Promise<string | null> {
+): Promise<string> {
   const context = github.context
   const baseRef = context.payload.pull_request?.base?.ref ?? defaultBranch
 
+  await ensureBaseFetched(baseRef)
+  let baseReference: string
   try {
-    await ensureBaseFetched(baseRef)
-    return await git(['merge-base', 'HEAD', `origin/${baseRef}`])
+    baseReference = await git(['merge-base', 'HEAD', `origin/${baseRef}`])
   } catch {
-    return context.payload.pull_request?.base?.sha ?? null
+    throw new Error(
+      `Unable to resolve merge-base against origin/${baseRef}. ` +
+        'Ensure the base ref exists locally and that the repository has full history available ' +
+        '(for example, fetch full history before running this workflow).'
+    )
   }
+  if (!baseReference) {
+    throw new Error(`Unable to resolve merge-base against origin/${baseRef}`)
+  }
+  return baseReference
 }
 
 export async function currentHeadReference(): Promise<string> {
@@ -94,13 +121,204 @@ export function touchedFilesForCounter(
   const touched = new Set<string>()
   for (const matcher of counter.matchers) {
     for (const file of micromatch(changedFiles, matcher.files, {
-      ignore: matcher.exclude ?? [],
+      ignore: [...DEFAULT_EXCLUDES, ...(matcher.exclude ?? [])],
       dot: true,
     })) {
       touched.add(file)
     }
   }
   return [...touched].sort()
+}
+
+interface DiffHunk {
+  oldStart: number
+  oldCount: number
+  newStart: number
+  newCount: number
+  removed: MatchRecord[]
+  added: MatchRecord[]
+}
+
+interface DiffFile {
+  oldPath: string | null
+  newPath: string | null
+  hunks: DiffHunk[]
+}
+
+function parseHunkHeader(header: string): {
+  oldStart: number
+  oldCount: number
+  newStart: number
+  newCount: number
+} {
+  const match = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(?: .+)?$/.exec(
+    header
+  )
+  if (!match) {
+    throw new Error(`Unable to parse diff hunk header: ${header}`)
+  }
+  return {
+    oldStart: Number(match[1]),
+    oldCount: Number(match[2] ?? '1'),
+    newStart: Number(match[3]),
+    newCount: Number(match[4] ?? '1'),
+  }
+}
+
+export function parseUnifiedDiff(stdout: string): DiffFile[] {
+  if (!stdout) {
+    return []
+  }
+
+  const files: DiffFile[] = []
+  const lines = stdout.split(/\r?\n/)
+  let currentFile: DiffFile | null = null
+  let currentHunk: DiffHunk | null = null
+  let currentOldPath: string | null = null
+  let currentNewPath: string | null = null
+  let oldLine = 0
+  let newLine = 0
+
+  for (const line of lines) {
+    if (line.startsWith('diff --git ')) {
+      const match = /^diff --git a\/(.+) b\/(.+)$/.exec(line)
+      currentOldPath = match?.[1] ?? null
+      currentNewPath = match?.[2] ?? null
+      currentFile = null
+      currentHunk = null
+      continue
+    }
+    if (line.startsWith('+++ b/')) {
+      currentNewPath = line.slice('+++ b/'.length)
+      currentFile = {
+        oldPath: currentOldPath,
+        newPath: currentNewPath,
+        hunks: [],
+      }
+      files.push(currentFile)
+      currentHunk = null
+      continue
+    }
+    if (line === '+++ /dev/null') {
+      currentNewPath = null
+      currentFile = {
+        oldPath: currentOldPath,
+        newPath: currentNewPath,
+        hunks: [],
+      }
+      files.push(currentFile)
+      currentHunk = null
+      continue
+    }
+    if (line.startsWith('@@ ')) {
+      if (!currentFile) {
+        throw new Error(`Encountered hunk before file header: ${line}`)
+      }
+      const parsed = parseHunkHeader(line)
+      currentHunk = {
+        ...parsed,
+        removed: [],
+        added: [],
+      }
+      currentFile.hunks.push(currentHunk)
+      oldLine = parsed.oldStart
+      newLine = parsed.newStart
+      continue
+    }
+    if (!currentHunk) {
+      continue
+    }
+
+    if (line.startsWith('-')) {
+      currentHunk.removed.push({
+        path: currentFile?.oldPath ?? currentFile?.newPath ?? '',
+        line: oldLine,
+        text: line.slice(1).trim(),
+      })
+      oldLine += 1
+      continue
+    }
+    if (line.startsWith('+')) {
+      currentHunk.added.push({
+        path: currentFile?.newPath ?? currentFile?.oldPath ?? '',
+        line: newLine,
+        text: line.slice(1).trim(),
+      })
+      newLine += 1
+      continue
+    }
+    if (line.startsWith(' ')) {
+      oldLine += 1
+      newLine += 1
+    }
+  }
+
+  return files
+}
+
+export async function listChangedPatchSnapshots(
+  baseReference: string,
+  counters: Array<CounterConfig & { label: string }>
+): Promise<PatchCounterSnapshot[]> {
+  const stdout = await git([
+    'diff',
+    '--find-renames',
+    '--unified=0',
+    `${baseReference}...HEAD`,
+  ])
+  const files = parseUnifiedDiff(stdout)
+
+  return counters.map((counter) => {
+    const addedMatches = new Map<string, MatchRecord>()
+    const removedMatches = new Map<string, MatchRecord>()
+
+    for (const matcher of counter.matchers) {
+      for (const file of files) {
+        const candidatePaths = [file.newPath, file.oldPath].filter(
+          (path): path is string => Boolean(path)
+        )
+        if (
+          !candidatePaths.some((path) =>
+            micromatch.isMatch(path, matcher.files, {
+              ignore: [...DEFAULT_EXCLUDES, ...(matcher.exclude ?? [])],
+              dot: true,
+            })
+          )
+        ) {
+          continue
+        }
+        for (const hunk of file.hunks) {
+          for (const match of hunk.added) {
+            if (lineMatches(match.text, matcher)) {
+              addedMatches.set(createMatchKey(match), match)
+            }
+          }
+          for (const match of hunk.removed) {
+            if (lineMatches(match.text, matcher)) {
+              removedMatches.set(createMatchKey(match), match)
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      id: counter.id,
+      label: counter.label,
+      current: addedMatches.size,
+      base: removedMatches.size,
+      matches: [...addedMatches.values()].sort((left, right) =>
+        left.path === right.path
+          ? left.line - right.line
+          : left.path.localeCompare(right.path)
+      ),
+      base_matches: [...removedMatches.values()].sort((left, right) =>
+        left.path === right.path
+          ? left.line - right.line
+          : left.path.localeCompare(right.path)
+      ),
+    }
+  })
 }
 
 function isAddedGhCounterWorkflow(path: string, content: string): boolean {
