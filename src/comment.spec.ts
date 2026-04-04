@@ -316,4 +316,44 @@ describe('comment helpers', () => {
       '| [`src/removed.ts`](https://github.com/kitsuyui/gh-counter/blob/base/src/removed.ts) | 1 | 0 | -1 |'
     )
   })
+
+  test('uses the base reference for repository breakdown links when a file only exists in base', () => {
+    const body = renderComment(
+      {
+        ...baseSummary,
+        counters: [
+          {
+            id: 'todo',
+            label: 'TODOs',
+            current: 0,
+            base: 1,
+            delta: -1,
+            dashboard_current: 0,
+            dashboard_base: 1,
+            dashboard_delta: -1,
+            commentable: true,
+            touched_files: ['src/removed.ts'],
+            file_deltas: [
+              {
+                path: 'src/removed.ts',
+                current: 0,
+                base: 1,
+                delta: -1,
+              },
+            ],
+            patch_file_deltas: [],
+            violations: [],
+            badge_path: '.gh-counter/badges/todo.svg',
+            counter_path: '.gh-counter/counters/todo.json',
+          },
+        ],
+      },
+      DEFAULT_COMMENT_TEMPLATE,
+      buildMarker('main')
+    )
+
+    expect(body).toContain(
+      '| [`src/removed.ts`](https://github.com/kitsuyui/gh-counter/blob/base/src/removed.ts) | 1 | 0 | -1 |'
+    )
+  })
 })

@@ -121,7 +121,7 @@ export function touchedFilesForCounter(
   const touched = new Set<string>()
   for (const matcher of counter.matchers) {
     for (const file of micromatch(changedFiles, matcher.files, {
-      ignore: matcher.exclude ?? [],
+      ignore: [...DEFAULT_EXCLUDES, ...(matcher.exclude ?? [])],
       dot: true,
     })) {
       touched.add(file)
@@ -140,7 +140,8 @@ interface DiffHunk {
 }
 
 interface DiffFile {
-  path: string
+  oldPath: string | null
+  newPath: string | null
   hunks: DiffHunk[]
 }
 
@@ -173,27 +174,38 @@ export function parseUnifiedDiff(stdout: string): DiffFile[] {
   const lines = stdout.split(/\r?\n/)
   let currentFile: DiffFile | null = null
   let currentHunk: DiffHunk | null = null
-  let currentPath: string | null = null
+  let currentOldPath: string | null = null
+  let currentNewPath: string | null = null
   let oldLine = 0
   let newLine = 0
 
   for (const line of lines) {
     if (line.startsWith('diff --git ')) {
       const match = /^diff --git a\/(.+) b\/(.+)$/.exec(line)
-      currentPath = match?.[2] ?? match?.[1] ?? null
+      currentOldPath = match?.[1] ?? null
+      currentNewPath = match?.[2] ?? null
       currentFile = null
       currentHunk = null
       continue
     }
     if (line.startsWith('+++ b/')) {
-      const path = line.slice('+++ b/'.length)
-      currentFile = { path, hunks: [] }
+      currentNewPath = line.slice('+++ b/'.length)
+      currentFile = {
+        oldPath: currentOldPath,
+        newPath: currentNewPath,
+        hunks: [],
+      }
       files.push(currentFile)
       currentHunk = null
       continue
     }
-    if (line === '+++ /dev/null' && currentPath) {
-      currentFile = { path: currentPath, hunks: [] }
+    if (line === '+++ /dev/null') {
+      currentNewPath = null
+      currentFile = {
+        oldPath: currentOldPath,
+        newPath: currentNewPath,
+        hunks: [],
+      }
       files.push(currentFile)
       currentHunk = null
       continue
@@ -219,7 +231,7 @@ export function parseUnifiedDiff(stdout: string): DiffFile[] {
 
     if (line.startsWith('-')) {
       currentHunk.removed.push({
-        path: currentFile?.path ?? '',
+        path: currentFile?.oldPath ?? currentFile?.newPath ?? '',
         line: oldLine,
         text: line.slice(1).trim(),
       })
@@ -228,7 +240,7 @@ export function parseUnifiedDiff(stdout: string): DiffFile[] {
     }
     if (line.startsWith('+')) {
       currentHunk.added.push({
-        path: currentFile?.path ?? '',
+        path: currentFile?.newPath ?? currentFile?.oldPath ?? '',
         line: newLine,
         text: line.slice(1).trim(),
       })

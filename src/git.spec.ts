@@ -76,7 +76,8 @@ describe('git helpers', () => {
       )
     ).toEqual([
       {
-        path: 'src/index.ts',
+        oldPath: 'src/index.ts',
+        newPath: 'src/index.ts',
         hunks: [
           {
             oldStart: 2,
@@ -117,7 +118,8 @@ describe('git helpers', () => {
       )
     ).toEqual([
       {
-        path: 'README.md',
+        oldPath: 'README.md',
+        newPath: 'README.md',
         hunks: [
           {
             oldStart: 12,
@@ -149,7 +151,8 @@ describe('git helpers', () => {
       )
     ).toEqual([
       {
-        path: 'src/index.ts',
+        oldPath: 'src/index.ts',
+        newPath: 'src/index.ts',
         hunks: [
           {
             oldStart: 2,
@@ -158,6 +161,36 @@ describe('git helpers', () => {
             newCount: 1,
             removed: [{ path: 'src/index.ts', line: 2, text: '-- TODO: old' }],
             added: [{ path: 'src/index.ts', line: 2, text: '-- TODO: new' }],
+          },
+        ],
+      },
+    ])
+  })
+
+  test('keeps old and new paths distinct for renamed files', () => {
+    expect(
+      parseUnifiedDiff(
+        [
+          'diff --git a/src/old.ts b/src/new.ts',
+          '--- a/src/old.ts',
+          '+++ b/src/new.ts',
+          '@@ -1 +1 @@',
+          '-TODO old',
+          '+TODO new',
+        ].join('\n')
+      )
+    ).toEqual([
+      {
+        oldPath: 'src/old.ts',
+        newPath: 'src/new.ts',
+        hunks: [
+          {
+            oldStart: 1,
+            oldCount: 1,
+            newStart: 1,
+            newCount: 1,
+            removed: [{ path: 'src/old.ts', line: 1, text: 'TODO old' }],
+            added: [{ path: 'src/new.ts', line: 1, text: 'TODO new' }],
           },
         ],
       },

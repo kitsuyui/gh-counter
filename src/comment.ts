@@ -55,6 +55,17 @@ function patchBlobUrl(
   return blobUrl(summary.repository, reference, item.path)
 }
 
+function fileDeltaBlobUrl(
+  summary: SummaryStatus,
+  item: CounterStatus['file_deltas'][number]
+): string {
+  const reference =
+    item.current === 0 && item.base > 0 && summary.base_reference
+      ? summary.base_reference
+      : summary.head_reference
+  return blobUrl(summary.repository, reference, item.path)
+}
+
 function renderGfmCodeSpan(value: string): string {
   const content = value.replaceAll('|', '\\|')
   const longestBacktickRun = Math.max(
@@ -119,7 +130,7 @@ export function renderComment(
       file_deltas: counter.file_deltas.map((item) => ({
         ...item,
         path_code: renderGfmCodeSpan(item.path),
-        url: blobUrl(summary.repository, summary.head_reference, item.path),
+        url: fileDeltaBlobUrl(summary, item),
         delta_label: item.delta > 0 ? `+${item.delta}` : `${item.delta}`,
       })),
       patch_file_deltas: counter.patch_file_deltas.map((item) => ({
