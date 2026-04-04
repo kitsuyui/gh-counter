@@ -159,6 +159,7 @@ describe('comment helpers', () => {
 
     expect(body).toContain('<!-- gh-counter:main -->')
     expect(body).toContain('gh-counter was added in this pull request')
+    expect(body).not.toContain('### Repo dashboard')
     expect(body).toContain(
       'Reported by [gh-counter](https://github.com/kitsuyui/gh-counter)'
     )

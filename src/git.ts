@@ -14,6 +14,13 @@ import type {
 } from './types'
 
 const execFileAsync = promisify(execFile)
+const DEFAULT_MATCHER_EXCLUDES = [
+  '.git/**',
+  'node_modules/**',
+  'dist/**',
+  'coverage/**',
+  '.gh-counter/**',
+]
 
 async function git(args: string[]): Promise<string> {
   const { stdout } = await execFileAsync('git', args, {
@@ -52,7 +59,16 @@ export async function resolvePullRequestBaseReference(
   const baseRef = context.payload.pull_request?.base?.ref ?? defaultBranch
 
   await ensureBaseFetched(baseRef)
-  const baseReference = await git(['merge-base', 'HEAD', `origin/${baseRef}`])
+  let baseReference: string
+  try {
+    baseReference = await git(['merge-base', 'HEAD', `origin/${baseRef}`])
+  } catch {
+    throw new Error(
+      `Unable to resolve merge-base against origin/${baseRef}. ` +
+        'Ensure the base ref exists locally and that the repository has full history available ' +
+        '(for example, fetch full history before running this workflow).'
+    )
+  }
   if (!baseReference) {
     throw new Error(`Unable to resolve merge-base against origin/${baseRef}`)
   }
@@ -161,7 +177,7 @@ export function parseUnifiedDiff(stdout: string): DiffFile[] {
   }
 
   const files: DiffFile[] = []
-  const lines = stdout.split('\n')
+  const lines = stdout.split(/\r?\n/)
   let currentFile: DiffFile | null = null
   let currentHunk: DiffHunk | null = null
   let currentPath: string | null = null
@@ -204,7 +220,7 @@ export function parseUnifiedDiff(stdout: string): DiffFile[] {
       newLine = parsed.newStart
       continue
     }
-    if (!currentHunk || line.startsWith('--- ')) {
+    if (!currentHunk) {
       continue
     }
 
@@ -255,7 +271,7 @@ export async function listChangedPatchSnapshots(
       for (const file of files) {
         if (
           !micromatch.isMatch(file.path, matcher.files, {
-            ignore: matcher.exclude ?? [],
+            ignore: [...DEFAULT_MATCHER_EXCLUDES, ...(matcher.exclude ?? [])],
             dot: true,
           })
         ) {

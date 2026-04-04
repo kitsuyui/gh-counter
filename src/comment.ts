@@ -86,6 +86,7 @@ export function renderComment(
   const view = {
     marker,
     is_pull_request: summary.event_name === 'pull_request',
+    has_commentable_counters: commentableCounters.length > 0,
     bootstrap_message: summary.bootstrap_message,
     base_header: shortReference(summary.base_reference)
       ? `${summary.base_label} (${shortReference(summary.base_reference)})`

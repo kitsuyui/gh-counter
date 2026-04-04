@@ -141,7 +141,7 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 {{/counters}}
 {{/is_pull_request}}
 {{#is_pull_request}}
-
+{{#has_commentable_counters}}
 ### Repo dashboard
 
 |  | {{base_header}} | {{head_header}} | +/- |
@@ -149,6 +149,7 @@ export const DEFAULT_COMMENT_TEMPLATE = `{{{marker}}}
 {{#counters}}
 | {{{label_code}}} | {{#hasDashboardBase}}{{dashboard_base}}{{/hasDashboardBase}}{{^hasDashboardBase}}n/a{{/hasDashboardBase}} | {{dashboard_current}} | {{#hasDashboardBase}}{{dashboard_delta_label}}{{/hasDashboardBase}}{{^hasDashboardBase}}n/a{{/hasDashboardBase}} |
 {{/counters}}
+{{/has_commentable_counters}}
 {{/is_pull_request}}
 {{^is_pull_request}}
 

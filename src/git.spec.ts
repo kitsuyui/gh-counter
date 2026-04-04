@@ -134,4 +134,33 @@ describe('git helpers', () => {
       },
     ])
   })
+
+  test('parses CRLF diffs and keeps removed lines that start with dashes', () => {
+    expect(
+      parseUnifiedDiff(
+        [
+          'diff --git a/src/index.ts b/src/index.ts',
+          '--- a/src/index.ts',
+          '+++ b/src/index.ts',
+          '@@ -2 +2 @@',
+          '--- TODO: old',
+          '+-- TODO: new',
+        ].join('\r\n')
+      )
+    ).toEqual([
+      {
+        path: 'src/index.ts',
+        hunks: [
+          {
+            oldStart: 2,
+            oldCount: 1,
+            newStart: 2,
+            newCount: 1,
+            removed: [{ path: 'src/index.ts', line: 2, text: '-- TODO: old' }],
+            added: [{ path: 'src/index.ts', line: 2, text: '-- TODO: new' }],
+          },
+        ],
+      },
+    ])
+  })
 })
