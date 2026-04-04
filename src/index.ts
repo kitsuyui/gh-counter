@@ -110,19 +110,17 @@ async function run(): Promise<void> {
 
   if (github.context.eventName === 'pull_request') {
     baseReference = await resolvePullRequestBaseReference(defaultBranch)
-    if (baseReference) {
-      const changedFileStatuses = await listChangedFileStatuses(baseReference)
-      changedFiles = changedFileStatuses.map((entry) => entry.path)
-      bootstrapMessage = await detectBootstrapComment(changedFileStatuses)
-      baseSnapshots = await countCounters(
-        { kind: 'revision', revision: baseReference },
-        config.counters
-      )
-      patchSnapshots = await listChangedPatchSnapshots(
-        baseReference,
-        config.counters
-      )
-    }
+    const changedFileStatuses = await listChangedFileStatuses(baseReference)
+    changedFiles = changedFileStatuses.map((entry) => entry.path)
+    bootstrapMessage = await detectBootstrapComment(changedFileStatuses)
+    baseSnapshots = await countCounters(
+      { kind: 'revision', revision: baseReference },
+      config.counters
+    )
+    patchSnapshots = await listChangedPatchSnapshots(
+      baseReference,
+      config.counters
+    )
   } else if (
     github.context.eventName === 'push' &&
     github.context.ref === `refs/heads/${defaultBranch}` &&

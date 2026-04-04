@@ -44,6 +44,17 @@ function blobUrl(repository: string, reference: string, path: string): string {
   return `https://github.com/${repository}/blob/${reference}/${path}`
 }
 
+function patchBlobUrl(
+  summary: SummaryStatus,
+  item: CounterStatus['patch_file_deltas'][number]
+): string {
+  const reference =
+    item.added === 0 && item.removed > 0 && summary.base_reference
+      ? summary.base_reference
+      : summary.head_reference
+  return blobUrl(summary.repository, reference, item.path)
+}
+
 function renderGfmCodeSpan(value: string): string {
   const content = value.replaceAll('|', '\\|')
   const longestBacktickRun = Math.max(
@@ -114,7 +125,7 @@ export function renderComment(
       patch_file_deltas: counter.patch_file_deltas.map((item) => ({
         ...item,
         path_code: renderGfmCodeSpan(item.path),
-        url: blobUrl(summary.repository, summary.head_reference, item.path),
+        url: patchBlobUrl(summary, item),
         delta_label: item.delta > 0 ? `+${item.delta}` : `${item.delta}`,
       })),
       violations: counter.violations.map((item) => ({

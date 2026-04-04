@@ -4,7 +4,7 @@ import { promisify } from 'node:util'
 import * as github from '@actions/github'
 import micromatch from 'micromatch'
 
-import { createMatchKey, lineMatches } from './files'
+import { createMatchKey, DEFAULT_EXCLUDES, lineMatches } from './files'
 
 import type {
   ChangedFileStatus,
@@ -14,13 +14,6 @@ import type {
 } from './types'
 
 const execFileAsync = promisify(execFile)
-const DEFAULT_MATCHER_EXCLUDES = [
-  '.git/**',
-  'node_modules/**',
-  'dist/**',
-  'coverage/**',
-  '.gh-counter/**',
-]
 
 async function git(args: string[]): Promise<string> {
   const { stdout } = await execFileAsync('git', args, {
@@ -35,7 +28,7 @@ export async function ensureBaseFetched(baseBranch: string): Promise<void> {
   if (isShallow === 'true') {
     await execFileAsync(
       'git',
-      ['fetch', '--no-tags', '--prune', '--unshallow'],
+      ['fetch', '--no-tags', '--prune', '--unshallow', 'origin'],
       {
         encoding: 'utf8',
         maxBuffer: 32 * 1024 * 1024,
@@ -54,7 +47,7 @@ export async function ensureBaseFetched(baseBranch: string): Promise<void> {
 
 export async function resolvePullRequestBaseReference(
   defaultBranch: string
-): Promise<string | null> {
+): Promise<string> {
   const context = github.context
   const baseRef = context.payload.pull_request?.base?.ref ?? defaultBranch
 
@@ -271,7 +264,7 @@ export async function listChangedPatchSnapshots(
       for (const file of files) {
         if (
           !micromatch.isMatch(file.path, matcher.files, {
-            ignore: [...DEFAULT_MATCHER_EXCLUDES, ...(matcher.exclude ?? [])],
+            ignore: [...DEFAULT_EXCLUDES, ...(matcher.exclude ?? [])],
             dot: true,
           })
         ) {
