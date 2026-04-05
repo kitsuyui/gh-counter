@@ -205,6 +205,10 @@ export function renderCounterGraphSvg(
   const subtitle = hasMeaningfulWindow
     ? `last ${graphDays}d`
     : `collecting baseline (${series.length} samples)`
+  const subtitleX = hasMeaningfulWindow
+    ? Math.max(margin.left + 48, Math.min(width - margin.right - 48, cutoffX))
+    : width / 2
+  const subtitleY = height - 24
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" role="img" aria-label="${escapeXml(title)}">
 <title>${escapedTitle}</title>
@@ -227,9 +231,9 @@ ${points
 <circle cx="${latestPoint.x.toFixed(2)}" cy="${latestPoint.y.toFixed(2)}" r="4.5" fill="${color}" stroke="#ffffff" stroke-width="2"/>
 <text x="${margin.left}" y="16" fill="#24292f" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13">${escapeXml(counter.label)} trend</text>
 <text x="${width - margin.right}" y="16" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12">latest ${counter.current}</text>
+<text x="${subtitleX.toFixed(2)}" y="${subtitleY}" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${escapeXml(subtitle)}</text>
 <text x="${margin.left}" y="${height - 10}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${escapeXml(firstLabel)}</text>
 <text x="${width - margin.right}" y="${height - 10}" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${escapeXml(latestLabel)}</text>
-<text x="${hasMeaningfulWindow ? cutoffX.toFixed(2) : (width / 2).toFixed(2)}" y="${height - 10}" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${escapeXml(subtitle)}</text>
 <text x="12" y="${margin.top + 6}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${maxCount}</text>
 <text x="18" y="${margin.top + plotHeight}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">0</text>
 </svg>

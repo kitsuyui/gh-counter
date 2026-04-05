@@ -52,6 +52,7 @@ describe('publish report rendering', () => {
     expect(svg).toContain('last 14d')
     expect(svg).toContain('stroke-dasharray="4 4"')
     expect(svg).toContain('latest 3')
+    expect(svg).toContain('y="196"')
   })
 
   test('renders baseline collection state for short histories', () => {
@@ -76,6 +77,7 @@ describe('publish report rendering', () => {
 
     expect(svg).toContain('collecting baseline (2 samples)')
     expect(svg).not.toContain('last 30d')
+    expect(svg).toContain('y="196"')
   })
 
   test('renders a markdown report that links to the published graph', () => {
