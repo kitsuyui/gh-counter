@@ -49,7 +49,7 @@ function patchBlobUrl(
   item: CounterStatus['patch_file_deltas'][number]
 ): string {
   const reference =
-    item.added === 0 && item.removed > 0 && summary.base_reference
+    summary.base_only_paths.includes(item.path) && summary.base_reference
       ? summary.base_reference
       : summary.head_reference
   return blobUrl(summary.repository, reference, item.path)
@@ -60,7 +60,7 @@ function fileDeltaBlobUrl(
   item: CounterStatus['file_deltas'][number]
 ): string {
   const reference =
-    item.current === 0 && item.base > 0 && summary.base_reference
+    summary.base_only_paths.includes(item.path) && summary.base_reference
       ? summary.base_reference
       : summary.head_reference
   return blobUrl(summary.repository, reference, item.path)

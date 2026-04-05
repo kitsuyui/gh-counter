@@ -146,6 +146,8 @@ export interface CounterStatus {
 export interface ChangedFileStatus {
   path: string
   status: string
+  old_path?: string
+  new_path?: string
 }
 
 export interface SummaryStatus {
@@ -159,6 +161,7 @@ export interface SummaryStatus {
   head_label: string
   head_reference: string
   bootstrap_message: string | null
+  base_only_paths: string[]
   counters: CounterStatus[]
 }
 

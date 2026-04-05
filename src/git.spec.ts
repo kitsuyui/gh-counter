@@ -19,7 +19,12 @@ describe('git helpers', () => {
     ).toEqual([
       { path: '.github/gh-counter.yml', status: 'A' },
       { path: 'README.md', status: 'M' },
-      { path: 'new.ts', status: 'R' },
+      {
+        path: 'new.ts',
+        status: 'R',
+        old_path: 'old.ts',
+        new_path: 'new.ts',
+      },
     ])
   })
 
@@ -84,8 +89,22 @@ describe('git helpers', () => {
             oldCount: 1,
             newStart: 2,
             newCount: 1,
-            removed: [{ path: 'src/index.ts', line: 2, text: '// TODO: old' }],
-            added: [{ path: 'src/index.ts', line: 2, text: '// TODO: new' }],
+            removed: [
+              {
+                path: 'src/index.ts',
+                line: 2,
+                text: '// TODO: old',
+                rawText: '// TODO: old',
+              },
+            ],
+            added: [
+              {
+                path: 'src/index.ts',
+                line: 2,
+                text: '// TODO: new',
+                rawText: '// TODO: new',
+              },
+            ],
           },
           {
             oldStart: 5,
@@ -94,8 +113,18 @@ describe('git helpers', () => {
             newCount: 2,
             removed: [],
             added: [
-              { path: 'src/index.ts', line: 6, text: '// TODO: another' },
-              { path: 'src/index.ts', line: 7, text: 'const value = 1' },
+              {
+                path: 'src/index.ts',
+                line: 6,
+                text: '// TODO: another',
+                rawText: '// TODO: another',
+              },
+              {
+                path: 'src/index.ts',
+                line: 7,
+                text: 'const value = 1',
+                rawText: 'const value = 1',
+              },
             ],
           },
         ],
@@ -126,10 +155,27 @@ describe('git helpers', () => {
             oldCount: 1,
             newStart: 12,
             newCount: 3,
-            removed: [{ path: 'README.md', line: 12, text: 'old line' }],
+            removed: [
+              {
+                path: 'README.md',
+                line: 12,
+                text: 'old line',
+                rawText: 'old line',
+              },
+            ],
             added: [
-              { path: 'README.md', line: 12, text: 'new line' },
-              { path: 'README.md', line: 13, text: 'another line' },
+              {
+                path: 'README.md',
+                line: 12,
+                text: 'new line',
+                rawText: 'new line',
+              },
+              {
+                path: 'README.md',
+                line: 13,
+                text: 'another line',
+                rawText: 'another line',
+              },
             ],
           },
         ],
@@ -159,8 +205,22 @@ describe('git helpers', () => {
             oldCount: 1,
             newStart: 2,
             newCount: 1,
-            removed: [{ path: 'src/index.ts', line: 2, text: '-- TODO: old' }],
-            added: [{ path: 'src/index.ts', line: 2, text: '-- TODO: new' }],
+            removed: [
+              {
+                path: 'src/index.ts',
+                line: 2,
+                text: '-- TODO: old',
+                rawText: '-- TODO: old',
+              },
+            ],
+            added: [
+              {
+                path: 'src/index.ts',
+                line: 2,
+                text: '-- TODO: new',
+                rawText: '-- TODO: new',
+              },
+            ],
           },
         ],
       },
@@ -189,8 +249,58 @@ describe('git helpers', () => {
             oldCount: 1,
             newStart: 1,
             newCount: 1,
-            removed: [{ path: 'src/old.ts', line: 1, text: 'TODO old' }],
-            added: [{ path: 'src/new.ts', line: 1, text: 'TODO new' }],
+            removed: [
+              {
+                path: 'src/old.ts',
+                line: 1,
+                text: 'TODO old',
+                rawText: 'TODO old',
+              },
+            ],
+            added: [
+              {
+                path: 'src/new.ts',
+                line: 1,
+                text: 'TODO new',
+                rawText: 'TODO new',
+              },
+            ],
+          },
+        ],
+      },
+    ])
+  })
+
+  test('parses added files with a null old path', () => {
+    expect(
+      parseUnifiedDiff(
+        [
+          'diff --git a/src/new.ts b/src/new.ts',
+          '--- /dev/null',
+          '+++ b/src/new.ts',
+          '@@ -0,0 +1 @@',
+          '+  TODO with indent',
+        ].join('\n')
+      )
+    ).toEqual([
+      {
+        oldPath: null,
+        newPath: 'src/new.ts',
+        hunks: [
+          {
+            oldStart: 0,
+            oldCount: 0,
+            newStart: 1,
+            newCount: 1,
+            removed: [],
+            added: [
+              {
+                path: 'src/new.ts',
+                line: 1,
+                text: 'TODO with indent',
+                rawText: '  TODO with indent',
+              },
+            ],
           },
         ],
       },

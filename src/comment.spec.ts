@@ -14,6 +14,7 @@ const baseSummary = {
   head_label: '#8',
   head_reference: 'head',
   bootstrap_message: null,
+  base_only_paths: [],
 }
 
 describe('comment helpers', () => {
@@ -42,6 +43,7 @@ describe('comment helpers', () => {
     const body = renderComment(
       {
         ...baseSummary,
+        base_only_paths: ['src/removed.ts'],
         counters: [
           {
             id: 'todo',
@@ -114,6 +116,7 @@ describe('comment helpers', () => {
     const body = renderComment(
       {
         ...baseSummary,
+        base_only_paths: ['src/removed.ts'],
         counters: [
           {
             id: 'todo',
@@ -281,6 +284,7 @@ describe('comment helpers', () => {
     const body = renderComment(
       {
         ...baseSummary,
+        base_only_paths: ['src/removed.ts'],
         counters: [
           {
             id: 'todo',
@@ -321,6 +325,7 @@ describe('comment helpers', () => {
     const body = renderComment(
       {
         ...baseSummary,
+        base_only_paths: ['src/removed.ts'],
         counters: [
           {
             id: 'todo',
