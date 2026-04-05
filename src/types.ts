@@ -50,6 +50,10 @@ export interface PublishConfig {
   branch?: string
   directory?: string
   summary_filename?: string
+  history_filename?: string
+  graph_days?: number
+  reports_directory?: string
+  graphs_directory?: string
   badges_directory?: string
   counters_directory?: string
 }
@@ -163,6 +167,24 @@ export interface SummaryStatus {
   bootstrap_message: string | null
   base_only_paths: string[]
   counters: CounterStatus[]
+}
+
+export interface HistoryCounterPoint {
+  id: string
+  label: string
+  count: number
+}
+
+export interface HistoryEntry {
+  generated_at: string
+  head_reference: string
+  counters: HistoryCounterPoint[]
+}
+
+export interface PublishedHistory {
+  repository: string
+  default_branch: string
+  entries: HistoryEntry[]
 }
 
 export interface NormalizedConfig {

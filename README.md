@@ -1,8 +1,8 @@
 # gh-counter
 
-[![TODOs](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/todo.svg)](https://github.com/kitsuyui/gh-counter/search?q=TODO&type=code)
-[![@ts-ignore](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/type-ignore.svg)](https://github.com/kitsuyui/gh-counter/search?q=%22%40ts-ignore%22+path%3Asrc&type=code)
-[![code symbols](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/code-tag.svg)](https://github.com/kitsuyui/gh-counter/search?q=%22%3Ccode%3E%22&type=code)
+[![TODOs](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/todo.svg)](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/reports/todo.md)
+[![@ts-ignore](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/type-ignore.svg)](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/reports/type-ignore.md)
+[![code symbols](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/code-tag.svg)](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/reports/code-tag.md)
 
 <img width="898" height="515" alt="gh-counter-example" src="https://github.com/user-attachments/assets/5b98db5d-5c76-467b-826c-b6da1cccb58a" />
 
@@ -102,6 +102,10 @@ publishing is off by default, and labels fall back to counter ids.
 | `publish.branch` | No | `gh-counter` | Branch used for published assets |
 | `publish.directory` | No | `.` | Root directory inside the publish branch |
 | `publish.summary_filename` | No | `summary.json` | Summary JSON file name |
+| `publish.history_filename` | No | `history.json` | Repository-wide time-series JSON file name |
+| `publish.graph_days` | No | `30` | Number of recent days emphasized in report graphs |
+| `publish.reports_directory` | No | `reports` | Directory for per-counter Markdown reports |
+| `publish.graphs_directory` | No | `graphs` | Directory for per-counter trend SVGs |
 | `publish.badges_directory` | No | `badges` | Directory for generated SVG badges |
 | `publish.counters_directory` | No | `counters` | Directory for per-counter JSON files |
 | `counters` | Yes | none | At least one counter is required |
@@ -165,9 +169,12 @@ yet.
 ## When to enable publishing
 
 Publishing is the part that turns `gh-counter` from a review tool into a badge
-and reporting tool. When publishing is enabled, the action writes `summary.json`
-and per-counter JSON and SVG files to a dedicated branch. That gives you stable
-raw URLs that can be embedded in a README. Because this behavior force-updates a
+and reporting tool. When publishing is enabled, the action writes `summary.json`,
+`history.json`, per-counter report Markdown, per-counter trend SVGs, and the
+existing JSON and badge files to a dedicated branch. That gives you stable raw
+URLs for badges and a rendered GitHub Markdown page for each metric. The report
+graph uses a solid line for the last `publish.graph_days` days and a dotted
+line for older retained measurements. Because this behavior force-updates a
 generated branch, it is opt-in and should be enabled only when you actually want
 repository-level assets.
 
@@ -190,14 +197,13 @@ permission, the action will skip branch publication and emit a warning instead
 of failing unexpectedly.
 
 When you embed a badge in a README, it is usually better to make the image
-clickable instead of leaving it as a bare image. A raw SVG link only opens the
-image itself. In practice, many repositories get a better result by linking the
-badge to a GitHub code search for the underlying marker text. That search is
-only an approximation of the matcher, but it is often a more useful starting
-point than a full-screen image.
+clickable instead of leaving it as a bare image. With report publishing enabled,
+the recommended target is the generated Markdown report in the publish branch.
+That page can show the graph, current snapshot, and links to the machine-readable
+JSON files in one place.
 
 ```md
-[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/search?q=TODO&type=code)
+[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/blob/badge-assets/reports/todo.md)
 ```
 
 ## How matching works
