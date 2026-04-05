@@ -1,5 +1,6 @@
 import type {
   BadgeConfig,
+  CounterConfig,
   CounterStatus,
   NormalizedConfig,
   PublishedHistory,
@@ -66,6 +67,10 @@ function blobGithubUrl(
   filePath: string
 ): string {
   return `https://github.com/${repository}/blob/${branch}/${filePath}`
+}
+
+function codeSearchUrl(repository: string, query: string): string {
+  return `https://github.com/${repository}/search?q=${encodeURIComponent(query)}&type=code`
 }
 
 function formatDate(iso: string): string {
@@ -208,6 +213,7 @@ ${points
 export function renderCounterReportMarkdown(
   history: PublishedHistory,
   counter: CounterStatus,
+  counterConfig: CounterConfig & { label: string },
   config: NormalizedConfig
 ): string {
   const publishBranch =
@@ -229,6 +235,12 @@ export function renderCounterReportMarkdown(
     counterPath
   )
   const lastEntry = history.entries.at(-1)
+  const searchLinks = counterConfig.matchers
+    .map((matcher, index) => {
+      const query = `${matcher.pattern} repo:${history.repository}`
+      return `- Search matcher ${index + 1}: [GitHub code search](${codeSearchUrl(history.repository, query)})`
+    })
+    .join('\n')
 
   return `# ${counter.label}
 
@@ -241,5 +253,11 @@ Recent trend: solid line shows the last ${config.publish.graph_days} days, and t
 - Latest snapshot date: ${lastEntry ? formatDate(lastEntry.generated_at) : 'n/a'}
 - History data: [history.json](${historyUrl})
 - Current counter snapshot: [${counter.id}.json](${snapshotUrl})
+
+## Explore matches
+
+These links open GitHub code search so you can inspect which files currently match this counter.
+
+${searchLinks}
 `
 }

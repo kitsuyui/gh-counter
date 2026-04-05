@@ -55,27 +55,42 @@ describe('publish report rendering', () => {
   })
 
   test('renders a markdown report that links to the published graph', () => {
-    const markdown = renderCounterReportMarkdown(history, counter, {
-      defaultBranch: 'main',
-      publish: {
-        enabled: true,
-        branch: 'gh-counter-assets',
-        directory: '.',
-        summary_filename: 'summary.json',
-        history_filename: 'history.json',
-        graph_days: 30,
-        reports_directory: 'reports',
-        graphs_directory: 'graphs',
-        badges_directory: 'badges',
-        counters_directory: 'counters',
+    const markdown = renderCounterReportMarkdown(
+      history,
+      counter,
+      {
+        id: 'todo',
+        label: 'TODOs',
+        matchers: [
+          {
+            files: ['**/*.ts'],
+            type: 'contains',
+            pattern: 'TODO',
+          },
+        ],
       },
-      comment: {
-        enabled: true,
-        key: 'default',
-        template: '',
-      },
-      counters: [],
-    })
+      {
+        defaultBranch: 'main',
+        publish: {
+          enabled: true,
+          branch: 'gh-counter-assets',
+          directory: '.',
+          summary_filename: 'summary.json',
+          history_filename: 'history.json',
+          graph_days: 30,
+          reports_directory: 'reports',
+          graphs_directory: 'graphs',
+          badges_directory: 'badges',
+          counters_directory: 'counters',
+        },
+        comment: {
+          enabled: true,
+          key: 'default',
+          template: '',
+        },
+        counters: [],
+      }
+    )
 
     expect(markdown).toContain('# TODOs')
     expect(markdown).toContain(
@@ -85,5 +100,9 @@ describe('publish report rendering', () => {
       '[history.json](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/history.json)'
     )
     expect(markdown).toContain('last 30 days')
+    expect(markdown).toContain('## Explore matches')
+    expect(markdown).toContain(
+      '[GitHub code search](https://github.com/kitsuyui/gh-counter/search?q=TODO%20repo%3Akitsuyui%2Fgh-counter&type=code)'
+    )
   })
 })

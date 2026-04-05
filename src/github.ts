@@ -259,6 +259,7 @@ export async function publishAssets(
         content: `${renderCounterReportMarkdown(
           publishedHistory,
           counter,
+          counterConfig,
           config
         )}\n`,
       })
@@ -367,7 +368,12 @@ export async function writeOutputFiles(
       )
       await fs.writeFile(
         path.join(outputDir, 'reports', `${counter.id}.md`),
-        `${renderCounterReportMarkdown(publishedHistory, counter, config)}\n`,
+        `${renderCounterReportMarkdown(
+          publishedHistory,
+          counter,
+          counterConfig,
+          config
+        )}\n`,
         'utf8'
       )
     }
