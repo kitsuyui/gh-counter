@@ -2,7 +2,7 @@
 
 Latest count: **9**
 
-Recent trend: still collecting an initial baseline. The graph focuses on the 3 measurements currently available instead of forcing a 30-day interpretation.
+Recent trend: still collecting an initial baseline. The graph focuses on the 4 measurements currently available instead of forcing a 30-day interpretation.
 
 ![<code>|` trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/code-tag.svg)
 
