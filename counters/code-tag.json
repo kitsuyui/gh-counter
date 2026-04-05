@@ -1,7 +1,7 @@
 {
   "id": "code-tag",
   "label": "<code>|`",
-  "count": 8,
+  "count": 9,
   "matches": [
     {
       "path": "src/badge.spec.ts",
@@ -10,37 +10,42 @@
     },
     {
       "path": "src/badge.spec.ts",
-      "line": 22,
+      "line": 26,
       "text": "label: '<code>|`&\"\\'',"
     },
     {
       "path": "src/badge.spec.ts",
-      "line": 28,
+      "line": 32,
       "text": "expect(svg).not.toContain('<text x=\"55\" y=\"14\"><code>')"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 82,
-      "text": "'<summary><code>TODOs</code> file breakdown</summary>'"
+      "line": 99,
+      "text": "'<summary><code>TODOs</code> patch breakdown</summary>'"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 205,
+      "line": 105,
+      "text": "'<summary><code>TODOs</code> repository breakdown</summary>'"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 242,
       "text": "label: '<code>|`',"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 229,
-      "text": "expect(body).toContain('| `` <code>\\\\|` `` | 2 | 8 | +6 |')"
+      "line": 277,
+      "text": "expect(body).toContain('| `` <code>\\\\|` `` | 0 | 2 | +2 |')"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 231,
-      "text": "'<summary><code>&lt;code&gt;|`</code> file breakdown</summary>'"
+      "line": 279,
+      "text": "'<summary><code>&lt;code&gt;|`</code> patch breakdown</summary>'"
     },
     {
       "path": "src/comment.ts",
-      "line": 66,
+      "line": 97,
       "text": "return `<code>${escapeHtml(value)}</code>`"
     }
   ]

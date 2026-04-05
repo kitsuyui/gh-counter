@@ -1,7 +1,7 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 25,
+  "count": 61,
   "matches": [
     {
       "path": "README.md",
@@ -15,83 +15,103 @@
     },
     {
       "path": "README.md",
-      "line": 18,
-      "text": "`gh-counter` to track its own `TODO`, `@ts-ignore`, and symbol-heavy `<code>`"
+      "line": 19,
+      "text": "repository uses `gh-counter` to track its own `TODO`, `@ts-ignore`, and"
     },
     {
       "path": "README.md",
-      "line": 58,
+      "line": 60,
       "text": "label: TODOs"
     },
     {
       "path": "README.md",
-      "line": 62,
+      "line": 64,
       "text": "pattern: \"(?:#|//|/\\\\*+|\\\\*)\\\\s*TODO\\\\b\""
     },
     {
       "path": "README.md",
-      "line": 177,
+      "line": 181,
       "text": "label: TODOs"
     },
     {
       "path": "README.md",
-      "line": 181,
+      "line": 185,
       "text": "pattern: \"TODO\""
     },
     {
       "path": "README.md",
-      "line": 196,
+      "line": 200,
       "text": "[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/search?q=TODO&type=code)"
     },
     {
       "path": "README.md",
-      "line": 203,
+      "line": 207,
       "text": "line such as `// FIXME: TODO because ...` should count as one debt instance for"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 48,
+      "line": 50,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 80,
+      "line": 96,
+      "text": "expect(body).toContain('| `TODOs` | 0 | 1 | +1 |')"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 97,
       "text": "expect(body).toContain('| `TODOs` | 2 | 3 | +1 |')"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 82,
-      "text": "'<summary><code>TODOs</code> file breakdown</summary>'"
+      "line": 99,
+      "text": "'<summary><code>TODOs</code> patch breakdown</summary>'"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 99,
+      "line": 105,
+      "text": "'<summary><code>TODOs</code> repository breakdown</summary>'"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 123,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 122,
-      "text": "expect(body).toContain('- ❌ `TODOs`: 18 → 19 (+1)')"
+      "line": 150,
+      "text": "expect(body).toContain('- ❌ `TODOs`: 0 → 1 (+1)')"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 151,
+      "line": 180,
       "text": "label: '<TODO> & \"fix\"',"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 168,
+      "line": 201,
       "text": "expect(body).toContain('plain=&lt;TODO&gt; &amp; &quot;fix&quot;')"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 178,
+      "line": 211,
       "text": "label: '<TODO|fix>`now`',"
     },
     {
       "path": "src/comment.spec.ts",
-      "line": 195,
+      "line": 232,
       "text": "expect(body).toContain('`` <TODO\\\\|fix>`now` ``')"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 291,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/comment.spec.ts",
+      "line": 332,
+      "text": "label: 'TODOs',"
     },
     {
       "path": "src/config.spec.ts",
@@ -127,6 +147,166 @@
       "path": "src/evaluate.spec.ts",
       "line": 26,
       "text": "[{ id: 'todo', label: 'TODOs', count: 1, matches: [] }],"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 30,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 50,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 55,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 64,
+      "text": "[{ id: 'todo', label: 'TODOs', count: 10, matches: [] }],"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 65,
+      "text": "[{ id: 'todo', label: 'TODOs', count: 7, matches: [] }],"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 69,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 72,
+      "text": "matches: [{ path: 'src/index.ts', line: 10, text: '// TODO: new' }],"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 75,
+      "text": "'-// TODO: old',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 76,
+      "text": "'+// TODO: new',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 78,
+      "text": "'+// TODO: another',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 96,
+      "text": "text: '// TODO: old',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 97,
+      "text": "rawText: '// TODO: old',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 104,
+      "text": "text: '// TODO: new',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 105,
+      "text": "rawText: '// TODO: new',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 119,
+      "text": "text: '// TODO: another',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 120,
+      "text": "rawText: '// TODO: another',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 142,
+      "text": "'@@ -12,1 +12,3 @@ small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 194,
+      "text": "'--- TODO: old',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 195,
+      "text": "'+-- TODO: new',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 212,
+      "text": "text: '-- TODO: old',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 213,
+      "text": "rawText: '-- TODO: old',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 220,
+      "text": "text: '-- TODO: new',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 221,
+      "text": "rawText: '-- TODO: new',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 238,
+      "text": "'-TODO old',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 239,
+      "text": "'+TODO new',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 256,
+      "text": "text: 'TODO old',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 257,
+      "text": "rawText: 'TODO old',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 264,
+      "text": "text: 'TODO new',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 265,
+      "text": "rawText: 'TODO new',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 282,
+      "text": "'+  TODO with indent',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 300,
+      "text": "text: 'TODO with indent',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 301,
+      "text": "rawText: '  TODO with indent',"
     }
   ]
 }

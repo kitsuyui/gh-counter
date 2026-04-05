@@ -1,6 +1,12 @@
 {
   "id": "type-ignore",
   "label": "@ts-ignore",
-  "count": 0,
-  "matches": []
+  "count": 1,
+  "matches": [
+    {
+      "path": "src/git.spec.ts",
+      "line": 142,
+      "text": "'@@ -12,1 +12,3 @@ small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or',"
+    }
+  ]
 }

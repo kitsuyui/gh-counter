@@ -1,41 +1,51 @@
 {
-  "generated_at": "2026-03-26T13:43:59.379Z",
+  "generated_at": "2026-04-05T02:21:27.330Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-counter-assets",
   "event_name": "push",
   "base_label": "main",
-  "base_reference": "674d8bc017474829566bbb82106ecaa1c4178596",
+  "base_reference": "d607ff3e80bd7baaeecb4bb62c33775636770e35",
   "head_label": "main",
-  "head_reference": "d607ff3e80bd7baaeecb4bb62c33775636770e35",
+  "head_reference": "10a1b88b49e94d920846facf0f6143b087160e2c",
   "bootstrap_message": null,
+  "base_only_paths": [],
   "counters": [
     {
       "id": "todo",
       "label": "TODOs",
-      "current": 25,
-      "base": 21,
-      "delta": 4,
+      "current": 61,
+      "base": 25,
+      "delta": 36,
+      "dashboard_current": 61,
+      "dashboard_base": 25,
+      "dashboard_delta": 36,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
+        {
+          "path": "src/git.spec.ts",
+          "current": 25,
+          "base": 0,
+          "delta": 25
+        },
+        {
+          "path": "src/comment.spec.ts",
+          "current": 13,
+          "base": 0,
+          "delta": 13
+        },
+        {
+          "path": "src/evaluate.spec.ts",
+          "current": 11,
+          "base": 0,
+          "delta": 11
+        },
         {
           "path": "README.md",
           "current": 9,
           "base": 0,
           "delta": 9
-        },
-        {
-          "path": "src/comment.spec.ts",
-          "current": 9,
-          "base": 0,
-          "delta": 9
-        },
-        {
-          "path": "src/evaluate.spec.ts",
-          "current": 4,
-          "base": 0,
-          "delta": 4
         },
         {
           "path": "src/count.spec.ts",
@@ -50,10 +60,11 @@
           "delta": 1
         }
       ],
+      "patch_file_deltas": [],
       "violations": [
         {
           "kind": "no_increase",
-          "message": "21 → 25 (+4)",
+          "message": "25 → 61 (+36)",
           "fail": false
         }
       ],
@@ -63,12 +74,23 @@
     {
       "id": "type-ignore",
       "label": "@ts-ignore",
-      "current": 0,
+      "current": 1,
       "base": 0,
-      "delta": 0,
+      "delta": 1,
+      "dashboard_current": 1,
+      "dashboard_base": 0,
+      "dashboard_delta": 1,
       "commentable": true,
       "touched_files": [],
-      "file_deltas": [],
+      "file_deltas": [
+        {
+          "path": "src/git.spec.ts",
+          "current": 1,
+          "base": 0,
+          "delta": 1
+        }
+      ],
+      "patch_file_deltas": [],
       "violations": [],
       "badge_path": ".gh-counter/badges/type-ignore.svg",
       "counter_path": ".gh-counter/counters/type-ignore.json"
@@ -76,17 +98,20 @@
     {
       "id": "code-tag",
       "label": "<code>|`",
-      "current": 8,
-      "base": null,
-      "delta": null,
+      "current": 9,
+      "base": 8,
+      "delta": 1,
+      "dashboard_current": 9,
+      "dashboard_base": 8,
+      "dashboard_delta": 1,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
         {
           "path": "src/comment.spec.ts",
-          "current": 4,
+          "current": 5,
           "base": 0,
-          "delta": 4
+          "delta": 5
         },
         {
           "path": "src/badge.spec.ts",
@@ -101,6 +126,7 @@
           "delta": 1
         }
       ],
+      "patch_file_deltas": [],
       "violations": [],
       "badge_path": ".gh-counter/badges/code-tag.svg",
       "counter_path": ".gh-counter/counters/code-tag.json"
