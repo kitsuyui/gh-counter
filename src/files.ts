@@ -9,7 +9,7 @@ import type { MatcherConfig, MatchRecord } from './types'
 
 const execFileAsync = promisify(execFile)
 
-const DEFAULT_EXCLUDES = [
+export const DEFAULT_EXCLUDES = [
   '.git/**',
   'node_modules/**',
   'dist/**',

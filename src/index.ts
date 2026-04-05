@@ -9,6 +9,7 @@ import {
   currentHeadReference,
   detectBootstrapComment,
   listChangedFileStatuses,
+  listChangedPatchSnapshots,
   resolvePullRequestBaseReference,
   touchedFilesForCounter,
 } from './git'
@@ -19,7 +20,11 @@ import {
   writeOutputFiles,
 } from './github'
 
-import type { CounterSnapshot, SummaryStatus } from './types'
+import type {
+  CounterSnapshot,
+  PatchCounterSnapshot,
+  SummaryStatus,
+} from './types'
 
 async function resolveDefaultBranch(configDefault?: string): Promise<string> {
   return (
@@ -35,6 +40,7 @@ function buildSummary(
   headLabel: string,
   headReference: string,
   bootstrapMessage: string | null,
+  baseOnlyPaths: string[],
   counters: ReturnType<typeof evaluateCounters>
 ): SummaryStatus {
   return {
@@ -48,6 +54,7 @@ function buildSummary(
     head_label: headLabel,
     head_reference: headReference,
     bootstrap_message: bootstrapMessage,
+    base_only_paths: baseOnlyPaths,
     counters,
   }
 }
@@ -94,8 +101,10 @@ async function run(): Promise<void> {
 
   let baseReference: string | null = null
   let baseSnapshots: CounterSnapshot[] = []
+  let patchSnapshots: PatchCounterSnapshot[] = []
   let changedFiles: string[] = []
   let bootstrapMessage: string | null = null
+  let baseOnlyPaths: string[] = []
   const baseLabel = defaultBranch
   const headLabel =
     github.context.eventName === 'pull_request'
@@ -104,15 +113,28 @@ async function run(): Promise<void> {
 
   if (github.context.eventName === 'pull_request') {
     baseReference = await resolvePullRequestBaseReference(defaultBranch)
-    if (baseReference) {
-      const changedFileStatuses = await listChangedFileStatuses(baseReference)
-      changedFiles = changedFileStatuses.map((entry) => entry.path)
-      bootstrapMessage = await detectBootstrapComment(changedFileStatuses)
-      baseSnapshots = await countCounters(
-        { kind: 'revision', revision: baseReference },
-        config.counters
-      )
-    }
+    const changedFileStatuses = await listChangedFileStatuses(baseReference)
+    changedFiles = changedFileStatuses.map((entry) => entry.path)
+    baseOnlyPaths = changedFileStatuses
+      .flatMap((entry) => {
+        if (entry.status === 'D') {
+          return [entry.path]
+        }
+        if (entry.status === 'R' && entry.old_path) {
+          return [entry.old_path]
+        }
+        return []
+      })
+      .sort()
+    bootstrapMessage = await detectBootstrapComment(changedFileStatuses)
+    baseSnapshots = await countCounters(
+      { kind: 'revision', revision: baseReference },
+      config.counters
+    )
+    patchSnapshots = await listChangedPatchSnapshots(
+      baseReference,
+      config.counters
+    )
   } else if (
     github.context.eventName === 'push' &&
     github.context.ref === `refs/heads/${defaultBranch}` &&
@@ -139,6 +161,7 @@ async function run(): Promise<void> {
     config.counters,
     currentSnapshots,
     baseSnapshots,
+    patchSnapshots,
     touchedFilesByCounter,
     github.context.eventName === 'pull_request'
   )
@@ -157,6 +180,7 @@ async function run(): Promise<void> {
       headLabel,
       headReference,
       bootstrapMessage,
+      baseOnlyPaths,
       evaluatedCounters
     ),
     inputs.outputDir

@@ -12,11 +12,13 @@ requests and on the default branch. It is designed for repositories that want a
 small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or
 `# type: ignore`, while keeping setup simple enough for first-time adoption.
 
-On pull requests, it compares the head branch with the merge base and updates
-one managed comment in place. On pushes to the default branch, it can also
-publish JSON and SVG badge assets to a dedicated branch. This repository uses
-`gh-counter` to track its own `TODO`, `@ts-ignore`, and symbol-heavy `<code>`
-markers and publishes the badges above from `gh-counter-assets`.
+On pull requests, it resolves a stable merge base and evaluates a patch-level
+PR gate based on changed lines, while also showing a repository-wide dashboard
+for reference. On pushes to the default branch, it can publish JSON and SVG
+badge assets to a dedicated branch for repository-wide reporting. This
+repository uses `gh-counter` to track its own `TODO`, `@ts-ignore`, and
+symbol-heavy `<code>` markers and publishes the badges above from
+`gh-counter-assets`.
 
 ## Quick start
 
@@ -62,9 +64,9 @@ counters:
         pattern: "(?:#|//|/\\*+|\\*)\\s*TODO\\b"
 ```
 
-With that setup, pull requests get one managed comment that compares the current
-count to the merge base. Reruns update the same comment instead of adding a new
-one.
+With that setup, pull requests get one managed comment that shows a changed-line
+PR gate plus a repository-wide dashboard. Reruns update the same comment
+instead of adding a new one.
 
 ## Inputs
 
@@ -150,13 +152,15 @@ requires `contents: write`, creates or overwrites a dedicated branch, and is not
 needed to get useful signal from a first setup. Counter labels default to the
 counter id so that a minimal configuration stays readable without repetition.
 
-Another important default is pull request relevance. `gh-counter` comments only
-on counters whose matcher target files are touched by the current diff, and it
-only fails a pull request for those relevant counters. This keeps the signal
-focused on the code under review. There is one exception for first-time
-adoption: if a pull request adds `.github/gh-counter.yml` or a new workflow that
-uses `gh-counter`, the action emits a short bootstrap comment even when no
-matcher target files are touched yet.
+Another important default is the separation between the PR gate and the repo
+dashboard. On pull requests, `gh-counter` comments only on counters whose
+matcher target files are touched by the current diff, and the failing ratchet
+checks are based on changed lines within that patch. Repository-wide counts are
+still shown for reference, but they are not used as the PR merge gate. There is
+one exception for first-time adoption: if a pull request adds
+`.github/gh-counter.yml` or a new workflow that uses `gh-counter`, the action
+emits a short bootstrap comment even when no matcher target files are touched
+yet.
 
 ## When to enable publishing
 
@@ -209,10 +213,11 @@ pattern.
 
 `gh-counter` supports two different control styles. A `limit` is an absolute
 maximum. A ratchet is directional: `no_increase` prevents a counter from going
-up relative to the baseline, while `target` expresses a longer-term threshold
-that the counter should eventually stay under. Each rule has its own `fail`
-switch so that teams can begin by observing a metric before they start enforcing
-it.
+up relative to the evaluation baseline, while `target` expresses a longer-term
+threshold that the counter should eventually stay under. On pull requests, that
+baseline is the changed-line patch gate. On default-branch pushes, it is the
+repository-wide dashboard baseline. Each rule has its own `fail` switch so that
+teams can begin by observing a metric before they start enforcing it.
 
 ## Outputs and artifacts
 

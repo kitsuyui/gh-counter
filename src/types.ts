@@ -103,15 +103,41 @@ export interface FileDeltaStatus {
   delta: number
 }
 
+export interface CounterValueStatus {
+  current: number
+  base: number | null
+  delta: number | null
+}
+
+export interface PatchFileDeltaStatus {
+  path: string
+  added: number
+  removed: number
+  delta: number
+}
+
+export interface PatchCounterSnapshot {
+  id: string
+  label: string
+  current: number
+  base: number
+  matches: MatchRecord[]
+  base_matches: MatchRecord[]
+}
+
 export interface CounterStatus {
   id: string
   label: string
   current: number
   base: number | null
   delta: number | null
+  dashboard_current: number
+  dashboard_base: number | null
+  dashboard_delta: number | null
   commentable: boolean
   touched_files: string[]
   file_deltas: FileDeltaStatus[]
+  patch_file_deltas: PatchFileDeltaStatus[]
   violations: CounterViolation[]
   badge_path: string
   counter_path: string
@@ -120,6 +146,8 @@ export interface CounterStatus {
 export interface ChangedFileStatus {
   path: string
   status: string
+  old_path?: string
+  new_path?: string
 }
 
 export interface SummaryStatus {
@@ -133,6 +161,7 @@ export interface SummaryStatus {
   head_label: string
   head_reference: string
   bootstrap_message: string | null
+  base_only_paths: string[]
   counters: CounterStatus[]
 }
 
