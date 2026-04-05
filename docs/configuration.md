@@ -24,6 +24,10 @@ required, what is optional, and what happens if you omit a field.
 | `publish.branch` | No | `gh-counter` | Publish branch name |
 | `publish.directory` | No | `.` | Root directory within the publish branch |
 | `publish.summary_filename` | No | `summary.json` | Summary JSON file name |
+| `publish.history_filename` | No | `history.json` | Repository-wide time-series JSON file name |
+| `publish.graph_days` | No | `30` | Number of recent days emphasized in report graphs |
+| `publish.reports_directory` | No | `reports` | Per-counter Markdown report directory |
+| `publish.graphs_directory` | No | `graphs` | Per-counter trend SVG directory |
 | `publish.badges_directory` | No | `badges` | Badge SVG directory |
 | `publish.counters_directory` | No | `counters` | Per-counter JSON directory |
 | `counters` | Yes | none | List of counters to evaluate |
@@ -172,11 +176,15 @@ dashboard.
 
 ## Published output layout
 
-When publishing is enabled, `gh-counter` writes a summary file and per-counter
-files. The default layout is:
+When publishing is enabled, `gh-counter` writes a summary file, a repository
+history file, per-counter Markdown reports, per-counter trend SVGs, and the
+existing badge and JSON files. The default layout is:
 
 ```text
 summary.json
+history.json
+reports/<counter-id>.md
+graphs/<counter-id>.svg
 badges/<counter-id>.svg
 counters/<counter-id>.json
 ```
@@ -184,7 +192,12 @@ counters/<counter-id>.json
 This layout keeps the badge URLs predictable while leaving room for detailed
 machine-readable data. Users who only care about README badges can ignore the
 JSON files, while teams that want to build dashboards or secondary tooling can
-consume them directly.
+consume them directly. `history.json` stores one repository-wide entry per
+published default-branch commit and replaces the entry when the same commit is
+republished on a workflow rerun. The generated report Markdown is designed to be
+the primary click target for badges, and the graph highlights the last
+`publish.graph_days` days with a solid line while retaining older data as a
+dotted line for context.
 
 In many repositories, the most useful README badge is a linked badge rather
 than a standalone image. The generated SVG can stay in the publish branch, while

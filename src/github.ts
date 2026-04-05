@@ -4,12 +4,18 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { renderBadge } from './badge'
 import { buildMarker, decideCommentAction, renderComment } from './comment'
+import { mergePublishedHistory } from './history'
+import {
+  renderCounterGraphSvg,
+  renderCounterReportMarkdown,
+} from './publish-report'
 
 import type {
   CounterConfig,
   CounterSnapshot,
   CounterStatus,
   NormalizedConfig,
+  PublishedHistory,
   SummaryStatus,
 } from './types'
 
@@ -99,15 +105,15 @@ export async function updatePullRequestComment(
   }
 }
 
-export async function fetchPublishedSummary(
+async function fetchPublishedJson<T>(
   octokit: Octokit,
   branch: string,
-  summaryFilename: string
-): Promise<SummaryStatus | null> {
+  filename: string
+): Promise<T | null> {
   try {
     const response = await octokit.rest.repos.getContent({
       ...github.context.repo,
-      path: summaryFilename,
+      path: filename,
       ref: branch,
     })
     if (
@@ -118,13 +124,29 @@ export async function fetchPublishedSummary(
     }
     return JSON.parse(
       Buffer.from(response.data.content, 'base64').toString('utf8')
-    )
+    ) as T
   } catch (error) {
     if (isPermissionError(error)) {
       return null
     }
     throw error
   }
+}
+
+export async function fetchPublishedSummary(
+  octokit: Octokit,
+  branch: string,
+  summaryFilename: string
+): Promise<SummaryStatus | null> {
+  return fetchPublishedJson<SummaryStatus>(octokit, branch, summaryFilename)
+}
+
+export async function fetchPublishedHistory(
+  octokit: Octokit,
+  branch: string,
+  historyFilename: string
+): Promise<PublishedHistory | null> {
+  return fetchPublishedJson<PublishedHistory>(octokit, branch, historyFilename)
 }
 
 async function ensureBranch(
@@ -162,6 +184,16 @@ export async function publishAssets(
   const branch = summary.publish_branch
   try {
     const branchState = await ensureBranch(octokit, branch)
+    const existingHistory = await fetchPublishedHistory(
+      octokit,
+      branch,
+      path.posix.join(config.publish.directory, config.publish.history_filename)
+    )
+    const publishedHistory = mergePublishedHistory(
+      summary,
+      snapshots,
+      existingHistory
+    )
     const treeEntries = [
       {
         path: path.posix.join(
@@ -171,6 +203,15 @@ export async function publishAssets(
         mode: '100644' as const,
         type: 'blob' as const,
         content: `${JSON.stringify(summary, null, 2)}\n`,
+      },
+      {
+        path: path.posix.join(
+          config.publish.directory,
+          config.publish.history_filename
+        ),
+        mode: '100644' as const,
+        type: 'blob' as const,
+        content: `${JSON.stringify(publishedHistory, null, 2)}\n`,
       },
     ]
 
@@ -191,6 +232,35 @@ export async function publishAssets(
         mode: '100644' as const,
         type: 'blob' as const,
         content: renderBadge(counter, counterConfig?.badge),
+      })
+      treeEntries.push({
+        path: path.posix.join(
+          config.publish.directory,
+          config.publish.graphs_directory,
+          `${counter.id}.svg`
+        ),
+        mode: '100644' as const,
+        type: 'blob' as const,
+        content: renderCounterGraphSvg(
+          publishedHistory,
+          counter,
+          config.publish.graph_days,
+          counterConfig?.badge
+        ),
+      })
+      treeEntries.push({
+        path: path.posix.join(
+          config.publish.directory,
+          config.publish.reports_directory,
+          `${counter.id}.md`
+        ),
+        mode: '100644' as const,
+        type: 'blob' as const,
+        content: `${renderCounterReportMarkdown(
+          publishedHistory,
+          counter,
+          config
+        )}\n`,
       })
       treeEntries.push({
         path: path.posix.join(
@@ -244,7 +314,9 @@ export async function writeOutputFiles(
   summary: SummaryStatus,
   counters: CounterStatus[],
   snapshots: CounterSnapshot[],
-  counterConfigs: Array<CounterConfig & { label: string }>
+  counterConfigs: Array<CounterConfig & { label: string }>,
+  publishedHistory: PublishedHistory | null = null,
+  config: NormalizedConfig | null = null
 ): Promise<void> {
   await fs.mkdir(outputDir, { recursive: true })
   await fs.writeFile(
@@ -252,8 +324,19 @@ export async function writeOutputFiles(
     `${JSON.stringify(summary, null, 2)}\n`,
     'utf8'
   )
+  if (publishedHistory) {
+    await fs.writeFile(
+      path.join(outputDir, 'history.json'),
+      `${JSON.stringify(publishedHistory, null, 2)}\n`,
+      'utf8'
+    )
+  }
   await fs.mkdir(path.join(outputDir, 'badges'), { recursive: true })
   await fs.mkdir(path.join(outputDir, 'counters'), { recursive: true })
+  if (publishedHistory && config) {
+    await fs.mkdir(path.join(outputDir, 'graphs'), { recursive: true })
+    await fs.mkdir(path.join(outputDir, 'reports'), { recursive: true })
+  }
 
   for (const counter of counters) {
     const snapshot = snapshots.find((item) => item.id === counter.id)
@@ -271,5 +354,22 @@ export async function writeOutputFiles(
       `${JSON.stringify(snapshot, null, 2)}\n`,
       'utf8'
     )
+    if (publishedHistory && config) {
+      await fs.writeFile(
+        path.join(outputDir, 'graphs', `${counter.id}.svg`),
+        renderCounterGraphSvg(
+          publishedHistory,
+          counter,
+          config.publish.graph_days,
+          counterConfig?.badge
+        ),
+        'utf8'
+      )
+      await fs.writeFile(
+        path.join(outputDir, 'reports', `${counter.id}.md`),
+        `${renderCounterReportMarkdown(publishedHistory, counter, config)}\n`,
+        'utf8'
+      )
+    }
   }
 }
