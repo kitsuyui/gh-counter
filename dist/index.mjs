@@ -280,7 +280,7 @@ var ko=Object.prototype.toString,Ao=Array.isArray||function(e){return ko.call(e)
 <rect width="640" height="220" fill="#ffffff"/>
 <text x="${640/2}" y="${220/2}" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="14">No history yet</text>
 </svg>
-`;let h=i[0]?.timestamp??f,g=i.at(-1)?.timestamp??f,_=Math.max(1,g-h),v=Math.max(1,...i.map(e=>e.count)),y=a.left+(Math.max(h,p)-h)/_*o,b=i.map(e=>({x:a.left+(e.timestamp-h)/_*o,y:a.top+s-e.count/v*s,count:e.count,timestamp:e.timestamp})),x=m?b.filter(e=>e.timestamp<p):[],S=m?b.filter(e=>e.timestamp>=p):b,C=S[0],w=x.at(-1),T=x.length>0&&C?[...x,C]:x,E=w&&S.length>0?[w,...S]:S.length>0?S:b,D=Ss(T),O=Ss(E),k=b.at(-1)??b[0],A=i[0],j=i.at(-1)??i[0],M=xs(A?.generated_at??new Date(h).toISOString()),N=xs(j?.generated_at??new Date(f).toISOString()),P=m?`last ${n}d`:`collecting baseline (${i.length} samples)`;return`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="220" role="img" aria-label="${hs(l)}">
+`;let h=i[0]?.timestamp??f,g=i.at(-1)?.timestamp??f,_=Math.max(1,g-h),v=Math.max(1,...i.map(e=>e.count)),y=a.left+(Math.max(h,p)-h)/_*o,b=i.map(e=>({x:a.left+(e.timestamp-h)/_*o,y:a.top+s-e.count/v*s,count:e.count,timestamp:e.timestamp})),x=m?b.filter(e=>e.timestamp<p):[],S=m?b.filter(e=>e.timestamp>=p):b,C=S[0],w=x.at(-1),T=x.length>0&&C?[...x,C]:x,E=w&&S.length>0?[w,...S]:S.length>0?S:b,D=Ss(T),O=Ss(E),k=b.at(-1)??b[0],A=i[0],j=i.at(-1)??i[0],M=xs(A?.generated_at??new Date(h).toISOString()),N=xs(j?.generated_at??new Date(f).toISOString()),P=m?`last ${n}d`:`collecting baseline (${i.length} samples)`,F=M.length*7,I=N.length*7,L=P.length*6,R=m?Math.max(a.left+F+L/2+12,Math.min(640-a.right-I-L/2-12,y)):640/2;return`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="220" role="img" aria-label="${hs(l)}">
 <title>${u}</title>
 <rect width="640" height="220" fill="#ffffff"/>
 <rect x="${a.left}" y="${a.top}" width="${o}" height="${s}" fill="#f6f8fa" stroke="#d0d7de"/>
@@ -294,9 +294,9 @@ ${b.map(e=>{let t=m&&e.timestamp<p?` stroke-dasharray="3 3" opacity="0.75"`:``;r
 <circle cx="${k.x.toFixed(2)}" cy="${k.y.toFixed(2)}" r="4.5" fill="${c}" stroke="#ffffff" stroke-width="2"/>
 <text x="${a.left}" y="16" fill="#24292f" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13">${hs(t.label)} trend</text>
 <text x="${640-a.right}" y="16" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12">latest ${t.current}</text>
+<text x="${R.toFixed(2)}" y="196" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${hs(P)}</text>
 <text x="${a.left}" y="210" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${hs(M)}</text>
 <text x="${640-a.right}" y="210" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${hs(N)}</text>
-<text x="${m?y.toFixed(2):(640/2).toFixed(2)}" y="210" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${hs(P)}</text>
 <text x="12" y="${a.top+6}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${v}</text>
 <text x="18" y="${a.top+s}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">0</text>
 </svg>

@@ -53,6 +53,7 @@ describe('publish report rendering', () => {
     expect(svg).toContain('stroke-dasharray="4 4"')
     expect(svg).toContain('latest 3')
     expect(svg).toContain('y="196"')
+    expect(svg).not.toContain('<text x="40.00" y="196"')
   })
 
   test('renders baseline collection state for short histories', () => {
