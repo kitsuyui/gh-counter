@@ -205,8 +205,17 @@ export function renderCounterGraphSvg(
   const subtitle = hasMeaningfulWindow
     ? `last ${graphDays}d`
     : `collecting baseline (${series.length} samples)`
+  const leftLabelWidth = firstLabel.length * 7
+  const rightLabelWidth = latestLabel.length * 7
+  const subtitleWidth = subtitle.length * 6
   const subtitleX = hasMeaningfulWindow
-    ? Math.max(margin.left + 48, Math.min(width - margin.right - 48, cutoffX))
+    ? Math.max(
+        margin.left + leftLabelWidth + subtitleWidth / 2 + 12,
+        Math.min(
+          width - margin.right - rightLabelWidth - subtitleWidth / 2 - 12,
+          cutoffX
+        )
+      )
     : width / 2
   const subtitleY = height - 24
 
