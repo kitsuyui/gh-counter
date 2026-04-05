@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="220" role="img" aria-label="@ts-ignore trend">
+<title>@ts-ignore trend</title>
+<rect width="640" height="220" fill="#ffffff"/>
+<rect x="40" y="24" width="582" height="162" fill="#f6f8fa" stroke="#d0d7de"/>
+<line x1="40" y1="186" x2="622" y2="186" stroke="#8c959f" stroke-width="1"/>
+<line x1="40" y1="24" x2="40" y2="186" stroke="#8c959f" stroke-width="1"/>
+<line x1="40.00" y1="24" x2="40.00" y2="186" stroke="#8c959f" stroke-dasharray="4 4"/>
+
+<path d="M 40.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
+<circle cx="40.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="40.00" cy="24.00" r="4.5" fill="#dbab09" stroke="#ffffff" stroke-width="2"/>
+<text x="40" y="16" fill="#24292f" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13">@ts-ignore trend</text>
+<text x="622" y="16" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12">latest 1</text>
+<text x="40" y="210" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-04-05</text>
+<text x="622" y="210" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-04-05</text>
+<text x="40.00" y="210" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">last 30d</text>
+<text x="12" y="30" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">1</text>
+<text x="18" y="186" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">0</text>
+</svg>

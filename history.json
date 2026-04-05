@@ -1,0 +1,27 @@
+{
+  "repository": "kitsuyui/gh-counter",
+  "default_branch": "main",
+  "entries": [
+    {
+      "generated_at": "2026-04-05T04:40:17.850Z",
+      "head_reference": "54ef69363e40b79394a24024ddfdaf3322bc2fc6",
+      "counters": [
+        {
+          "id": "todo",
+          "label": "TODOs",
+          "count": 74
+        },
+        {
+          "id": "type-ignore",
+          "label": "@ts-ignore",
+          "count": 1
+        },
+        {
+          "id": "code-tag",
+          "label": "<code>|`",
+          "count": 9
+        }
+      ]
+    }
+  ]
+}

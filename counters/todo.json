@@ -1,12 +1,12 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 61,
+  "count": 74,
   "matches": [
     {
       "path": "README.md",
       "line": 3,
-      "text": "[![TODOs](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/todo.svg)](https://github.com/kitsuyui/gh-counter/search?q=TODO&type=code)"
+      "text": "[![TODOs](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/todo.svg)](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/reports/todo.md)"
     },
     {
       "path": "README.md",
@@ -30,22 +30,22 @@
     },
     {
       "path": "README.md",
-      "line": 181,
+      "line": 188,
       "text": "label: TODOs"
     },
     {
       "path": "README.md",
-      "line": 185,
+      "line": 192,
       "text": "pattern: \"TODO\""
     },
     {
       "path": "README.md",
-      "line": 200,
-      "text": "[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/search?q=TODO&type=code)"
+      "line": 206,
+      "text": "[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/blob/badge-assets/reports/todo.md)"
     },
     {
       "path": "README.md",
-      "line": 207,
+      "line": 213,
       "text": "line such as `// FIXME: TODO because ...` should count as one debt instance for"
     },
     {
@@ -307,6 +307,71 @@
       "path": "src/git.spec.ts",
       "line": 301,
       "text": "rawText: '  TODO with indent',"
+    },
+    {
+      "path": "src/history.spec.ts",
+      "line": 26,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/history.spec.ts",
+      "line": 37,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/history.spec.ts",
+      "line": 50,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/history.spec.ts",
+      "line": 65,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/history.spec.ts",
+      "line": 85,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/history.spec.ts",
+      "line": 105,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/history.spec.ts",
+      "line": 121,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 15,
+      "text": "counters: [{ id: 'todo', label: 'TODOs', count: 9 }],"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 20,
+      "text": "counters: [{ id: 'todo', label: 'TODOs', count: 6 }],"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 25,
+      "text": "counters: [{ id: 'todo', label: 'TODOs', count: 3 }],"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 32,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 80,
+      "text": "expect(markdown).toContain('# TODOs')"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 82,
+      "text": "'![TODOs trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/todo.svg)'"
     }
   ]
 }

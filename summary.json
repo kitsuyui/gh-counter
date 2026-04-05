@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-04-05T02:21:27.330Z",
+  "generated_at": "2026-04-05T04:40:17.850Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-counter-assets",
   "event_name": "push",
   "base_label": "main",
-  "base_reference": "d607ff3e80bd7baaeecb4bb62c33775636770e35",
+  "base_reference": "10a1b88b49e94d920846facf0f6143b087160e2c",
   "head_label": "main",
-  "head_reference": "10a1b88b49e94d920846facf0f6143b087160e2c",
+  "head_reference": "54ef69363e40b79394a24024ddfdaf3322bc2fc6",
   "bootstrap_message": null,
   "base_only_paths": [],
   "counters": [
     {
       "id": "todo",
       "label": "TODOs",
-      "current": 61,
-      "base": 25,
-      "delta": 36,
-      "dashboard_current": 61,
-      "dashboard_base": 25,
-      "dashboard_delta": 36,
+      "current": 74,
+      "base": 61,
+      "delta": 13,
+      "dashboard_current": 74,
+      "dashboard_base": 61,
+      "dashboard_delta": 13,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
@@ -48,6 +48,18 @@
           "delta": 9
         },
         {
+          "path": "src/history.spec.ts",
+          "current": 7,
+          "base": 0,
+          "delta": 7
+        },
+        {
+          "path": "src/publish-report.spec.ts",
+          "current": 6,
+          "base": 0,
+          "delta": 6
+        },
+        {
           "path": "src/count.spec.ts",
           "current": 2,
           "base": 0,
@@ -64,7 +76,7 @@
       "violations": [
         {
           "kind": "no_increase",
-          "message": "25 → 61 (+36)",
+          "message": "61 → 74 (+13)",
           "fail": false
         }
       ],
@@ -75,11 +87,11 @@
       "id": "type-ignore",
       "label": "@ts-ignore",
       "current": 1,
-      "base": 0,
-      "delta": 1,
+      "base": 1,
+      "delta": 0,
       "dashboard_current": 1,
-      "dashboard_base": 0,
-      "dashboard_delta": 1,
+      "dashboard_base": 1,
+      "dashboard_delta": 0,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
@@ -99,11 +111,11 @@
       "id": "code-tag",
       "label": "<code>|`",
       "current": 9,
-      "base": 8,
-      "delta": 1,
+      "base": 9,
+      "delta": 0,
       "dashboard_current": 9,
-      "dashboard_base": 8,
-      "dashboard_delta": 1,
+      "dashboard_base": 9,
+      "dashboard_delta": 0,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
