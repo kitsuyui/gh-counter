@@ -1,8 +1,8 @@
 # TODOs
 
-Latest count: **77**
+Latest count: **82**
 
-Recent trend: solid line shows the last 30 days, and the dotted line shows older measurements retained for context.
+Recent trend: still collecting an initial baseline. The graph focuses on the 3 measurements currently available instead of forcing a 30-day interpretation.
 
 ![TODOs trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/todo.svg)
 

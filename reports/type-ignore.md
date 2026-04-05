@@ -2,7 +2,7 @@
 
 Latest count: **1**
 
-Recent trend: solid line shows the last 30 days, and the dotted line shows older measurements retained for context.
+Recent trend: still collecting an initial baseline. The graph focuses on the 3 measurements currently available instead of forcing a 30-day interpretation.
 
 ![@ts-ignore trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/type-ignore.svg)
 

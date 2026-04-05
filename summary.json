@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-04-05T04:46:09.843Z",
+  "generated_at": "2026-04-05T04:53:03.192Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-counter-assets",
   "event_name": "push",
   "base_label": "main",
-  "base_reference": "54ef69363e40b79394a24024ddfdaf3322bc2fc6",
+  "base_reference": "21c036745fbf042c66647ec75a877a52f7cc2bcf",
   "head_label": "main",
-  "head_reference": "21c036745fbf042c66647ec75a877a52f7cc2bcf",
+  "head_reference": "8fa97f52f9b0528445de35b1dc6b6c9cb6f72055",
   "bootstrap_message": null,
   "base_only_paths": [],
   "counters": [
     {
       "id": "todo",
       "label": "TODOs",
-      "current": 77,
-      "base": 74,
-      "delta": 3,
-      "dashboard_current": 77,
-      "dashboard_base": 74,
-      "dashboard_delta": 3,
+      "current": 82,
+      "base": 77,
+      "delta": 5,
+      "dashboard_current": 82,
+      "dashboard_base": 77,
+      "dashboard_delta": 5,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
@@ -28,6 +28,12 @@
           "current": 25,
           "base": 0,
           "delta": 25
+        },
+        {
+          "path": "src/publish-report.spec.ts",
+          "current": 14,
+          "base": 0,
+          "delta": 14
         },
         {
           "path": "src/comment.spec.ts",
@@ -43,12 +49,6 @@
         },
         {
           "path": "README.md",
-          "current": 9,
-          "base": 0,
-          "delta": 9
-        },
-        {
-          "path": "src/publish-report.spec.ts",
           "current": 9,
           "base": 0,
           "delta": 9
@@ -76,7 +76,7 @@
       "violations": [
         {
           "kind": "no_increase",
-          "message": "74 → 77 (+3)",
+          "message": "77 → 82 (+5)",
           "fail": false
         }
       ],
