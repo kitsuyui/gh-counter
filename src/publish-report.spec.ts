@@ -54,6 +54,30 @@ describe('publish report rendering', () => {
     expect(svg).toContain('latest 3')
   })
 
+  test('renders baseline collection state for short histories', () => {
+    const shortHistory = {
+      repository: 'kitsuyui/gh-counter',
+      default_branch: 'main',
+      entries: [
+        {
+          generated_at: '2026-04-04T00:00:00.000Z',
+          head_reference: 'first',
+          counters: [{ id: 'todo', label: 'TODOs', count: 4 }],
+        },
+        {
+          generated_at: '2026-04-05T00:00:00.000Z',
+          head_reference: 'second',
+          counters: [{ id: 'todo', label: 'TODOs', count: 3 }],
+        },
+      ],
+    }
+
+    const svg = renderCounterGraphSvg(shortHistory, counter, 30)
+
+    expect(svg).toContain('collecting baseline (2 samples)')
+    expect(svg).not.toContain('last 30d')
+  })
+
   test('renders a markdown report that links to the published graph', () => {
     const markdown = renderCounterReportMarkdown(
       history,
@@ -104,5 +128,59 @@ describe('publish report rendering', () => {
     expect(markdown).toContain(
       '[GitHub code search](https://github.com/kitsuyui/gh-counter/search?q=TODO%20repo%3Akitsuyui%2Fgh-counter&type=code)'
     )
+  })
+
+  test('renders baseline text in markdown report for short histories', () => {
+    const shortHistory = {
+      repository: 'kitsuyui/gh-counter',
+      default_branch: 'main',
+      entries: [
+        {
+          generated_at: '2026-04-05T00:00:00.000Z',
+          head_reference: 'first',
+          counters: [{ id: 'todo', label: 'TODOs', count: 3 }],
+        },
+      ],
+    }
+
+    const markdown = renderCounterReportMarkdown(
+      shortHistory,
+      counter,
+      {
+        id: 'todo',
+        label: 'TODOs',
+        matchers: [
+          {
+            files: ['**/*.ts'],
+            type: 'contains',
+            pattern: 'TODO',
+          },
+        ],
+      },
+      {
+        defaultBranch: 'main',
+        publish: {
+          enabled: true,
+          branch: 'gh-counter-assets',
+          directory: '.',
+          summary_filename: 'summary.json',
+          history_filename: 'history.json',
+          graph_days: 30,
+          reports_directory: 'reports',
+          graphs_directory: 'graphs',
+          badges_directory: 'badges',
+          counters_directory: 'counters',
+        },
+        comment: {
+          enabled: true,
+          key: 'default',
+          template: '',
+        },
+        counters: [],
+      }
+    )
+
+    expect(markdown).toContain('still collecting an initial baseline')
+    expect(markdown).toContain('1 measurement currently available')
   })
 })
