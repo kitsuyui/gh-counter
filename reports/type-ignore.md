@@ -2,11 +2,11 @@
 
 Latest count: **1**
 
-Recent trend: still collecting an initial baseline. The graph focuses on the 4 measurements currently available instead of forcing a 30-day interpretation.
+Recent trend: still collecting an initial baseline. The graph focuses on the 5 measurements currently available instead of forcing a 30-day interpretation.
 
 ![@ts-ignore trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/type-ignore.svg)
 
-- Latest snapshot date: 2026-04-05
+- Latest snapshot date: 2026-04-11
 - History data: [history.json](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/history.json)
 - Current counter snapshot: [type-ignore.json](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/counters/type-ignore.json)
 
