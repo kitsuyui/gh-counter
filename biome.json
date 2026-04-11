@@ -37,6 +37,7 @@
       "!**/node_modules",
       "!**/dist",
       "!**/coverage",
+      "!.tmp",
       "!**/*.md",
       "!**/pnpm-lock.yaml"
     ]
