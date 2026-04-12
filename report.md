@@ -1,8 +1,8 @@
 # gh-build-size report
 
 - Repository: **kitsuyui/gh-counter**
-- Head: `fee40aedd5c4c09a052cc0c076b2193052224ddf`
-- Generated at: 2026-04-12T16:16:17.878Z
+- Head: `ef031d7afc46929d40f8142537a6d2cc3c4991cf`
+- Generated at: 2026-04-12T17:10:25.299Z
 
 | File | Raw | Gzip | Brotli |
 | --- | ---: | ---: | ---: |
