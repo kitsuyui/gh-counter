@@ -19,6 +19,8 @@ badge assets to a dedicated branch for repository-wide reporting. This
 repository uses `gh-counter` to track its own `TODO`, `@ts-ignore`, and
 symbol-heavy `<code>` markers and publishes the badges above from
 `gh-counter-assets`.
+This repository also tracks its built action artifact size with
+[`gh-build-size`](https://github.com/kitsuyui/gh-build-size).
 
 ## Quick start
 
