@@ -1,0 +1,105 @@
+{
+  "generated_at": "2026-04-12T16:16:17.877Z",
+  "repository": "kitsuyui/gh-counter",
+  "default_branch": "main",
+  "publish_branch": "gh-build-size-assets",
+  "event_name": "push",
+  "base_label": "main",
+  "base_reference": null,
+  "head_label": "main",
+  "head_reference": "fee40aedd5c4c09a052cc0c076b2193052224ddf",
+  "targets": [
+    {
+      "id": "total",
+      "label": "Total action artifacts",
+      "files": [
+        "dist/LICENSES.txt",
+        "dist/index.mjs",
+        "dist/index.mjs.map"
+      ],
+      "touched_files": [],
+      "baseline_missing": false,
+      "commentable": true,
+      "sizes": {
+        "raw": {
+          "current": 3707171,
+          "base": null,
+          "delta": null
+        },
+        "gzip": {
+          "current": 878813,
+          "base": null,
+          "delta": null
+        },
+        "brotli": {
+          "current": 705926,
+          "base": null,
+          "delta": null
+        }
+      },
+      "violations": [],
+      "badge_path": ".gh-build-size/badges/total.svg",
+      "target_path": ".gh-build-size/targets/total.json"
+    },
+    {
+      "id": "runtime",
+      "label": "Runtime bundle",
+      "files": [
+        "dist/index.mjs"
+      ],
+      "touched_files": [],
+      "baseline_missing": false,
+      "commentable": true,
+      "sizes": {
+        "raw": {
+          "current": 893348,
+          "base": null,
+          "delta": null
+        },
+        "gzip": {
+          "current": 257987,
+          "base": null,
+          "delta": null
+        },
+        "brotli": {
+          "current": 210068,
+          "base": null,
+          "delta": null
+        }
+      },
+      "violations": [],
+      "badge_path": ".gh-build-size/badges/runtime.svg",
+      "target_path": ".gh-build-size/targets/runtime.json"
+    },
+    {
+      "id": "sourcemaps",
+      "label": "Source maps",
+      "files": [
+        "dist/index.mjs.map"
+      ],
+      "touched_files": [],
+      "baseline_missing": false,
+      "commentable": true,
+      "sizes": {
+        "raw": {
+          "current": 2755053,
+          "base": null,
+          "delta": null
+        },
+        "gzip": {
+          "current": 613839,
+          "base": null,
+          "delta": null
+        },
+        "brotli": {
+          "current": 490496,
+          "base": null,
+          "delta": null
+        }
+      },
+      "violations": [],
+      "badge_path": ".gh-build-size/badges/sourcemaps.svg",
+      "target_path": ".gh-build-size/targets/sourcemaps.json"
+    }
+  ]
+}

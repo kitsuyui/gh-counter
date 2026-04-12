@@ -1,0 +1,35 @@
+{
+  "id": "total",
+  "label": "Total action artifacts",
+  "files": [
+    {
+      "path": "dist/LICENSES.txt",
+      "sizes": {
+        "raw": 58770,
+        "gzip": 6987,
+        "brotli": 5362
+      }
+    },
+    {
+      "path": "dist/index.mjs",
+      "sizes": {
+        "raw": 893348,
+        "gzip": 257987,
+        "brotli": 210068
+      }
+    },
+    {
+      "path": "dist/index.mjs.map",
+      "sizes": {
+        "raw": 2755053,
+        "gzip": 613839,
+        "brotli": 490496
+      }
+    }
+  ],
+  "totals": {
+    "raw": 3707171,
+    "gzip": 878813,
+    "brotli": 705926
+  }
+}
