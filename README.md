@@ -3,6 +3,7 @@
 [![TODOs](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/todo.svg)](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/reports/todo.md)
 [![@ts-ignore](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/type-ignore.svg)](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/reports/type-ignore.md)
 [![code symbols](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/badges/code-tag.svg)](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/reports/code-tag.md)
+[![Build Size Report](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-build-size-assets/badges/total.svg)](https://github.com/kitsuyui/gh-counter/blob/gh-build-size-assets/report.md)
 
 <img width="898" height="515" alt="gh-counter-example" src="https://github.com/user-attachments/assets/5b98db5d-5c76-467b-826c-b6da1cccb58a" />
 
