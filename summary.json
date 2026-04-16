@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-04-12T17:10:25.298Z",
+  "generated_at": "2026-04-16T13:41:23.782Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-build-size-assets",
   "event_name": "push",
   "base_label": "main",
-  "base_reference": "fee40aedd5c4c09a052cc0c076b2193052224ddf",
+  "base_reference": "ef031d7afc46929d40f8142537a6d2cc3c4991cf",
   "head_label": "main",
-  "head_reference": "ef031d7afc46929d40f8142537a6d2cc3c4991cf",
+  "head_reference": "7416937fdf48885260195250cbc95b89b9080f1c",
   "targets": [
     {
       "id": "total",
