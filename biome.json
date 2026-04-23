@@ -4,7 +4,15 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "complexity": {
+        "noExcessiveCognitiveComplexity": {
+          "level": "error",
+          "options": {
+            "maxAllowedComplexity": 20
+          }
+        }
+      }
     }
   },
   "formatter": {
@@ -37,7 +45,7 @@
       "!**/node_modules",
       "!**/dist",
       "!**/coverage",
-      "!.tmp",
+      "!**/.tmp",
       "!**/*.md",
       "!**/pnpm-lock.yaml"
     ]

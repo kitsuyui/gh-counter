@@ -200,6 +200,16 @@ interface DiffMatchRecord extends MatchRecord {
   rawText: string
 }
 
+interface DiffParserState {
+  files: DiffFile[]
+  currentFile: DiffFile | null
+  currentHunk: DiffHunk | null
+  currentOldPath: string | null
+  currentNewPath: string | null
+  oldLine: number
+  newLine: number
+}
+
 function parseHunkHeader(header: string): {
   oldStart: number
   oldCount: number
@@ -220,107 +230,276 @@ function parseHunkHeader(header: string): {
   }
 }
 
+function createDiffParserState(): DiffParserState {
+  return {
+    files: [],
+    currentFile: null,
+    currentHunk: null,
+    currentOldPath: null,
+    currentNewPath: null,
+    oldLine: 0,
+    newLine: 0,
+  }
+}
+
+function openDiffFile(
+  state: DiffParserState,
+  newPath: string | null
+): DiffFile {
+  const file = {
+    oldPath: state.currentOldPath,
+    newPath,
+    hunks: [],
+  }
+  state.currentNewPath = newPath
+  state.currentFile = file
+  state.currentHunk = null
+  state.files.push(file)
+  return file
+}
+
+function startDiffHunk(state: DiffParserState, header: string): boolean {
+  if (!header.startsWith('@@ ')) {
+    return false
+  }
+  if (!state.currentFile) {
+    throw new Error(`Encountered hunk before file header: ${header}`)
+  }
+
+  const parsed = parseHunkHeader(header)
+  state.currentHunk = {
+    ...parsed,
+    removed: [],
+    added: [],
+  }
+  state.currentFile.hunks.push(state.currentHunk)
+  state.oldLine = parsed.oldStart
+  state.newLine = parsed.newStart
+  return true
+}
+
+function handleDiffMetadataLine(state: DiffParserState, line: string): boolean {
+  if (line.startsWith('diff --git ')) {
+    const match = /^diff --git a\/(.+) b\/(.+)$/.exec(line)
+    state.currentOldPath = match?.[1] ?? null
+    state.currentNewPath = match?.[2] ?? null
+    state.currentFile = null
+    state.currentHunk = null
+    return true
+  }
+  if (line.startsWith('+++ b/')) {
+    openDiffFile(state, line.slice('+++ b/'.length))
+    return true
+  }
+  if (line === '+++ /dev/null') {
+    openDiffFile(state, null)
+    return true
+  }
+  if (line.startsWith('--- a/')) {
+    state.currentOldPath = line.slice('--- a/'.length)
+    return true
+  }
+  if (line === '--- /dev/null') {
+    state.currentOldPath = null
+    return true
+  }
+
+  return startDiffHunk(state, line)
+}
+
+function createDiffMatchRecord(
+  file: DiffFile | null,
+  line: number,
+  rawText: string,
+  kind: 'added' | 'removed'
+): DiffMatchRecord {
+  const path =
+    kind === 'added'
+      ? (file?.newPath ?? file?.oldPath ?? '')
+      : (file?.oldPath ?? file?.newPath ?? '')
+
+  return {
+    path,
+    line,
+    text: rawText.trim(),
+    rawText,
+  }
+}
+
+function handleDiffContentLine(state: DiffParserState, line: string): boolean {
+  if (!state.currentHunk) {
+    return false
+  }
+  if (line.startsWith('-')) {
+    const rawText = line.slice(1)
+    state.currentHunk.removed.push(
+      createDiffMatchRecord(
+        state.currentFile,
+        state.oldLine,
+        rawText,
+        'removed'
+      )
+    )
+    state.oldLine += 1
+    return true
+  }
+  if (line.startsWith('+')) {
+    const rawText = line.slice(1)
+    state.currentHunk.added.push(
+      createDiffMatchRecord(state.currentFile, state.newLine, rawText, 'added')
+    )
+    state.newLine += 1
+    return true
+  }
+  if (line.startsWith(' ')) {
+    state.oldLine += 1
+    state.newLine += 1
+    return true
+  }
+  return false
+}
+
 export function parseUnifiedDiff(stdout: string): DiffFile[] {
   if (!stdout) {
     return []
   }
 
-  const files: DiffFile[] = []
-  const lines = stdout.split(/\r?\n/)
-  let currentFile: DiffFile | null = null
-  let currentHunk: DiffHunk | null = null
-  let currentOldPath: string | null = null
-  let currentNewPath: string | null = null
-  let oldLine = 0
-  let newLine = 0
+  const state = createDiffParserState()
 
-  for (const line of lines) {
-    if (line.startsWith('diff --git ')) {
-      const match = /^diff --git a\/(.+) b\/(.+)$/.exec(line)
-      currentOldPath = match?.[1] ?? null
-      currentNewPath = match?.[2] ?? null
-      currentFile = null
-      currentHunk = null
-      continue
-    }
-    if (line.startsWith('+++ b/')) {
-      currentNewPath = line.slice('+++ b/'.length)
-      currentFile = {
-        oldPath: currentOldPath,
-        newPath: currentNewPath,
-        hunks: [],
-      }
-      files.push(currentFile)
-      currentHunk = null
-      continue
-    }
-    if (line === '+++ /dev/null') {
-      currentNewPath = null
-      currentFile = {
-        oldPath: currentOldPath,
-        newPath: currentNewPath,
-        hunks: [],
-      }
-      files.push(currentFile)
-      currentHunk = null
-      continue
-    }
-    if (line.startsWith('--- a/')) {
-      currentOldPath = line.slice('--- a/'.length)
-      continue
-    }
-    if (line === '--- /dev/null') {
-      currentOldPath = null
-      continue
-    }
-    if (line.startsWith('@@ ')) {
-      if (!currentFile) {
-        throw new Error(`Encountered hunk before file header: ${line}`)
-      }
-      const parsed = parseHunkHeader(line)
-      currentHunk = {
-        ...parsed,
-        removed: [],
-        added: [],
-      }
-      currentFile.hunks.push(currentHunk)
-      oldLine = parsed.oldStart
-      newLine = parsed.newStart
-      continue
-    }
-    if (!currentHunk) {
-      continue
-    }
-
-    if (line.startsWith('-')) {
-      const rawText = line.slice(1)
-      currentHunk.removed.push({
-        path: currentFile?.oldPath ?? currentFile?.newPath ?? '',
-        line: oldLine,
-        text: rawText.trim(),
-        rawText,
-      })
-      oldLine += 1
-      continue
-    }
-    if (line.startsWith('+')) {
-      const rawText = line.slice(1)
-      currentHunk.added.push({
-        path: currentFile?.newPath ?? currentFile?.oldPath ?? '',
-        line: newLine,
-        text: rawText.trim(),
-        rawText,
-      })
-      newLine += 1
-      continue
-    }
-    if (line.startsWith(' ')) {
-      oldLine += 1
-      newLine += 1
+  for (const line of stdout.split(/\r?\n/)) {
+    if (
+      handleDiffMetadataLine(state, line) ||
+      handleDiffContentLine(state, line)
+    ) {
     }
   }
 
-  return files
+  return state.files
+}
+
+function createMatcherOptions(matcher: CounterConfig['matchers'][number]) {
+  return {
+    ignore: [...DEFAULT_EXCLUDES, ...(matcher.exclude ?? [])],
+    dot: true,
+  }
+}
+
+function matchesCounterPath(counter: CounterConfig, path: string): boolean {
+  return counter.matchers.some((matcher) =>
+    micromatch.isMatch(path, matcher.files, createMatcherOptions(matcher))
+  )
+}
+
+function collectRelevantPaths(
+  changedFiles: ChangedFileStatus[],
+  counters: Array<CounterConfig & { label: string }>
+): string[] {
+  const relevantPaths = new Set<string>()
+
+  for (const changedFile of changedFiles) {
+    const candidatePaths = [
+      changedFile.old_path,
+      changedFile.new_path,
+      changedFile.path,
+    ].filter((path): path is string => Boolean(path))
+
+    if (
+      !candidatePaths.some((path) =>
+        counters.some((counter) => matchesCounterPath(counter, path))
+      )
+    ) {
+      continue
+    }
+
+    for (const path of candidatePaths) {
+      relevantPaths.add(path)
+    }
+  }
+
+  return [...relevantPaths]
+}
+
+function createEmptyPatchCounterSnapshot(
+  counter: CounterConfig & { label: string }
+): PatchCounterSnapshot {
+  return {
+    id: counter.id,
+    label: counter.label,
+    current: 0,
+    base: 0,
+    matches: [],
+    base_matches: [],
+  }
+}
+
+function toMatchRecord(match: DiffMatchRecord): MatchRecord {
+  return {
+    path: match.path,
+    line: match.line,
+    text: match.text,
+  }
+}
+
+function addUniqueMatches(
+  target: Map<string, MatchRecord>,
+  matches: DiffMatchRecord[]
+): void {
+  for (const match of matches) {
+    const normalized = toMatchRecord(match)
+    target.set(createMatchKey(normalized), normalized)
+  }
+}
+
+function collectMatchingDiffRecords(
+  matches: DiffMatchRecord[],
+  matcher: CounterConfig['matchers'][number]
+): DiffMatchRecord[] {
+  const matchOptions = createMatcherOptions(matcher)
+  return matches.filter(
+    (match) =>
+      micromatch.isMatch(match.path, matcher.files, matchOptions) &&
+      lineMatches(match.rawText, matcher)
+  )
+}
+
+function sortMatches(matches: Iterable<MatchRecord>): MatchRecord[] {
+  return [...matches].sort((left, right) =>
+    left.path === right.path
+      ? left.line - right.line
+      : left.path.localeCompare(right.path)
+  )
+}
+
+function createPatchCounterSnapshot(
+  counter: CounterConfig & { label: string },
+  files: DiffFile[]
+): PatchCounterSnapshot {
+  const addedMatches = new Map<string, MatchRecord>()
+  const removedMatches = new Map<string, MatchRecord>()
+
+  for (const matcher of counter.matchers) {
+    for (const file of files) {
+      for (const hunk of file.hunks) {
+        addUniqueMatches(
+          addedMatches,
+          collectMatchingDiffRecords(hunk.added, matcher)
+        )
+        addUniqueMatches(
+          removedMatches,
+          collectMatchingDiffRecords(hunk.removed, matcher)
+        )
+      }
+    }
+  }
+
+  return {
+    id: counter.id,
+    label: counter.label,
+    current: addedMatches.size,
+    base: removedMatches.size,
+    matches: sortMatches(addedMatches.values()),
+    base_matches: sortMatches(removedMatches.values()),
+  }
 }
 
 export async function listChangedPatchSnapshots(
@@ -337,39 +516,10 @@ export async function listChangedPatchSnapshots(
     ])
   )
 
-  const isRelevantPath = (path: string): boolean =>
-    counters.some((counter) =>
-      counter.matchers.some((matcher) =>
-        micromatch.isMatch(path, matcher.files, {
-          ignore: [...DEFAULT_EXCLUDES, ...(matcher.exclude ?? [])],
-          dot: true,
-        })
-      )
-    )
+  const relevantPaths = collectRelevantPaths(changedFiles, counters)
 
-  const relevantPaths = new Set<string>()
-  for (const changedFile of changedFiles) {
-    const candidatePaths = [
-      changedFile.old_path,
-      changedFile.new_path,
-      changedFile.path,
-    ].filter((path): path is string => Boolean(path))
-    if (candidatePaths.some(isRelevantPath)) {
-      for (const path of candidatePaths) {
-        relevantPaths.add(path)
-      }
-    }
-  }
-
-  if (relevantPaths.size === 0) {
-    return counters.map((counter) => ({
-      id: counter.id,
-      label: counter.label,
-      current: 0,
-      base: 0,
-      matches: [],
-      base_matches: [],
-    }))
+  if (relevantPaths.length === 0) {
+    return counters.map(createEmptyPatchCounterSnapshot)
   }
 
   const stdout = await git([
@@ -382,62 +532,7 @@ export async function listChangedPatchSnapshots(
   ])
   const files = parseUnifiedDiff(stdout)
 
-  return counters.map((counter) => {
-    const addedMatches = new Map<string, MatchRecord>()
-    const removedMatches = new Map<string, MatchRecord>()
-
-    for (const matcher of counter.matchers) {
-      const matchOptions = {
-        ignore: [...DEFAULT_EXCLUDES, ...(matcher.exclude ?? [])],
-        dot: true,
-      }
-      for (const file of files) {
-        for (const hunk of file.hunks) {
-          for (const match of hunk.added) {
-            if (
-              micromatch.isMatch(match.path, matcher.files, matchOptions) &&
-              lineMatches(match.rawText, matcher)
-            ) {
-              addedMatches.set(createMatchKey(match), {
-                path: match.path,
-                line: match.line,
-                text: match.text,
-              })
-            }
-          }
-          for (const match of hunk.removed) {
-            if (
-              micromatch.isMatch(match.path, matcher.files, matchOptions) &&
-              lineMatches(match.rawText, matcher)
-            ) {
-              removedMatches.set(createMatchKey(match), {
-                path: match.path,
-                line: match.line,
-                text: match.text,
-              })
-            }
-          }
-        }
-      }
-    }
-
-    return {
-      id: counter.id,
-      label: counter.label,
-      current: addedMatches.size,
-      base: removedMatches.size,
-      matches: [...addedMatches.values()].sort((left, right) =>
-        left.path === right.path
-          ? left.line - right.line
-          : left.path.localeCompare(right.path)
-      ),
-      base_matches: [...removedMatches.values()].sort((left, right) =>
-        left.path === right.path
-          ? left.line - right.line
-          : left.path.localeCompare(right.path)
-      ),
-    }
-  })
+  return counters.map((counter) => createPatchCounterSnapshot(counter, files))
 }
 
 function isAddedGhCounterWorkflow(path: string, content: string): boolean {
