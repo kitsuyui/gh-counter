@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-04-16T13:41:23.783Z",
+  "generated_at": "2026-04-23T14:53:49.416Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-build-size-assets",
   "event_name": "push",
-  "head_reference": "7416937fdf48885260195250cbc95b89b9080f1c",
+  "head_reference": "a9289296cc9c9daa64b82187ed57165b574d7914",
   "files": [
     {
       "path": "dist/index.mjs",
       "sizes": {
-        "raw": 893348,
-        "gzip": 257987,
-        "brotli": 210068
+        "raw": 894839,
+        "gzip": 258462,
+        "brotli": 210479
       }
     },
     {
       "path": "dist/index.mjs.map",
       "sizes": {
-        "raw": 2755053,
-        "gzip": 613839,
-        "brotli": 490496
+        "raw": 2761193,
+        "gzip": 615352,
+        "brotli": 492039
       }
     },
     {
