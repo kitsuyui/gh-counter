@@ -1,33 +1,33 @@
 {
-  "generated_at": "2026-04-16T13:41:09.927Z",
+  "generated_at": "2026-04-23T14:53:38.193Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-counter-assets",
   "event_name": "push",
   "base_label": "main",
-  "base_reference": "ef031d7afc46929d40f8142537a6d2cc3c4991cf",
+  "base_reference": "7416937fdf48885260195250cbc95b89b9080f1c",
   "head_label": "main",
-  "head_reference": "7416937fdf48885260195250cbc95b89b9080f1c",
+  "head_reference": "a9289296cc9c9daa64b82187ed57165b574d7914",
   "bootstrap_message": null,
   "base_only_paths": [],
   "counters": [
     {
       "id": "todo",
       "label": "TODOs",
-      "current": 82,
+      "current": 92,
       "base": 82,
-      "delta": 0,
-      "dashboard_current": 82,
+      "delta": 10,
+      "dashboard_current": 92,
       "dashboard_base": 82,
-      "dashboard_delta": 0,
+      "dashboard_delta": 10,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
         {
           "path": "src/git.spec.ts",
-          "current": 25,
+          "current": 35,
           "base": 0,
-          "delta": 25
+          "delta": 35
         },
         {
           "path": "src/publish-report.spec.ts",
@@ -73,7 +73,13 @@
         }
       ],
       "patch_file_deltas": [],
-      "violations": [],
+      "violations": [
+        {
+          "kind": "no_increase",
+          "message": "82 → 92 (+10)",
+          "fail": false
+        }
+      ],
       "badge_path": ".gh-counter/badges/todo.svg",
       "counter_path": ".gh-counter/counters/todo.json"
     },

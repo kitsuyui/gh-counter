@@ -1,7 +1,7 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 82,
+  "count": 92,
   "matches": [
     {
       "path": "README.md",
@@ -185,128 +185,178 @@
     },
     {
       "path": "src/git.spec.ts",
-      "line": 75,
+      "line": 94,
       "text": "'-// TODO: old',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 76,
+      "line": 95,
       "text": "'+// TODO: new',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 78,
+      "line": 97,
       "text": "'+// TODO: another',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 96,
+      "line": 115,
       "text": "text: '// TODO: old',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 97,
+      "line": 116,
       "text": "rawText: '// TODO: old',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 104,
+      "line": 123,
       "text": "text: '// TODO: new',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 105,
+      "line": 124,
       "text": "rawText: '// TODO: new',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 119,
+      "line": 138,
       "text": "text: '// TODO: another',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 120,
+      "line": 139,
       "text": "rawText: '// TODO: another',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 142,
+      "line": 161,
       "text": "'@@ -12,1 +12,3 @@ small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 194,
+      "line": 213,
       "text": "'--- TODO: old',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 195,
+      "line": 214,
       "text": "'+-- TODO: new',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 212,
+      "line": 231,
       "text": "text: '-- TODO: old',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 213,
+      "line": 232,
       "text": "rawText: '-- TODO: old',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 220,
+      "line": 239,
       "text": "text: '-- TODO: new',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 221,
+      "line": 240,
       "text": "rawText: '-- TODO: new',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 238,
+      "line": 257,
       "text": "'-TODO old',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 239,
+      "line": 258,
       "text": "'+TODO new',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 256,
+      "line": 275,
       "text": "text: 'TODO old',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 257,
+      "line": 276,
       "text": "rawText: 'TODO old',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 264,
+      "line": 283,
       "text": "text: 'TODO new',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 265,
+      "line": 284,
       "text": "rawText: 'TODO new',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 282,
+      "line": 301,
       "text": "'+  TODO with indent',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 300,
+      "line": 319,
       "text": "text: 'TODO with indent',"
     },
     {
       "path": "src/git.spec.ts",
-      "line": 301,
+      "line": 320,
       "text": "rawText: '  TODO with indent',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 342,
+      "text": "['// TODO: old task', 'const answer = 1'].join('\\n'),"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 353,
+      "text": "['const answer = 1', '// TODO: new task'].join('\\n'),"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 362,
+      "text": "label: 'TODO',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 367,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 375,
+      "text": "label: 'TODO',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 382,
+      "text": "text: '// TODO: new task',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 389,
+      "text": "text: '// TODO: old task',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 420,
+      "text": "label: 'TODO',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 425,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/git.spec.ts",
+      "line": 433,
+      "text": "label: 'TODO',"
     },
     {
       "path": "src/history.spec.ts",

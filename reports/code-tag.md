@@ -6,7 +6,7 @@ Recent trend: solid line shows the last 30 days, and the dotted line shows older
 
 ![<code>|` trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/code-tag.svg)
 
-- Latest snapshot date: 2026-04-16
+- Latest snapshot date: 2026-04-23
 - History data: [history.json](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/history.json)
 - Current counter snapshot: [code-tag.json](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/counters/code-tag.json)
 
