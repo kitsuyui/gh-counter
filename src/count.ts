@@ -1,11 +1,55 @@
 import type { ContentSource } from './files'
-import { createMatchKey, filterFiles, listFiles, readFile } from './files'
+import {
+  createMatchKey,
+  filterFiles,
+  lineMatches,
+  listFiles,
+  readFile,
+} from './files'
 import type {
   CounterConfig,
   CounterSnapshot,
   MatcherConfig,
   MatchRecord,
 } from './types'
+
+function createReadCacheKey(source: ContentSource, filePath: string): string {
+  return `${source.kind}:${source.revision ?? 'workspace'}:${filePath}`
+}
+
+async function readCachedContent(
+  source: ContentSource,
+  filePath: string,
+  readCache: Map<string, string | null>
+): Promise<string | null> {
+  const cacheKey = createReadCacheKey(source, filePath)
+  const cachedContent = readCache.get(cacheKey)
+  if (cachedContent !== undefined) {
+    return cachedContent
+  }
+
+  const content = await readFile(source, filePath)
+  readCache.set(cacheKey, content)
+  return content
+}
+
+function collectMatchesInContent(
+  filePath: string,
+  content: string,
+  matcher: MatcherConfig
+): MatchRecord[] {
+  return content.split(/\r?\n/).flatMap((line, index) =>
+    lineMatches(line, matcher)
+      ? [
+          {
+            path: filePath,
+            line: index + 1,
+            text: line.trim(),
+          },
+        ]
+      : []
+  )
+}
 
 async function countMatcher(
   source: ContentSource,
@@ -16,38 +60,12 @@ async function countMatcher(
   const matches: MatchRecord[] = []
 
   for (const filePath of filterFiles(files, matcher)) {
-    const cacheKey = `${source.kind}:${source.revision ?? 'workspace'}:${filePath}`
-    let content = readCache.get(cacheKey)
-    if (content === undefined) {
-      content = await readFile(source, filePath)
-      readCache.set(cacheKey, content)
-    }
+    const content = await readCachedContent(source, filePath, readCache)
     if (content === null) {
       continue
     }
 
-    for (const [index, line] of content.split(/\r?\n/).entries()) {
-      if (matcher.type === 'contains') {
-        const matched =
-          matcher.case_sensitive === false
-            ? line.toLowerCase().includes(matcher.pattern.toLowerCase())
-            : line.includes(matcher.pattern)
-        if (!matched) {
-          continue
-        }
-      } else {
-        const flags = matcher.case_sensitive === false ? 'iu' : 'u'
-        if (!new RegExp(matcher.pattern, flags).test(line)) {
-          continue
-        }
-      }
-
-      matches.push({
-        path: filePath,
-        line: index + 1,
-        text: line.trim(),
-      })
-    }
+    matches.push(...collectMatchesInContent(filePath, content, matcher))
   }
 
   return matches

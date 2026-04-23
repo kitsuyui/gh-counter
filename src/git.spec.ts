@@ -1,12 +1,31 @@
-import { describe, expect, test } from 'vitest'
+import { execFileSync } from 'node:child_process'
+import fs from 'node:fs/promises'
+import os from 'node:os'
+import path from 'node:path'
+
+import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 
 import {
   bootstrapMessageForAddedFiles,
+  listChangedPatchSnapshots,
   parseChangedFileStatuses,
   parseUnifiedDiff,
 } from './git'
 
 describe('git helpers', () => {
+  let previousCwd: string
+  let tempDir: string
+
+  beforeEach(async () => {
+    previousCwd = process.cwd()
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'gh-counter-git-'))
+  })
+
+  afterEach(async () => {
+    process.chdir(previousCwd)
+    await fs.rm(tempDir, { recursive: true, force: true })
+  })
+
   test('parses changed file statuses', () => {
     expect(
       parseChangedFileStatuses(
@@ -303,6 +322,119 @@ describe('git helpers', () => {
             ],
           },
         ],
+      },
+    ])
+  })
+
+  test('lists added and removed patch matches between base and head', async () => {
+    process.chdir(tempDir)
+    execFileSync('git', ['init', '--initial-branch=main'], { stdio: 'ignore' })
+    execFileSync('git', ['config', 'user.name', 'Test User'], {
+      stdio: 'ignore',
+    })
+    execFileSync('git', ['config', 'user.email', 'test@example.com'], {
+      stdio: 'ignore',
+    })
+
+    await fs.mkdir('src', { recursive: true })
+    await fs.writeFile(
+      'src/index.ts',
+      ['// TODO: old task', 'const answer = 1'].join('\n'),
+      'utf8'
+    )
+    execFileSync('git', ['add', '.'], { stdio: 'ignore' })
+    execFileSync('git', ['commit', '-m', 'base'], { stdio: 'ignore' })
+    const baseReference = execFileSync('git', ['rev-parse', 'HEAD'], {
+      encoding: 'utf8',
+    }).trim()
+
+    await fs.writeFile(
+      'src/index.ts',
+      ['const answer = 1', '// TODO: new task'].join('\n'),
+      'utf8'
+    )
+    execFileSync('git', ['add', '.'], { stdio: 'ignore' })
+    execFileSync('git', ['commit', '-m', 'head'], { stdio: 'ignore' })
+
+    const [snapshot] = await listChangedPatchSnapshots(baseReference, [
+      {
+        id: 'todo',
+        label: 'TODO',
+        matchers: [
+          {
+            files: ['src/**/*.ts'],
+            type: 'contains',
+            pattern: 'TODO',
+          },
+        ],
+      },
+    ])
+
+    expect(snapshot).toEqual({
+      id: 'todo',
+      label: 'TODO',
+      current: 1,
+      base: 1,
+      matches: [
+        {
+          path: 'src/index.ts',
+          line: 2,
+          text: '// TODO: new task',
+        },
+      ],
+      base_matches: [
+        {
+          path: 'src/index.ts',
+          line: 1,
+          text: '// TODO: old task',
+        },
+      ],
+    })
+  })
+
+  test('returns zeroed patch snapshots when no relevant files changed', async () => {
+    process.chdir(tempDir)
+    execFileSync('git', ['init', '--initial-branch=main'], { stdio: 'ignore' })
+    execFileSync('git', ['config', 'user.name', 'Test User'], {
+      stdio: 'ignore',
+    })
+    execFileSync('git', ['config', 'user.email', 'test@example.com'], {
+      stdio: 'ignore',
+    })
+
+    await fs.writeFile('README.md', 'base\n', 'utf8')
+    execFileSync('git', ['add', '.'], { stdio: 'ignore' })
+    execFileSync('git', ['commit', '-m', 'base'], { stdio: 'ignore' })
+    const baseReference = execFileSync('git', ['rev-parse', 'HEAD'], {
+      encoding: 'utf8',
+    }).trim()
+
+    await fs.writeFile('README.md', 'head\n', 'utf8')
+    execFileSync('git', ['add', '.'], { stdio: 'ignore' })
+    execFileSync('git', ['commit', '-m', 'head'], { stdio: 'ignore' })
+
+    await expect(
+      listChangedPatchSnapshots(baseReference, [
+        {
+          id: 'todo',
+          label: 'TODO',
+          matchers: [
+            {
+              files: ['src/**/*.ts'],
+              type: 'contains',
+              pattern: 'TODO',
+            },
+          ],
+        },
+      ])
+    ).resolves.toEqual([
+      {
+        id: 'todo',
+        label: 'TODO',
+        current: 0,
+        base: 0,
+        matches: [],
+        base_matches: [],
       },
     ])
   })
