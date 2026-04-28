@@ -81,7 +81,7 @@ export async function listChangedFiles(
   baseReference: string
 ): Promise<string[]> {
   const entries = await listChangedFileStatuses(baseReference)
-  return entries.map((entry) => entry.path)
+  return changedFilesForMatcher(entries)
 }
 
 export async function listChangedFileStatuses(
@@ -119,6 +119,18 @@ export function parseChangedFileStatuses(stdout: string): ChangedFileStatus[] {
         new_path: rawStatus.startsWith('R') ? parts[2] : undefined,
       }
     })
+}
+
+export function changedFilesForMatcher(entries: ChangedFileStatus[]): string[] {
+  return [
+    ...new Set(
+      entries.flatMap((entry) =>
+        entry.status === 'R' && entry.old_path
+          ? [entry.old_path, entry.path]
+          : [entry.path]
+      )
+    ),
+  ].sort()
 }
 
 function parseChangedFileStatusesZ(stdout: string): ChangedFileStatus[] {

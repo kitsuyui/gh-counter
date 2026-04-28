@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 
 import {
   bootstrapMessageForAddedFiles,
+  changedFilesForMatcher,
   listChangedPatchSnapshots,
   parseChangedFileStatuses,
   parseUnifiedDiff,
@@ -45,6 +46,20 @@ describe('git helpers', () => {
         new_path: 'new.ts',
       },
     ])
+  })
+
+  test('keeps both old and new renamed paths for matcher relevance', () => {
+    expect(
+      changedFilesForMatcher([
+        { path: 'src/current.ts', status: 'M' },
+        {
+          path: 'src/new.ts',
+          status: 'R',
+          old_path: 'src/old.ts',
+          new_path: 'src/new.ts',
+        },
+      ])
+    ).toEqual(['src/current.ts', 'src/new.ts', 'src/old.ts'])
   })
 
   test('creates a bootstrap message for newly added gh-counter files', () => {
