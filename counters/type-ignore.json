@@ -5,7 +5,7 @@
   "matches": [
     {
       "path": "src/git.spec.ts",
-      "line": 161,
+      "line": 176,
       "text": "'@@ -12,1 +12,3 @@ small, reusable way to track signals such as `TODO`, `FIXME`, `@ts-ignore`, or',"
     }
   ]
