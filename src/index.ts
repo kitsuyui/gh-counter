@@ -6,6 +6,7 @@ import { getInputs, loadConfig, normalizeConfig } from './config'
 import { countCounters } from './count'
 import { countFailingViolations, evaluateCounters } from './evaluate'
 import {
+  changedFilesForMatcher,
   currentHeadReference,
   detectBootstrapComment,
   listChangedFileStatuses,
@@ -118,7 +119,7 @@ async function run(): Promise<void> {
   if (github.context.eventName === 'pull_request') {
     baseReference = await resolvePullRequestBaseReference(defaultBranch)
     const changedFileStatuses = await listChangedFileStatuses(baseReference)
-    changedFiles = changedFileStatuses.map((entry) => entry.path)
+    changedFiles = changedFilesForMatcher(changedFileStatuses)
     baseOnlyPaths = changedFileStatuses
       .flatMap((entry) => {
         if (entry.status === 'D') {
