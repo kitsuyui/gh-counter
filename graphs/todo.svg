@@ -6,24 +6,25 @@
 <line x1="40" y1="24" x2="40" y2="186" stroke="#8c959f" stroke-width="1"/>
 <line x1="40.00" y1="24" x2="40.00" y2="186" stroke="#8c959f" stroke-dasharray="4 4"/>
 
-<path d="M 40.00 55.70 L 40.10 50.41 L 40.22 41.61 L 40.60 41.61 L 185.41 41.61 L 188.01 41.61 L 225.71 41.61 L 226.64 41.61 L 322.31 41.61 L 497.27 24.00 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
+<path d="M 40.00 55.70 L 40.08 50.41 L 40.17 41.61 L 40.48 41.61 L 154.63 41.61 L 156.68 41.61 L 186.39 41.61 L 187.13 41.61 L 262.54 41.61 L 400.47 24.00 L 498.79 24.00 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
 <circle cx="40.00" cy="55.70" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="40.10" cy="50.41" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="40.22" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="40.60" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="185.41" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="188.01" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="225.71" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="226.64" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="322.31" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="497.27" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="40.08" cy="50.41" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="40.17" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="40.48" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="154.63" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="156.68" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="186.39" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="187.13" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="262.54" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="400.47" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="498.79" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="4.5" fill="#dbab09" stroke="#ffffff" stroke-width="2"/>
 <text x="40" y="16" fill="#24292f" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13">TODOs trend</text>
 <text x="622" y="16" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12">latest 92</text>
 <text x="146.00" y="196" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">last 30d</text>
 <text x="40" y="210" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-04-05</text>
-<text x="622" y="210" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-04-28</text>
+<text x="622" y="210" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-05-04</text>
 <text x="12" y="30" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">92</text>
 <text x="18" y="186" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">0</text>
 </svg>
