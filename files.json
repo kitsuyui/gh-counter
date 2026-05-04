@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-28T15:31:14.652Z",
+  "generated_at": "2026-05-04T22:40:51.902Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-build-size-assets",
   "event_name": "push",
-  "head_reference": "a5df31790f5980c13b58b36000bb5182484dec69",
+  "head_reference": "04bbf91a62a8fb2f1476d4044e706c98d4e84e6f",
   "files": [
     {
       "path": "dist/index.mjs",
