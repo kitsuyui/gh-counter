@@ -4,33 +4,34 @@
 <rect x="40" y="24" width="582" height="162" fill="#f6f8fa" stroke="#d0d7de"/>
 <line x1="40" y1="186" x2="622" y2="186" stroke="#8c959f" stroke-width="1"/>
 <line x1="40" y1="24" x2="40" y2="186" stroke="#8c959f" stroke-width="1"/>
-<line x1="104.09" y1="24" x2="104.09" y2="186" stroke="#8c959f" stroke-dasharray="4 4"/>
-<path d="M 40.00 55.70 L 40.07 50.41 L 40.15 41.61 L 40.42 41.61 L 141.16 41.61" fill="none" stroke="#dbab09" stroke-width="2" stroke-dasharray="4 4" opacity="0.65"/>
-<path d="M 40.42 41.61 L 141.16 41.61 L 142.96 41.61 L 169.18 41.61 L 169.84 41.61 L 236.38 41.61 L 358.10 24.00 L 444.86 24.00 L 553.59 24.00 L 556.34 24.00 L 556.81 24.00 L 565.73 24.00 L 575.30 24.00 L 578.35 24.00 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
+<line x1="159.86" y1="24" x2="159.86" y2="186" stroke="#8c959f" stroke-dasharray="4 4"/>
+<path d="M 40.00 55.70 L 40.06 50.41 L 40.14 41.61 L 40.37 41.61 L 130.26 41.61 L 131.88 41.61 L 155.28 41.61 L 155.86 41.61 L 215.24 41.61" fill="none" stroke="#dbab09" stroke-width="2" stroke-dasharray="4 4" opacity="0.65"/>
+<path d="M 155.86 41.61 L 215.24 41.61 L 323.85 24.00 L 401.27 24.00 L 498.29 24.00 L 500.74 24.00 L 501.16 24.00 L 509.13 24.00 L 517.66 24.00 L 520.38 24.00 L 559.33 24.00 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
 <circle cx="40.00" cy="55.70" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="40.07" cy="50.41" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="40.15" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="40.42" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="141.16" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="142.96" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="169.18" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="169.84" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="236.38" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="358.10" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="444.86" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="553.59" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="556.34" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="556.81" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="565.73" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="575.30" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="578.35" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="40.06" cy="50.41" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="40.14" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="40.37" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="130.26" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="131.88" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="155.28" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="155.86" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="215.24" cy="41.61" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="323.85" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="401.27" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="498.29" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="500.74" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="501.16" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="509.13" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="517.66" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="520.38" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="559.33" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="4.5" fill="#dbab09" stroke="#ffffff" stroke-width="2"/>
 <text x="40" y="16" fill="#24292f" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13">TODOs trend</text>
 <text x="622" y="16" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12">latest 92</text>
-<text x="146.00" y="196" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">last 30d</text>
+<text x="159.86" y="196" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">last 30d</text>
 <text x="40" y="210" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-04-05</text>
-<text x="622" y="210" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-05-08</text>
+<text x="622" y="210" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-05-12</text>
 <text x="12" y="30" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">92</text>
 <text x="18" y="186" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">0</text>
 </svg>
