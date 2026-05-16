@@ -380,8 +380,7 @@ export function renderCounterReportMarkdown(
   counterConfig: CounterConfig & { label: string },
   config: NormalizedConfig
 ): string {
-  const publishBranch =
-    history.entries.length > 0 ? config.publish.branch : config.publish.branch
+  const publishBranch = config.publish.branch
   const publishRoot =
     config.publish.directory === '.' ? '' : `${config.publish.directory}/`
   const graphPath = `${publishRoot}${config.publish.graphs_directory}/${counter.id}.svg`

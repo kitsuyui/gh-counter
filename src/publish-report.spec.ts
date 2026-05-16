@@ -186,4 +186,62 @@ describe('publish report rendering', () => {
     expect(markdown).toContain('still collecting an initial baseline')
     expect(markdown).toContain('1 measurement currently available')
   })
+
+  test('renders configured publish links for empty history reports', () => {
+    const emptyHistory = {
+      repository: 'kitsuyui/gh-counter',
+      default_branch: 'main',
+      entries: [],
+    }
+
+    const markdown = renderCounterReportMarkdown(
+      emptyHistory,
+      counter,
+      {
+        id: 'todo',
+        label: 'TODOs',
+        matchers: [
+          {
+            files: ['**/*.ts'],
+            type: 'contains',
+            pattern: 'TODO',
+          },
+        ],
+      },
+      {
+        defaultBranch: 'main',
+        publish: {
+          enabled: true,
+          branch: 'gh-counter-assets',
+          directory: '.',
+          summary_filename: 'summary.json',
+          history_filename: 'history.json',
+          graph_days: 30,
+          reports_directory: 'reports',
+          graphs_directory: 'graphs',
+          badges_directory: 'badges',
+          counters_directory: 'counters',
+        },
+        comment: {
+          enabled: true,
+          key: 'default',
+          template: '',
+        },
+        counters: [],
+      }
+    )
+
+    expect(markdown).toContain('still collecting an initial baseline')
+    expect(markdown).toContain('0 measurements currently available')
+    expect(markdown).toContain(
+      '![TODOs trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/todo.svg)'
+    )
+    expect(markdown).toContain(
+      '[history.json](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/history.json)'
+    )
+    expect(markdown).toContain(
+      '[todo.json](https://github.com/kitsuyui/gh-counter/blob/gh-counter-assets/counters/todo.json)'
+    )
+    expect(markdown).toContain('- Latest snapshot date: n/a')
+  })
 })
