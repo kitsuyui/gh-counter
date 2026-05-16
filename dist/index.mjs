@@ -300,7 +300,7 @@ ${Js(p,o,f,d)}
 <text x="12" y="${a.margin.top+6}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${h}</text>
 <text x="18" y="${a.margin.top+a.plotHeight}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">0</text>
 </svg>
-`}function Zs(e,t,n,r){let i=(e.entries.length,r.publish.branch),a=r.publish.directory===`.`?``:`${r.publish.directory}/`,o=`${a}${r.publish.graphs_directory}/${t.id}.svg`,s=`${a}${r.publish.history_filename}`,c=`${a}${r.publish.counters_directory}/${t.id}.json`,l=Ls(e.repository,i,o),u=Rs(e.repository,i,s),d=Rs(e.repository,i,c),f=e.entries.at(-1),p=Hs(e,t.id),m=p.length>=3&&Us(p)>=7,h=n.matchers.map((t,n)=>{let r=`${t.pattern} repo:${e.repository}`;return`- Search matcher ${n+1}: [GitHub code search](${zs(e.repository,r)})`}).join(`
+`}function Zs(e,t,n,r){let i=r.publish.branch,a=r.publish.directory===`.`?``:`${r.publish.directory}/`,o=`${a}${r.publish.graphs_directory}/${t.id}.svg`,s=`${a}${r.publish.history_filename}`,c=`${a}${r.publish.counters_directory}/${t.id}.json`,l=Ls(e.repository,i,o),u=Rs(e.repository,i,s),d=Rs(e.repository,i,c),f=e.entries.at(-1),p=Hs(e,t.id),m=p.length>=3&&Us(p)>=7,h=n.matchers.map((t,n)=>{let r=`${t.pattern} repo:${e.repository}`;return`- Search matcher ${n+1}: [GitHub code search](${zs(e.repository,r)})`}).join(`
 `);return`# ${t.label}
 
 Latest count: **${t.current}**
