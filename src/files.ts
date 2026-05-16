@@ -17,10 +17,9 @@ export const DEFAULT_EXCLUDES = [
   '.gh-counter/**',
 ]
 
-export interface ContentSource {
-  kind: 'workspace' | 'revision'
-  revision?: string
-}
+export type ContentSource =
+  | { kind: 'workspace'; revision?: never }
+  | { kind: 'revision'; revision: string }
 
 export function createMatchKey(match: MatchRecord): string {
   return `${match.path}:${match.line}`
@@ -48,7 +47,7 @@ export async function listFiles(source: ContentSource): Promise<string[]> {
     'ls-tree',
     '-r',
     '--name-only',
-    source.revision as string,
+    source.revision,
   ])
   return stdout
     .split('\n')
