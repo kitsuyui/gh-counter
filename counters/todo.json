@@ -1,7 +1,7 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 92,
+  "count": 95,
   "matches": [
     {
       "path": "README.md",
@@ -462,6 +462,21 @@
       "path": "src/publish-report.spec.ts",
       "line": 159,
       "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 202,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 207,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 237,
+      "text": "'![TODOs trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/todo.svg)'"
     }
   ]
 }
