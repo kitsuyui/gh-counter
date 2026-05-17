@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import * as core from '@actions/core'
 import * as github from '@actions/github'
+import Ajv from 'ajv'
 import { renderBadge } from './badge'
 import { buildMarker, decideCommentAction, renderComment } from './comment'
 import { mergePublishedHistory } from './history'
@@ -18,6 +19,120 @@ import type {
   PublishedHistory,
   SummaryStatus,
 } from './types'
+
+const ajv = new Ajv()
+
+const validateSummaryStatus = ajv.compile({
+  type: 'object',
+  required: [
+    'generated_at',
+    'repository',
+    'default_branch',
+    'event_name',
+    'base_label',
+    'head_label',
+    'head_reference',
+    'base_only_paths',
+    'counters',
+  ],
+  properties: {
+    generated_at: { type: 'string' },
+    repository: { type: 'string' },
+    default_branch: { type: 'string' },
+    publish_branch: { type: ['string', 'null'] },
+    event_name: { type: 'string' },
+    base_label: { type: 'string' },
+    base_reference: { type: ['string', 'null'] },
+    head_label: { type: 'string' },
+    head_reference: { type: 'string' },
+    bootstrap_message: { type: ['string', 'null'] },
+    base_only_paths: { type: 'array', items: { type: 'string' } },
+    counters: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: [
+          'id',
+          'label',
+          'current',
+          'base',
+          'delta',
+          'dashboard_current',
+          'dashboard_base',
+          'dashboard_delta',
+          'commentable',
+          'touched_files',
+          'file_deltas',
+          'patch_file_deltas',
+          'violations',
+          'badge_path',
+          'counter_path',
+        ],
+        properties: {
+          id: { type: 'string' },
+          label: { type: 'string' },
+          current: { type: 'number' },
+          base: { type: ['number', 'null'] },
+          delta: { type: ['number', 'null'] },
+          dashboard_current: { type: 'number' },
+          dashboard_base: { type: ['number', 'null'] },
+          dashboard_delta: { type: ['number', 'null'] },
+          commentable: { type: 'boolean' },
+          touched_files: { type: 'array' },
+          file_deltas: { type: 'array' },
+          patch_file_deltas: { type: 'array' },
+          violations: { type: 'array' },
+          badge_path: { type: 'string' },
+          counter_path: { type: 'string' },
+        },
+      },
+    },
+  },
+})
+
+const validatePublishedHistory = ajv.compile({
+  type: 'object',
+  required: ['repository', 'default_branch', 'entries'],
+  properties: {
+    repository: { type: 'string' },
+    default_branch: { type: 'string' },
+    entries: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['generated_at', 'head_reference', 'counters'],
+        properties: {
+          generated_at: { type: 'string' },
+          head_reference: { type: 'string' },
+          counters: {
+            type: 'array',
+            items: {
+              type: 'object',
+              required: ['id', 'label', 'count'],
+              properties: {
+                id: { type: 'string' },
+                label: { type: 'string' },
+                count: { type: 'number' },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+})
+
+export function parseSummaryStatus(data: unknown): SummaryStatus | null {
+  if (data === null || data === undefined) return null
+  if (!validateSummaryStatus(data)) return null
+  return data as SummaryStatus
+}
+
+export function parsePublishedHistory(data: unknown): PublishedHistory | null {
+  if (data === null || data === undefined) return null
+  if (!validatePublishedHistory(data)) return null
+  return data as PublishedHistory
+}
 
 type Octokit = ReturnType<typeof github.getOctokit>
 
@@ -105,11 +220,11 @@ export async function updatePullRequestComment(
   }
 }
 
-async function fetchPublishedJson<T>(
+async function fetchPublishedJson(
   octokit: Octokit,
   branch: string,
   filename: string
-): Promise<T | null> {
+): Promise<unknown> {
   try {
     const response = await octokit.rest.repos.getContent({
       ...github.context.repo,
@@ -124,7 +239,7 @@ async function fetchPublishedJson<T>(
     }
     return JSON.parse(
       Buffer.from(response.data.content, 'base64').toString('utf8')
-    ) as T
+    )
   } catch (error) {
     if (isPermissionError(error)) {
       return null
@@ -138,7 +253,16 @@ export async function fetchPublishedSummary(
   branch: string,
   summaryFilename: string
 ): Promise<SummaryStatus | null> {
-  return fetchPublishedJson<SummaryStatus>(octokit, branch, summaryFilename)
+  const data = await fetchPublishedJson(octokit, branch, summaryFilename)
+  const parsed = parseSummaryStatus(data)
+  if (parsed === null && data !== null && data !== undefined) {
+    core.warning(
+      `Published ${summaryFilename} failed schema validation and will be ignored. ` +
+        `This may occur after a schema migration. ` +
+        `Errors: ${JSON.stringify(validateSummaryStatus.errors)}`
+    )
+  }
+  return parsed
 }
 
 export async function fetchPublishedHistory(
@@ -146,7 +270,16 @@ export async function fetchPublishedHistory(
   branch: string,
   historyFilename: string
 ): Promise<PublishedHistory | null> {
-  return fetchPublishedJson<PublishedHistory>(octokit, branch, historyFilename)
+  const data = await fetchPublishedJson(octokit, branch, historyFilename)
+  const parsed = parsePublishedHistory(data)
+  if (parsed === null && data !== null && data !== undefined) {
+    core.warning(
+      `Published ${historyFilename} failed schema validation and will be ignored. ` +
+        `This may occur after a schema migration. ` +
+        `Errors: ${JSON.stringify(validatePublishedHistory.errors)}`
+    )
+  }
+  return parsed
 }
 
 async function ensureBranch(
