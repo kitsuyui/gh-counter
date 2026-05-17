@@ -15,7 +15,7 @@ const schema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    version: { type: 'integer' },
+    version: { const: 1 },
     default_branch: { type: 'string' },
     publish: {
       type: 'object',

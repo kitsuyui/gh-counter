@@ -96,7 +96,7 @@ publishing is off by default, and labels fall back to counter ids.
 
 | Field | Required | Default | Notes |
 | --- | --- | --- | --- |
-| `version` | No | none | Recommended to set to `1` |
+| `version` | No | none | Recommended to set to `1`; other values are rejected |
 | `default_branch` | No | repository default branch | Usually not needed |
 | `comment.enabled` | No | `true` | Disables PR comment handling when set to `false` |
 | `comment.key` | No | `default` | Use a unique key if the repo runs multiple `gh-counter` jobs |
