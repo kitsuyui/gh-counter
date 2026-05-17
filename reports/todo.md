@@ -1,6 +1,6 @@
 # TODOs
 
-Latest count: **97**
+Latest count: **101**
 
 Recent trend: solid line shows the last 30 days, and the dotted line shows older measurements retained for context.
 

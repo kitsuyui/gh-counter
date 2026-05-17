@@ -1,7 +1,7 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 97,
+  "count": 101,
   "matches": [
     {
       "path": "README.md",
@@ -367,6 +367,26 @@
       "path": "src/git.spec.ts",
       "line": 448,
       "text": "label: 'TODO',"
+    },
+    {
+      "path": "src/github.spec.ts",
+      "line": 20,
+      "text": "label: 'TODO',"
+    },
+    {
+      "path": "src/github.spec.ts",
+      "line": 45,
+      "text": "counters: [{ id: 'todo', label: 'TODO', count: 5 }],"
+    },
+    {
+      "path": "src/github.spec.ts",
+      "line": 93,
+      "text": "label: 'TODO',"
+    },
+    {
+      "path": "src/github.spec.ts",
+      "line": 170,
+      "text": "counters: [{ id: 'todo', label: 'TODO' }],"
     },
     {
       "path": "src/history.spec.ts",
