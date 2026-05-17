@@ -15,7 +15,7 @@ required, what is optional, and what happens if you omit a field.
 
 | Field | Required | Default | Meaning |
 | --- | --- | --- | --- |
-| `version` | No | none | Schema version. `1` is the current value |
+| `version` | No | none | Schema version. If set, it must be `1` |
 | `default_branch` | No | repository default branch | Baseline branch for default-branch pushes |
 | `comment.enabled` | No | `true` | Enables or disables PR comments |
 | `comment.key` | No | `default` | Unique marker key for idempotent comments |
@@ -65,7 +65,8 @@ required, what is optional, and what happens if you omit a field.
 
 The `version` field exists so that future schema changes can evolve without
 guesswork. It is currently optional, but setting it to `1` is a good habit for
-repositories that want stable automation over time.
+repositories that want stable automation over time. Unknown version values are
+rejected instead of being ignored.
 
 The `default_branch` field is also optional. If it is omitted, `gh-counter`
 uses the repository's configured default branch from the GitHub event payload.
