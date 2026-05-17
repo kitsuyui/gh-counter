@@ -110,6 +110,7 @@ async function run(): Promise<void> {
   let bootstrapMessage: string | null = null
   let baseOnlyPaths: string[] = []
   let publishedHistory: PublishedHistory | null = null
+  let previousHistory: PublishedHistory | null = null
   const baseLabel = defaultBranch
   const headLabel =
     github.context.eventName === 'pull_request'
@@ -145,7 +146,7 @@ async function run(): Promise<void> {
     github.context.ref === `refs/heads/${defaultBranch}` &&
     config.publish.enabled
   ) {
-    const [publishedSummary, previousHistory] = await Promise.all([
+    const [publishedSummary, fetchedHistory] = await Promise.all([
       fetchPublishedSummary(
         octokit,
         config.publish.branch,
@@ -163,26 +164,9 @@ async function run(): Promise<void> {
         )
       ),
     ])
+    previousHistory = fetchedHistory
     baseReference = publishedSummary?.head_reference ?? null
     baseSnapshots = baseSnapshotsFromPublishedSummary(publishedSummary)
-    publishedHistory = mergePublishedHistory(
-      attachOutputPaths(
-        buildSummary(
-          defaultBranch,
-          config.publish.branch,
-          baseLabel,
-          baseReference,
-          headLabel,
-          headReference,
-          bootstrapMessage,
-          baseOnlyPaths,
-          []
-        ),
-        inputs.outputDir
-      ),
-      currentSnapshots,
-      previousHistory
-    )
   }
 
   const touchedFilesByCounter = new Map(
@@ -221,6 +205,13 @@ async function run(): Promise<void> {
     ),
     inputs.outputDir
   )
+  if (publishBranch) {
+    publishedHistory = mergePublishedHistory(
+      summary,
+      currentSnapshots,
+      previousHistory
+    )
+  }
 
   await writeOutputFiles(
     inputs.outputDir,

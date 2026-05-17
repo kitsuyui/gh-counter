@@ -177,9 +177,10 @@ and reporting tool. When publishing is enabled, the action writes `summary.json`
 existing JSON and badge files to a dedicated branch. That gives you stable raw
 URLs for badges and a rendered GitHub Markdown page for each metric. The report
 graph uses a solid line for the last `publish.graph_days` days and a dotted
-line for older retained measurements. Because this behavior force-updates a
-generated branch, it is opt-in and should be enabled only when you actually want
-repository-level assets.
+line for older retained measurements. `history.json` keeps the most recent 366
+published entries so the generated branch does not grow without bound. Because
+this behavior force-updates a generated branch, it is opt-in and should be
+enabled only when you actually want repository-level assets.
 
 ```yaml
 version: 1
