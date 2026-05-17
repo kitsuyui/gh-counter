@@ -33,9 +33,9 @@ outputs:
   summary-json:
     description: 'The generated summary JSON'
   violation-count:
-    description: 'Number of counters with failing conditions'
+    description: 'Number of counters with failing conditions in the current event scope (PRs only evaluate relevant counters)'
   has-violations:
-    description: 'Whether any configured failing condition was violated'
+    description: 'Whether any counter violated a failing condition in the current event scope (PRs only evaluate relevant counters)'
   publish-branch:
     description: 'The publish branch used for generated assets'
 
