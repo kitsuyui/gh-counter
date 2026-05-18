@@ -1,6 +1,10 @@
 import { describe, expect, test } from 'vitest'
 
-import { buildHistoryEntry, mergePublishedHistory } from './history'
+import {
+  buildHistoryEntry,
+  MAX_PUBLISHED_HISTORY_ENTRIES,
+  mergePublishedHistory,
+} from './history'
 
 const summary = {
   generated_at: '2026-04-05T01:23:45.000Z',
@@ -123,5 +127,51 @@ describe('history helpers', () => {
         },
       ],
     })
+  })
+
+  test('retains only the most recent published history entries', () => {
+    const oldEntries = Array.from(
+      { length: MAX_PUBLISHED_HISTORY_ENTRIES },
+      (_, index) => ({
+        generated_at: new Date(Date.UTC(2025, 0, index + 1)).toISOString(),
+        head_reference: `old-${index}`,
+        counters: [],
+      })
+    )
+
+    const history = mergePublishedHistory(summary, [], {
+      repository: 'kitsuyui/gh-counter',
+      default_branch: 'main',
+      entries: oldEntries,
+    })
+
+    expect(history.entries).toHaveLength(MAX_PUBLISHED_HISTORY_ENTRIES)
+    expect(history.entries[0]?.head_reference).toBe('old-1')
+    expect(history.entries.at(-1)?.head_reference).toBe('def5678')
+  })
+
+  test('orders history entries by generated_at before trimming', () => {
+    const history = mergePublishedHistory(summary, [], {
+      repository: 'kitsuyui/gh-counter',
+      default_branch: 'main',
+      entries: [
+        {
+          generated_at: '2026-04-06T00:00:00.000Z',
+          head_reference: 'newer',
+          counters: [],
+        },
+        {
+          generated_at: '2026-04-04T00:00:00.000Z',
+          head_reference: 'older',
+          counters: [],
+        },
+      ],
+    })
+
+    expect(history.entries.map((entry) => entry.head_reference)).toEqual([
+      'older',
+      'def5678',
+      'newer',
+    ])
   })
 })

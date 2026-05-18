@@ -195,10 +195,11 @@ machine-readable data. Users who only care about README badges can ignore the
 JSON files, while teams that want to build dashboards or secondary tooling can
 consume them directly. `history.json` stores one repository-wide entry per
 published default-branch commit and replaces the entry when the same commit is
-republished on a workflow rerun. The generated report Markdown is designed to be
-the primary click target for badges, and the graph highlights the last
-`publish.graph_days` days with a solid line while retaining older data as a
-dotted line for context.
+republished on a workflow rerun. It keeps the most recent 366 published entries
+so generated branches stay bounded during long-running use. The generated report
+Markdown is designed to be the primary click target for badges, and the graph
+highlights the last `publish.graph_days` days with a solid line while retaining
+older data as a dotted line for context.
 
 In many repositories, the most useful README badge is a linked badge rather
 than a standalone image. The generated SVG can stay in the publish branch, while

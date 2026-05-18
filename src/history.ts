@@ -5,6 +5,8 @@ import type {
   SummaryStatus,
 } from './types'
 
+export const MAX_PUBLISHED_HISTORY_ENTRIES = 366
+
 export function buildHistoryEntry(
   summary: SummaryStatus,
   snapshots: CounterSnapshot[]
@@ -18,6 +20,24 @@ export function buildHistoryEntry(
       count: snapshot.count,
     })),
   }
+}
+
+function historyEntryTimestamp(entry: HistoryEntry): number {
+  const timestamp = Date.parse(entry.generated_at)
+  return Number.isNaN(timestamp) ? Number.NEGATIVE_INFINITY : timestamp
+}
+
+function retainRecentHistoryEntries(entries: HistoryEntry[]): HistoryEntry[] {
+  return [...entries]
+    .sort((left, right) => {
+      const timestampDelta =
+        historyEntryTimestamp(left) - historyEntryTimestamp(right)
+      if (timestampDelta !== 0) {
+        return timestampDelta
+      }
+      return left.head_reference.localeCompare(right.head_reference)
+    })
+    .slice(-MAX_PUBLISHED_HISTORY_ENTRIES)
 }
 
 export function mergePublishedHistory(
@@ -40,6 +60,6 @@ export function mergePublishedHistory(
   return {
     repository: summary.repository,
     default_branch: summary.default_branch,
-    entries,
+    entries: retainRecentHistoryEntries(entries),
   }
 }
