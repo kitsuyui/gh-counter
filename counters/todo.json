@@ -30,22 +30,22 @@
     },
     {
       "path": "README.md",
-      "line": 191,
+      "line": 192,
       "text": "label: TODOs"
     },
     {
       "path": "README.md",
-      "line": 195,
+      "line": 196,
       "text": "pattern: \"TODO\""
     },
     {
       "path": "README.md",
-      "line": 209,
+      "line": 210,
       "text": "[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/blob/badge-assets/reports/todo.md)"
     },
     {
       "path": "README.md",
-      "line": 216,
+      "line": 217,
       "text": "line such as `// FIXME: TODO because ...` should count as one debt instance for"
     },
     {
@@ -390,37 +390,37 @@
     },
     {
       "path": "src/history.spec.ts",
-      "line": 26,
+      "line": 30,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/history.spec.ts",
-      "line": 37,
+      "line": 41,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/history.spec.ts",
-      "line": 50,
+      "line": 54,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/history.spec.ts",
-      "line": 65,
+      "line": 69,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/history.spec.ts",
-      "line": 85,
+      "line": 89,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/history.spec.ts",
-      "line": 105,
+      "line": 109,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/history.spec.ts",
-      "line": 121,
+      "line": 125,
       "text": "label: 'TODOs',"
     },
     {
