@@ -1,4 +1,4 @@
-import type { ContentSource } from './files'
+import type { ContentSource, ReadFileResult } from './files'
 import {
   createMatchKey,
   filterFiles,
@@ -20,8 +20,8 @@ function createReadCacheKey(source: ContentSource, filePath: string): string {
 async function readCachedContent(
   source: ContentSource,
   filePath: string,
-  readCache: Map<string, string | null>
-): Promise<string | null> {
+  readCache: Map<string, ReadFileResult>
+): Promise<ReadFileResult> {
   const cacheKey = createReadCacheKey(source, filePath)
   const cachedContent = readCache.get(cacheKey)
   if (cachedContent !== undefined) {
@@ -31,6 +31,18 @@ async function readCachedContent(
   const content = await readFile(source, filePath)
   readCache.set(cacheKey, content)
   return content
+}
+
+function createReadFailureError(
+  source: ContentSource,
+  filePath: string,
+  error: Error
+): Error {
+  const location =
+    source.kind === 'revision' ? `${source.revision}:${filePath}` : filePath
+  return new Error(`Failed to read ${location}: ${error.message}`, {
+    cause: error,
+  })
 }
 
 function collectMatchesInContent(
@@ -55,17 +67,20 @@ async function countMatcher(
   source: ContentSource,
   matcher: MatcherConfig,
   files: string[],
-  readCache: Map<string, string | null>
+  readCache: Map<string, ReadFileResult>
 ): Promise<MatchRecord[]> {
   const matches: MatchRecord[] = []
 
   for (const filePath of filterFiles(files, matcher)) {
-    const content = await readCachedContent(source, filePath, readCache)
-    if (content === null) {
+    const result = await readCachedContent(source, filePath, readCache)
+    if (result.kind === 'unsupported') {
       continue
     }
+    if (result.kind === 'error') {
+      throw createReadFailureError(source, filePath, result.error)
+    }
 
-    matches.push(...collectMatchesInContent(filePath, content, matcher))
+    matches.push(...collectMatchesInContent(filePath, result.content, matcher))
   }
 
   return matches
@@ -76,7 +91,7 @@ export async function countCounter(
   counter: CounterConfig & { label: string }
 ): Promise<CounterSnapshot> {
   const files = await listFiles(source)
-  const readCache = new Map<string, string | null>()
+  const readCache = new Map<string, ReadFileResult>()
   const dedup = new Map<string, MatchRecord>()
 
   for (const matcher of counter.matchers) {
