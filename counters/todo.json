@@ -1,7 +1,7 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 101,
+  "count": 105,
   "matches": [
     {
       "path": "README.md",
@@ -30,22 +30,22 @@
     },
     {
       "path": "README.md",
-      "line": 192,
+      "line": 201,
       "text": "label: TODOs"
     },
     {
       "path": "README.md",
-      "line": 196,
+      "line": 205,
       "text": "pattern: \"TODO\""
     },
     {
       "path": "README.md",
-      "line": 210,
+      "line": 219,
       "text": "[![TODOs](https://raw.githubusercontent.com/<owner>/<repo>/badge-assets/badges/todo.svg)](https://github.com/<owner>/<repo>/blob/badge-assets/reports/todo.md)"
     },
     {
       "path": "README.md",
-      "line": 217,
+      "line": 226,
       "text": "line such as `// FIXME: TODO because ...` should count as one debt instance for"
     },
     {
@@ -136,6 +136,26 @@
     {
       "path": "src/count.spec.ts",
       "line": 41,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/count.spec.ts",
+      "line": 57,
+      "text": "await fs.writeFile('src/binary.bin', Buffer.from('TODO\\u0000reason'))"
+    },
+    {
+      "path": "src/count.spec.ts",
+      "line": 68,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/count.spec.ts",
+      "line": 79,
+      "text": "await fs.writeFile('src/index.ts', '// TODO: hidden\\n', 'utf8')"
+    },
+    {
+      "path": "src/count.spec.ts",
+      "line": 115,
       "text": "pattern: 'TODO',"
     },
     {
