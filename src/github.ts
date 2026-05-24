@@ -452,63 +452,79 @@ export async function writeOutputFiles(
   publishedHistory: PublishedHistory | null = null,
   config: NormalizedConfig | null = null
 ): Promise<void> {
-  await fs.mkdir(outputDir, { recursive: true })
-  await fs.writeFile(
-    path.join(outputDir, 'summary.json'),
-    `${JSON.stringify(summary, null, 2)}\n`,
-    'utf8'
-  )
-  if (publishedHistory) {
+  const tmpDir = `${outputDir}.tmp`
+  await fs.rm(tmpDir, { recursive: true, force: true })
+  await fs.mkdir(tmpDir, { recursive: true })
+  try {
     await fs.writeFile(
-      path.join(outputDir, 'history.json'),
-      `${JSON.stringify(publishedHistory, null, 2)}\n`,
+      path.join(tmpDir, 'summary.json'),
+      `${JSON.stringify(summary, null, 2)}\n`,
       'utf8'
     )
-  }
-  await fs.mkdir(path.join(outputDir, 'badges'), { recursive: true })
-  await fs.mkdir(path.join(outputDir, 'counters'), { recursive: true })
-  if (publishedHistory && config) {
-    await fs.mkdir(path.join(outputDir, 'graphs'), { recursive: true })
-    await fs.mkdir(path.join(outputDir, 'reports'), { recursive: true })
-  }
-
-  for (const counter of counters) {
-    const snapshot = snapshots.find((item) => item.id === counter.id)
-    const counterConfig = counterConfigs.find((item) => item.id === counter.id)
-    if (!snapshot) {
-      continue
+    if (publishedHistory) {
+      await fs.writeFile(
+        path.join(tmpDir, 'history.json'),
+        `${JSON.stringify(publishedHistory, null, 2)}\n`,
+        'utf8'
+      )
     }
-    await fs.writeFile(
-      path.join(outputDir, 'badges', `${counter.id}.svg`),
-      renderBadge(counter, counterConfig?.badge),
-      'utf8'
-    )
-    await fs.writeFile(
-      path.join(outputDir, 'counters', `${counter.id}.json`),
-      `${JSON.stringify(snapshot, null, 2)}\n`,
-      'utf8'
-    )
+    await fs.mkdir(path.join(tmpDir, 'badges'), { recursive: true })
+    await fs.mkdir(path.join(tmpDir, 'counters'), { recursive: true })
     if (publishedHistory && config) {
-      await fs.writeFile(
-        path.join(outputDir, 'graphs', `${counter.id}.svg`),
-        renderCounterGraphSvg(
-          publishedHistory,
-          counter,
-          config.publish.graph_days,
-          counterConfig?.badge
-        ),
-        'utf8'
-      )
-      await fs.writeFile(
-        path.join(outputDir, 'reports', `${counter.id}.md`),
-        `${renderCounterReportMarkdown(
-          publishedHistory,
-          counter,
-          counterConfig,
-          config
-        )}\n`,
-        'utf8'
-      )
+      await fs.mkdir(path.join(tmpDir, 'graphs'), { recursive: true })
+      await fs.mkdir(path.join(tmpDir, 'reports'), { recursive: true })
     }
+
+    for (const counter of counters) {
+      const snapshot = snapshots.find((item) => item.id === counter.id)
+      const counterConfig = counterConfigs.find(
+        (item) => item.id === counter.id
+      )
+      if (!snapshot) {
+        continue
+      }
+      await fs.writeFile(
+        path.join(tmpDir, 'badges', `${counter.id}.svg`),
+        renderBadge(counter, counterConfig?.badge),
+        'utf8'
+      )
+      await fs.writeFile(
+        path.join(tmpDir, 'counters', `${counter.id}.json`),
+        `${JSON.stringify(snapshot, null, 2)}\n`,
+        'utf8'
+      )
+      if (publishedHistory && config) {
+        await fs.writeFile(
+          path.join(tmpDir, 'graphs', `${counter.id}.svg`),
+          renderCounterGraphSvg(
+            publishedHistory,
+            counter,
+            config.publish.graph_days,
+            counterConfig?.badge
+          ),
+          'utf8'
+        )
+        await fs.writeFile(
+          path.join(tmpDir, 'reports', `${counter.id}.md`),
+          `${renderCounterReportMarkdown(
+            publishedHistory,
+            counter,
+            counterConfig,
+            config
+          )}\n`,
+          'utf8'
+        )
+      }
+    }
+    // Atomic replacement: try rename first (works when outputDir is absent);
+    // fall back to removing outputDir then renaming (handles non-empty target).
+    try {
+      await fs.rename(tmpDir, outputDir)
+    } catch {
+      await fs.rm(outputDir, { recursive: true, force: true })
+      await fs.rename(tmpDir, outputDir)
+    }
+  } finally {
+    await fs.rm(tmpDir, { recursive: true, force: true }).catch(() => {})
   }
 }
