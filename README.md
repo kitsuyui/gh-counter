@@ -169,6 +169,15 @@ one exception for first-time adoption: if a pull request adds
 emits a short bootstrap comment even when no matcher target files are touched
 yet.
 
+When a pull request renames a file, `gh-counter` treats both the old path and
+the new path as potentially relevant to the PR gate. If either path matches a
+counter's `files` glob, that counter is considered active for the PR, and the
+ratchet check applies through the old path as well as the new one. This means
+that a counter can remain commentable even after its tracked file has been
+renamed out of the counter's scope. Pull requests that consist purely of
+renames may still trigger counter checks if the pre-rename path matched a
+counter's file pattern.
+
 ## When to enable publishing
 
 Publishing is the part that turns `gh-counter` from a review tool into a badge
