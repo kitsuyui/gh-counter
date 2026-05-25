@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-05-24T03:00:04.367Z",
+  "generated_at": "2026-05-25T13:39:43.307Z",
   "repository": "kitsuyui/gh-counter",
   "default_branch": "main",
   "publish_branch": "gh-counter-assets",
   "event_name": "push",
   "base_label": "main",
-  "base_reference": "f38d2d6efee211c06a214bdc919d68ca80fb9e03",
+  "base_reference": "57338deb2d3b05e336218faebdee7148c62a9e85",
   "head_label": "main",
-  "head_reference": "57338deb2d3b05e336218faebdee7148c62a9e85",
+  "head_reference": "0a87edf59cfc80e187c1487a706ebd6adc32dd53",
   "bootstrap_message": null,
   "base_only_paths": [],
   "counters": [
     {
       "id": "todo",
       "label": "TODOs",
-      "current": 105,
-      "base": 101,
-      "delta": 4,
-      "dashboard_current": 105,
-      "dashboard_base": 101,
-      "dashboard_delta": 4,
+      "current": 107,
+      "base": 105,
+      "delta": 2,
+      "dashboard_current": 107,
+      "dashboard_base": 105,
+      "dashboard_delta": 2,
       "commentable": true,
       "touched_files": [],
       "file_deltas": [
@@ -67,9 +67,9 @@
         },
         {
           "path": "src/github.spec.ts",
-          "current": 4,
+          "current": 6,
           "base": 0,
-          "delta": 4
+          "delta": 6
         },
         {
           "path": "src/config.spec.ts",
@@ -82,7 +82,7 @@
       "violations": [
         {
           "kind": "no_increase",
-          "message": "101 → 105 (+4)",
+          "message": "105 → 107 (+2)",
           "fail": false
         }
       ],

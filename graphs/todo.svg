@@ -4,42 +4,43 @@
 <rect x="40" y="24" width="582" height="162" fill="#f6f8fa" stroke="#d0d7de"/>
 <line x1="40" y1="186" x2="622" y2="186" stroke="#8c959f" stroke-width="1"/>
 <line x1="40" y1="24" x2="40" y2="186" stroke="#8c959f" stroke-width="1"/>
-<line x1="265.17" y1="24" x2="265.17" y2="186" stroke="#8c959f" stroke-dasharray="4 4"/>
-<path d="M 40.00 71.83 L 40.05 67.20 L 40.11 59.49 L 40.29 59.49 L 109.70 59.49 L 110.94 59.49 L 129.01 59.49 L 129.46 59.49 L 175.31 59.49 L 259.17 44.06 L 318.95 44.06" fill="none" stroke="#dbab09" stroke-width="2" stroke-dasharray="4 4" opacity="0.65"/>
-<path d="M 259.17 44.06 L 318.95 44.06 L 393.86 44.06 L 395.75 44.06 L 396.08 44.06 L 402.23 44.06 L 408.82 44.06 L 410.92 44.06 L 440.99 44.06 L 489.38 44.06 L 530.40 44.06 L 534.00 39.43 L 538.73 36.34 L 545.95 30.17 L 545.95 30.17 L 545.96 30.17 L 549.21 30.17 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
-<circle cx="40.00" cy="71.83" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="40.05" cy="67.20" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="40.11" cy="59.49" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="40.29" cy="59.49" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="109.70" cy="59.49" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="110.94" cy="59.49" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="129.01" cy="59.49" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="129.46" cy="59.49" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="175.31" cy="59.49" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="259.17" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="318.95" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="393.86" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="395.75" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="396.08" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="402.23" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="408.82" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="410.92" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="440.99" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="489.38" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="530.40" cy="44.06" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="534.00" cy="39.43" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="538.73" cy="36.34" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="545.95" cy="30.17" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="545.95" cy="30.17" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="545.96" cy="30.17" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="549.21" cy="30.17" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<line x1="275.40" y1="24" x2="275.40" y2="186" stroke="#8c959f" stroke-dasharray="4 4"/>
+<path d="M 40.00 73.96 L 40.05 69.42 L 40.10 61.85 L 40.28 61.85 L 107.70 61.85 L 108.91 61.85 L 126.46 61.85 L 126.89 61.85 L 171.43 61.85 L 252.88 46.71 L 310.95 46.71" fill="none" stroke="#dbab09" stroke-width="2" stroke-dasharray="4 4" opacity="0.65"/>
+<path d="M 252.88 46.71 L 310.95 46.71 L 383.72 46.71 L 385.56 46.71 L 385.87 46.71 L 391.84 46.71 L 398.24 46.71 L 400.29 46.71 L 429.50 46.71 L 476.50 46.71 L 516.34 46.71 L 519.83 42.17 L 524.43 39.14 L 531.45 33.08 L 531.45 33.08 L 531.45 33.08 L 534.61 33.08 L 605.31 27.03 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
+<circle cx="40.00" cy="73.96" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="40.05" cy="69.42" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="40.10" cy="61.85" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="40.28" cy="61.85" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="107.70" cy="61.85" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="108.91" cy="61.85" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="126.46" cy="61.85" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="126.89" cy="61.85" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="171.43" cy="61.85" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="252.88" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="310.95" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="383.72" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="385.56" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="385.87" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="391.84" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="398.24" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="400.29" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="429.50" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="476.50" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="516.34" cy="46.71" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="519.83" cy="42.17" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="524.43" cy="39.14" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="531.45" cy="33.08" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="531.45" cy="33.08" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="531.45" cy="33.08" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="534.61" cy="33.08" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="605.31" cy="27.03" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="4.5" fill="#dbab09" stroke="#ffffff" stroke-width="2"/>
 <text x="40" y="16" fill="#24292f" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13">TODOs trend</text>
-<text x="622" y="16" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12">latest 105</text>
-<text x="265.17" y="196" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">last 30d</text>
+<text x="622" y="16" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12">latest 107</text>
+<text x="275.40" y="196" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">last 30d</text>
 <text x="40" y="210" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-04-05</text>
-<text x="622" y="210" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-05-24</text>
-<text x="12" y="30" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">105</text>
+<text x="622" y="210" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">2026-05-25</text>
+<text x="12" y="30" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">107</text>
 <text x="18" y="186" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">0</text>
 </svg>
