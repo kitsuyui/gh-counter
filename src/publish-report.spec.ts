@@ -81,6 +81,36 @@ describe('publish report rendering', () => {
     expect(svg).toContain('y="196"')
   })
 
+  test('keeps baseline state until seven full days are observed', () => {
+    const nearSevenDayHistory = {
+      repository: 'kitsuyui/gh-counter',
+      default_branch: 'main',
+      entries: [
+        {
+          generated_at: '2026-04-01T00:00:00.000Z',
+          head_reference: 'first',
+          counters: [{ id: 'todo', label: 'TODOs', count: 5 }],
+        },
+        {
+          generated_at: '2026-04-04T06:00:00.000Z',
+          head_reference: 'middle',
+          counters: [{ id: 'todo', label: 'TODOs', count: 4 }],
+        },
+        {
+          generated_at: '2026-04-07T12:00:00.000Z',
+          head_reference: 'latest',
+          counters: [{ id: 'todo', label: 'TODOs', count: 3 }],
+        },
+      ],
+    }
+
+    const svg = renderCounterGraphSvg(nearSevenDayHistory, counter, 30)
+
+    expect(svg).toContain('collecting baseline (3 samples)')
+    expect(svg).not.toContain('last 30d')
+    expect(svg).not.toContain('stroke-dasharray="4 4"')
+  })
+
   test('renders a markdown report that links to the published graph', () => {
     const markdown = renderCounterReportMarkdown(
       history,

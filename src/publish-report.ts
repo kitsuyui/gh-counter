@@ -134,7 +134,7 @@ function observedDays(series: CounterSeriesPoint[]): number {
   }
   const first = series[0]?.timestamp ?? 0
   const last = series.at(-1)?.timestamp ?? first
-  return Math.max(1, Math.round((last - first) / (24 * 60 * 60 * 1000)))
+  return Math.max(1, Math.floor((last - first) / (24 * 60 * 60 * 1000)))
 }
 
 function createGraphLayout(): GraphLayout {
