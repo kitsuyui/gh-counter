@@ -56,6 +56,38 @@ describe('publish report rendering', () => {
     expect(svg).not.toContain('<text x="40.00" y="196"')
   })
 
+  test('stays in baseline mode for a 6.5-day history (does not round up to 7)', () => {
+    const base = Date.parse('2026-04-01T00:00:00.000Z')
+    const halfDayMs = 12 * 60 * 60 * 1000
+    const sixAndHalfDaysMs = 6 * 24 * 60 * 60 * 1000 + halfDayMs
+    const borderlineHistory = {
+      repository: 'kitsuyui/gh-counter',
+      default_branch: 'main',
+      entries: [
+        {
+          generated_at: new Date(base).toISOString(),
+          head_reference: 'first',
+          counters: [{ id: 'todo', label: 'TODOs', count: 5 }],
+        },
+        {
+          generated_at: new Date(base + halfDayMs).toISOString(),
+          head_reference: 'second',
+          counters: [{ id: 'todo', label: 'TODOs', count: 4 }],
+        },
+        {
+          generated_at: new Date(base + sixAndHalfDaysMs).toISOString(),
+          head_reference: 'third',
+          counters: [{ id: 'todo', label: 'TODOs', count: 3 }],
+        },
+      ],
+    }
+
+    const svg = renderCounterGraphSvg(borderlineHistory, counter, 7)
+    // 6.5 days must not cross the 7-day threshold
+    expect(svg).toContain('collecting baseline')
+    expect(svg).not.toContain('last 7d')
+  })
+
   test('renders baseline collection state for short histories', () => {
     const shortHistory = {
       repository: 'kitsuyui/gh-counter',
