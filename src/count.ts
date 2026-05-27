@@ -13,6 +13,8 @@ import type {
   MatchRecord,
 } from './types'
 
+const MAX_READ_CACHE_SIZE = 1000
+
 function createReadCacheKey(source: ContentSource, filePath: string): string {
   return `${source.kind}:${source.revision ?? 'workspace'}:${filePath}`
 }
@@ -29,7 +31,9 @@ async function readCachedContent(
   }
 
   const content = await readFile(source, filePath)
-  readCache.set(cacheKey, content)
+  if (readCache.size < MAX_READ_CACHE_SIZE) {
+    readCache.set(cacheKey, content)
+  }
   return content
 }
 
