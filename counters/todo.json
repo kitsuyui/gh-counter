@@ -1,7 +1,7 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 110,
+  "count": 113,
   "matches": [
     {
       "path": "README.md",
@@ -500,57 +500,72 @@
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 122,
-      "text": "label: 'TODOs',"
+      "line": 124,
+      "text": "counters: [{ id: 'todo', label: 'TODOs', count: 5 }],"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 127,
-      "text": "pattern: 'TODO',"
+      "line": 129,
+      "text": "counters: [{ id: 'todo', label: 'TODOs', count: 4 }],"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 154,
-      "text": "expect(markdown).toContain('# TODOs')"
-    },
-    {
-      "path": "src/publish-report.spec.ts",
-      "line": 156,
-      "text": "'![TODOs trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/todo.svg)'"
-    },
-    {
-      "path": "src/publish-report.spec.ts",
-      "line": 164,
-      "text": "'[GitHub code search](https://github.com/kitsuyui/gh-counter/search?q=TODO%20repo%3Akitsuyui%2Fgh-counter&type=code)'"
-    },
-    {
-      "path": "src/publish-report.spec.ts",
-      "line": 176,
+      "line": 134,
       "text": "counters: [{ id: 'todo', label: 'TODOs', count: 3 }],"
     },
     {
       "path": "src/publish-report.spec.ts",
+      "line": 152,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 157,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 184,
+      "text": "expect(markdown).toContain('# TODOs')"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
       "line": 186,
+      "text": "'![TODOs trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/todo.svg)'"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 194,
+      "text": "'[GitHub code search](https://github.com/kitsuyui/gh-counter/search?q=TODO%20repo%3Akitsuyui%2Fgh-counter&type=code)'"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 206,
+      "text": "counters: [{ id: 'todo', label: 'TODOs', count: 3 }],"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 216,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 191,
+      "line": 221,
       "text": "pattern: 'TODO',"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 234,
+      "line": 264,
       "text": "label: 'TODOs',"
-    },
-    {
-      "path": "src/publish-report.spec.ts",
-      "line": 239,
-      "text": "pattern: 'TODO',"
     },
     {
       "path": "src/publish-report.spec.ts",
       "line": 269,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/publish-report.spec.ts",
+      "line": 299,
       "text": "'![TODOs trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/todo.svg)'"
     }
   ]
