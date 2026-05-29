@@ -327,6 +327,22 @@ export async function publishAssets(
       snapshots,
       existingHistory
     )
+    const publishedSummary: SummaryStatus = {
+      ...summary,
+      counters: summary.counters.map((counter) => ({
+        ...counter,
+        badge_path: path.posix.join(
+          config.publish.directory,
+          config.publish.badges_directory,
+          `${counter.id}.svg`
+        ),
+        counter_path: path.posix.join(
+          config.publish.directory,
+          config.publish.counters_directory,
+          `${counter.id}.json`
+        ),
+      })),
+    }
     const treeEntries = [
       {
         path: path.posix.join(
@@ -335,7 +351,7 @@ export async function publishAssets(
         ),
         mode: '100644' as const,
         type: 'blob' as const,
-        content: `${JSON.stringify(summary, null, 2)}\n`,
+        content: `${JSON.stringify(publishedSummary, null, 2)}\n`,
       },
       {
         path: path.posix.join(
@@ -418,19 +434,29 @@ export async function publishAssets(
       tree: tree.data.sha,
       parents: branchState.commitSha ? [branchState.commitSha] : [],
     })
-    if (branchState.commitSha) {
-      await octokit.rest.git.updateRef({
-        ...github.context.repo,
-        ref: `heads/${branch}`,
-        sha: commit.data.sha,
-        force: true,
-      })
-    } else {
-      await octokit.rest.git.createRef({
-        ...github.context.repo,
-        ref: `refs/heads/${branch}`,
-        sha: commit.data.sha,
-      })
+    try {
+      if (branchState.commitSha) {
+        await octokit.rest.git.updateRef({
+          ...github.context.repo,
+          ref: `heads/${branch}`,
+          sha: commit.data.sha,
+          force: true,
+        })
+      } else {
+        await octokit.rest.git.createRef({
+          ...github.context.repo,
+          ref: `refs/heads/${branch}`,
+          sha: commit.data.sha,
+        })
+      }
+    } catch (refError) {
+      if (!isPermissionError(refError)) {
+        core.warning(
+          `Failed to update ref "${branch}" after creating git objects. ` +
+            `Unreachable objects: tree=${tree.data.sha} commit=${commit.data.sha}`
+        )
+      }
+      throw refError
     }
   } catch (error) {
     if (isPermissionError(error)) {
