@@ -418,19 +418,29 @@ export async function publishAssets(
       tree: tree.data.sha,
       parents: branchState.commitSha ? [branchState.commitSha] : [],
     })
-    if (branchState.commitSha) {
-      await octokit.rest.git.updateRef({
-        ...github.context.repo,
-        ref: `heads/${branch}`,
-        sha: commit.data.sha,
-        force: true,
-      })
-    } else {
-      await octokit.rest.git.createRef({
-        ...github.context.repo,
-        ref: `refs/heads/${branch}`,
-        sha: commit.data.sha,
-      })
+    try {
+      if (branchState.commitSha) {
+        await octokit.rest.git.updateRef({
+          ...github.context.repo,
+          ref: `heads/${branch}`,
+          sha: commit.data.sha,
+          force: true,
+        })
+      } else {
+        await octokit.rest.git.createRef({
+          ...github.context.repo,
+          ref: `refs/heads/${branch}`,
+          sha: commit.data.sha,
+        })
+      }
+    } catch (refError) {
+      if (!isPermissionError(refError)) {
+        core.warning(
+          `Failed to update ref "${branch}" after creating git objects. ` +
+            `Unreachable objects: tree=${tree.data.sha} commit=${commit.data.sha}`
+        )
+      }
+      throw refError
     }
   } catch (error) {
     if (isPermissionError(error)) {
