@@ -246,6 +246,20 @@ workflow can upload those files as artifacts or inspect them in later steps.
 The action also exposes the summary path, the full summary JSON, the number of
 failing violations, and the publish branch through action outputs.
 
+The step outputs are:
+
+| Output | Meaning |
+| --- | --- |
+| `summary-path` | Path to the generated summary JSON file. |
+| `summary-json` | Full generated summary JSON as a string. |
+| `violation-count` | Number of counters with failing conditions in the current event scope. |
+| `has-violations` | `true` when any counter violated a failing condition in the current event scope; otherwise `false`. |
+| `publish-branch` | Publish branch used for generated assets. |
+
+For example, a later step can branch on
+`${{ steps.counter.outputs.has-violations }}` or upload
+`${{ steps.counter.outputs.summary-path }}`.
+
 ## Documentation
 
 The README is intentionally focused on adoption and day-one configuration. The
