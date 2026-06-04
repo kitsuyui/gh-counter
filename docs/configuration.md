@@ -61,6 +61,23 @@ required, what is optional, and what happens if you omit a field.
 | `matchers[].pattern` | Yes | none | Literal string or regular expression |
 | `matchers[].case_sensitive` | No | `false` | Enables case-sensitive matching |
 
+## Action outputs
+
+The action exposes named step outputs so downstream workflow steps can inspect
+the generated summary, gate on violations, or publish artifacts.
+
+| Output | Meaning |
+| --- | --- |
+| `summary-path` | Path to the generated summary JSON file. |
+| `summary-json` | Full generated summary JSON as a string. |
+| `violation-count` | Number of counters with failing conditions in the current event scope. |
+| `has-violations` | `true` when any counter violated a failing condition in the current event scope; otherwise `false`. |
+| `publish-branch` | Publish branch used for generated assets. |
+
+For example, a workflow can branch on
+`${{ steps.counter.outputs.has-violations }}` or upload
+`${{ steps.counter.outputs.summary-path }}` after the action runs.
+
 ## Top-level behavior
 
 The `version` field exists so that future schema changes can evolve without
