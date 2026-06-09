@@ -273,6 +273,21 @@ means `action.yml` stays at the repository root and `dist/` is committed for the
 release tag that users reference. Marketplace publication may also require
 account-level setup on GitHub's side, including agreement and listing metadata.
 
+## Development
+
+Install [lefthook](https://github.com/evilmartians/lefthook) and run the following command once to set up local Git hooks:
+
+```sh
+lefthook install
+```
+
+The hooks mirror the same checks that CI runs:
+
+- **pre-commit**: runs `bun run lint` (Biome static analysis)
+- **pre-push**: runs `bun run lint` and `bun run test` (Biome + Vitest)
+
+CI still executes the full suite on every push and pull request — the hooks bring the same feedback earlier, before a push is made.
+
 ## License
 
 MIT
