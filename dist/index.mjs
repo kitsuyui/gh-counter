@@ -281,23 +281,23 @@ var Xo=Object.prototype.toString,Zo=Array.isArray||function(e){return Xo.call(e)
 <text x="${e.width/2}" y="${e.height/2}" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="14">No history yet</text>
 </svg>
 `}function Xs(e,t,n){let r=e[0]?.timestamp??n,i=e.at(-1)?.timestamp??n,a=Math.max(1,i-r),o=Math.max(1,...e.map(e=>e.count));return{points:e.map(e=>({x:t.margin.left+(e.timestamp-r)/a*t.plotWidth,y:t.margin.top+t.plotHeight-e.count/o*t.plotHeight,count:e.count,timestamp:e.timestamp})),minTimestamp:r,maxCount:o,cutoffX:t.margin.left+t.plotWidth}}function Zs(e,t,n){let r=n?e.filter(e=>e.timestamp<t):[],i=n?e.filter(e=>e.timestamp>=t):e,a=i[0],o=r.at(-1),s=r.length>0&&a?[...r,a]:r,c=o&&i.length>0?[o,...i]:i.length>0?i:e;return{historicalPoints:r,recentPoints:i,olderPath:Gs(s),recentPath:Gs(c)}}function Qs(e,t,n,r){return e.map(e=>{let i=n&&e.timestamp<r?` stroke-dasharray="3 3" opacity="0.75"`:``;return`<circle cx="${e.x.toFixed(2)}" cy="${e.y.toFixed(2)}" r="3.5" fill="#ffffff" stroke="${t}" stroke-width="2"${i}/>`}).join(`
-`)}function $s(e,t,n,r,i,a,o){let s=t?`last ${n}d`:`collecting baseline (${r} samples)`;if(!t)return{subtitle:s,subtitleX:e.width/2};let c=i.length*7,l=a.length*7,u=s.length*6;return{subtitle:s,subtitleX:Math.max(e.margin.left+c+u/2+12,Math.min(e.width-e.margin.right-l-u/2-12,o))}}function ec(e,t,n,r){let i=Ks(e,t.id),a=Js(),o=Bs(t,r),s=`${t.label} trend`,c=Rs(s),l=i.at(-1)?.generated_at??e.entries.at(-1)?.generated_at,u=l?Date.parse(l):Date.now(),d=u-n*24*60*60*1e3,f=i.length>=3&&qs(i)>=7;if(i.length===0)return Ys(a,s,c);let{points:p,minTimestamp:m,maxCount:h}=Xs(i,a,u),g=a.margin.left+(Math.max(m,d)-m)/Math.max(1,(i.at(-1)?.timestamp??u)-m)*a.plotWidth,{olderPath:_,recentPath:v}=Zs(p,d,f),y=p.at(-1)??p[0],b=i[0],x=i.at(-1)??i[0],S=Ws(b?.generated_at??new Date(m).toISOString()),C=Ws(x?.generated_at??new Date(u).toISOString()),{subtitle:w,subtitleX:T}=$s(a,f,n,i.length,S,C,g);return`<svg xmlns="http://www.w3.org/2000/svg" width="${a.width}" height="${a.height}" role="img" aria-label="${Rs(s)}">
+`)}function $s(e,t,n,r,i,a,o){let s=t?`last ${n}d`:`collecting baseline (${r} samples)`;if(!t)return{subtitle:s,subtitleX:e.width/2};let c=i.length*7,l=a.length*7,u=s.length*6;return{subtitle:s,subtitleX:Math.max(e.margin.left+c+u/2+12,Math.min(e.width-e.margin.right-l-u/2-12,o))}}function ec(e,t,n,r){let i=Ks(e,t.id),a=Js(),o=Bs(t,r),s=`${t.label} trend`,c=Rs(s);if(i.length===0)return Ys(a,s,c);let l=i[0],u=i.at(-1);if(!l||!u)return Ys(a,s,c);let d=u.timestamp,f=d-n*24*60*60*1e3,p=i.length>=3&&qs(i)>=7,{points:m,minTimestamp:h,maxCount:g}=Xs(i,a,d),_=a.margin.left+(Math.max(h,f)-h)/Math.max(1,u.timestamp-h)*a.plotWidth,{olderPath:v,recentPath:y}=Zs(m,f,p),b=m.at(-1)??m[0],x=Ws(l.generated_at),S=Ws(u.generated_at),{subtitle:C,subtitleX:w}=$s(a,p,n,i.length,x,S,_);return`<svg xmlns="http://www.w3.org/2000/svg" width="${a.width}" height="${a.height}" role="img" aria-label="${Rs(s)}">
 <title>${c}</title>
 <rect width="${a.width}" height="${a.height}" fill="#ffffff"/>
 <rect x="${a.margin.left}" y="${a.margin.top}" width="${a.plotWidth}" height="${a.plotHeight}" fill="#f6f8fa" stroke="#d0d7de"/>
 <line x1="${a.margin.left}" y1="${a.margin.top+a.plotHeight}" x2="${a.width-a.margin.right}" y2="${a.margin.top+a.plotHeight}" stroke="#8c959f" stroke-width="1"/>
 <line x1="${a.margin.left}" y1="${a.margin.top}" x2="${a.margin.left}" y2="${a.margin.top+a.plotHeight}" stroke="#8c959f" stroke-width="1"/>
-${f?`<line x1="${g.toFixed(2)}" y1="${a.margin.top}" x2="${g.toFixed(2)}" y2="${a.margin.top+a.plotHeight}" stroke="#8c959f" stroke-dasharray="4 4"/>`:``}
-${_?`<path d="${_}" fill="none" stroke="${o}" stroke-width="2" stroke-dasharray="4 4" opacity="0.65"/>`:``}
-${v?`<path d="${v}" fill="none" stroke="${o}" stroke-width="3"/>`:``}
-${Qs(p,o,f,d)}
-<circle cx="${y.x.toFixed(2)}" cy="${y.y.toFixed(2)}" r="4.5" fill="${o}" stroke="#ffffff" stroke-width="2"/>
+${p?`<line x1="${_.toFixed(2)}" y1="${a.margin.top}" x2="${_.toFixed(2)}" y2="${a.margin.top+a.plotHeight}" stroke="#8c959f" stroke-dasharray="4 4"/>`:``}
+${v?`<path d="${v}" fill="none" stroke="${o}" stroke-width="2" stroke-dasharray="4 4" opacity="0.65"/>`:``}
+${y?`<path d="${y}" fill="none" stroke="${o}" stroke-width="3"/>`:``}
+${Qs(m,o,p,f)}
+<circle cx="${b.x.toFixed(2)}" cy="${b.y.toFixed(2)}" r="4.5" fill="${o}" stroke="#ffffff" stroke-width="2"/>
 <text x="${a.margin.left}" y="16" fill="#24292f" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13">${Rs(t.label)} trend</text>
 <text x="${a.width-a.margin.right}" y="16" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="12">latest ${t.current}</text>
-<text x="${T.toFixed(2)}" y="${a.height-24}" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${Rs(w)}</text>
-<text x="${a.margin.left}" y="${a.height-10}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${Rs(S)}</text>
-<text x="${a.width-a.margin.right}" y="${a.height-10}" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${Rs(C)}</text>
-<text x="12" y="${a.margin.top+6}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${h}</text>
+<text x="${w.toFixed(2)}" y="${a.height-24}" text-anchor="middle" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${Rs(C)}</text>
+<text x="${a.margin.left}" y="${a.height-10}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${Rs(x)}</text>
+<text x="${a.width-a.margin.right}" y="${a.height-10}" text-anchor="end" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${Rs(S)}</text>
+<text x="12" y="${a.margin.top+6}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">${g}</text>
 <text x="18" y="${a.margin.top+a.plotHeight}" fill="#57606a" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">0</text>
 </svg>
 `}function tc(e,t,n,r){let i=r.publish.branch,a=r.publish.directory===`.`?``:`${r.publish.directory}/`,o=`${a}${r.publish.graphs_directory}/${t.id}.svg`,s=`${a}${r.publish.history_filename}`,c=`${a}${r.publish.counters_directory}/${t.id}.json`,l=Vs(e.repository,i,o),u=Hs(e.repository,i,s),d=Hs(e.repository,i,c),f=e.entries.at(-1),p=Ks(e,t.id),m=p.length>=3&&qs(p)>=7,h=n.matchers.map((t,n)=>{let r=`${t.pattern} repo:${e.repository}`;return`- Search matcher ${n+1}: [GitHub code search](${Us(e.repository,r)})`}).join(`
