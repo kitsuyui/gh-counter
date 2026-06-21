@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
 import {
   renderCounterGraphSvg,
@@ -111,6 +111,25 @@ describe('publish report rendering', () => {
     expect(svg).toContain('collecting baseline (2 samples)')
     expect(svg).not.toContain('last 30d')
     expect(svg).toContain('y="196"')
+  })
+
+  test('renders empty graphs without reading the current clock', () => {
+    const emptyHistory = {
+      repository: 'kitsuyui/gh-counter',
+      default_branch: 'main',
+      entries: [],
+    }
+    const nowSpy = vi.spyOn(Date, 'now').mockImplementation(() => {
+      throw new Error('Date.now must not be called')
+    })
+
+    try {
+      const svg = renderCounterGraphSvg(emptyHistory, counter, 30)
+
+      expect(svg).toContain('No history yet')
+    } finally {
+      nowSpy.mockRestore()
+    }
   })
 
   test('keeps baseline state until seven full days are observed', () => {

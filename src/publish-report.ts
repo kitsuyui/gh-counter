@@ -305,15 +305,20 @@ export function renderCounterGraphSvg(
   const color = pickGraphColor(counter, badge)
   const title = `${counter.label} trend`
   const escapedTitle = escapeXml(title)
-  const latestDate =
-    series.at(-1)?.generated_at ?? history.entries.at(-1)?.generated_at
-  const latestTimestamp = latestDate ? Date.parse(latestDate) : Date.now()
-  const cutoff = latestTimestamp - graphDays * 24 * 60 * 60 * 1000
-  const hasMeaningfulWindow = series.length >= 3 && observedDays(series) >= 7
 
   if (series.length === 0) {
     return renderEmptyCounterGraphSvg(layout, title, escapedTitle)
   }
+
+  const firstSeriesPoint = series[0]
+  const latestSeriesPoint = series.at(-1)
+  if (!firstSeriesPoint || !latestSeriesPoint) {
+    return renderEmptyCounterGraphSvg(layout, title, escapedTitle)
+  }
+
+  const latestTimestamp = latestSeriesPoint.timestamp
+  const cutoff = latestTimestamp - graphDays * 24 * 60 * 60 * 1000
+  const hasMeaningfulWindow = series.length >= 3 && observedDays(series) >= 7
 
   const { points, minTimestamp, maxCount } = createGraphPoints(
     series,
@@ -323,10 +328,7 @@ export function renderCounterGraphSvg(
   const cutoffX =
     layout.margin.left +
     ((Math.max(minTimestamp, cutoff) - minTimestamp) /
-      Math.max(
-        1,
-        (series.at(-1)?.timestamp ?? latestTimestamp) - minTimestamp
-      )) *
+      Math.max(1, latestSeriesPoint.timestamp - minTimestamp)) *
       layout.plotWidth
   const { olderPath, recentPath } = splitGraphPoints(
     points,
@@ -334,14 +336,8 @@ export function renderCounterGraphSvg(
     hasMeaningfulWindow
   )
   const latestPoint = points.at(-1) ?? points[0]
-  const firstSeriesPoint = series[0]
-  const latestSeriesPoint = series.at(-1) ?? series[0]
-  const firstLabel = formatDate(
-    firstSeriesPoint?.generated_at ?? new Date(minTimestamp).toISOString()
-  )
-  const latestLabel = formatDate(
-    latestSeriesPoint?.generated_at ?? new Date(latestTimestamp).toISOString()
-  )
+  const firstLabel = formatDate(firstSeriesPoint.generated_at)
+  const latestLabel = formatDate(latestSeriesPoint.generated_at)
   const { subtitle, subtitleX } = resolveGraphSubtitle(
     layout,
     hasMeaningfulWindow,
