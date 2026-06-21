@@ -500,72 +500,72 @@
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 124,
+      "line": 143,
       "text": "counters: [{ id: 'todo', label: 'TODOs', count: 5 }],"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 129,
+      "line": 148,
       "text": "counters: [{ id: 'todo', label: 'TODOs', count: 4 }],"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 134,
+      "line": 153,
       "text": "counters: [{ id: 'todo', label: 'TODOs', count: 3 }],"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 152,
+      "line": 171,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 157,
+      "line": 176,
       "text": "pattern: 'TODO',"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 184,
+      "line": 203,
       "text": "expect(markdown).toContain('# TODOs')"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 186,
+      "line": 205,
       "text": "'![TODOs trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/todo.svg)'"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 194,
+      "line": 213,
       "text": "'[GitHub code search](https://github.com/kitsuyui/gh-counter/search?q=TODO%20repo%3Akitsuyui%2Fgh-counter&type=code)'"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 206,
+      "line": 225,
       "text": "counters: [{ id: 'todo', label: 'TODOs', count: 3 }],"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 216,
+      "line": 235,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 221,
+      "line": 240,
       "text": "pattern: 'TODO',"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 264,
+      "line": 283,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 269,
+      "line": 288,
       "text": "pattern: 'TODO',"
     },
     {
       "path": "src/publish-report.spec.ts",
-      "line": 299,
+      "line": 318,
       "text": "'![TODOs trend](https://raw.githubusercontent.com/kitsuyui/gh-counter/gh-counter-assets/graphs/todo.svg)'"
     }
   ]
