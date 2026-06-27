@@ -841,6 +841,27 @@
           "count": 9
         }
       ]
+    },
+    {
+      "generated_at": "2026-06-27T09:29:14.235Z",
+      "head_reference": "1dd1895c3c6d6bc46f5de79d62f5e06421db9a46",
+      "counters": [
+        {
+          "id": "todo",
+          "label": "TODOs",
+          "count": 113
+        },
+        {
+          "id": "type-ignore",
+          "label": "@ts-ignore",
+          "count": 1
+        },
+        {
+          "id": "code-tag",
+          "label": "<code>|`",
+          "count": 9
+        }
+      ]
     }
   ]
 }
