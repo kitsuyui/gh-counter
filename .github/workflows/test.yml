@@ -29,11 +29,15 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Lint
-        run: bun run lint
+      - parallel:
+          - name: Lint
+            run: bun run lint
 
-      - name: Test
-        run: bun run test
+          - name: Test
+            run: bun run test
+
+          - name: Build
+            run: bun run build
 
       - name: Upload coverage
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -41,9 +45,6 @@ jobs:
           name: coverage
           path: coverage
           if-no-files-found: error
-
-      - name: Build
-        run: bun run build
 
       - name: Measure build size
         uses: kitsuyui/gh-build-size@97ad8d5f4fff8ba676a5c614822adacab32780e3 # v0.1.2
