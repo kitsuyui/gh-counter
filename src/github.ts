@@ -327,6 +327,22 @@ export async function publishAssets(
       snapshots,
       existingHistory
     )
+    const publishedSummary: SummaryStatus = {
+      ...summary,
+      counters: summary.counters.map((counter) => ({
+        ...counter,
+        badge_path: path.posix.join(
+          config.publish.directory,
+          config.publish.badges_directory,
+          `${counter.id}.svg`
+        ),
+        counter_path: path.posix.join(
+          config.publish.directory,
+          config.publish.counters_directory,
+          `${counter.id}.json`
+        ),
+      })),
+    }
     const treeEntries = [
       {
         path: path.posix.join(
@@ -335,7 +351,7 @@ export async function publishAssets(
         ),
         mode: '100644' as const,
         type: 'blob' as const,
-        content: `${JSON.stringify(summary, null, 2)}\n`,
+        content: `${JSON.stringify(publishedSummary, null, 2)}\n`,
       },
       {
         path: path.posix.join(
