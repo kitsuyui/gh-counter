@@ -1,7 +1,7 @@
 {
   "id": "todo",
   "label": "TODOs",
-  "count": 113,
+  "count": 121,
   "matches": [
     {
       "path": "README.md",
@@ -160,57 +160,97 @@
     },
     {
       "path": "src/evaluate.spec.ts",
-      "line": 11,
-      "text": "label: 'TODOs',"
-    },
-    {
-      "path": "src/evaluate.spec.ts",
       "line": 16,
       "text": "pattern: 'TODO',"
     },
     {
       "path": "src/evaluate.spec.ts",
-      "line": 25,
-      "text": "[{ id: 'todo', label: 'TODOs', count: 3, matches: [] }],"
-    },
-    {
-      "path": "src/evaluate.spec.ts",
-      "line": 26,
-      "text": "[{ id: 'todo', label: 'TODOs', count: 1, matches: [] }],"
-    },
-    {
-      "path": "src/evaluate.spec.ts",
-      "line": 30,
-      "text": "label: 'TODOs',"
-    },
-    {
-      "path": "src/evaluate.spec.ts",
-      "line": 50,
-      "text": "label: 'TODOs',"
-    },
-    {
-      "path": "src/evaluate.spec.ts",
-      "line": 55,
+      "line": 35,
       "text": "pattern: 'TODO',"
     },
     {
       "path": "src/evaluate.spec.ts",
-      "line": 64,
-      "text": "[{ id: 'todo', label: 'TODOs', count: 10, matches: [] }],"
+      "line": 89,
+      "text": "pattern: 'TODO',"
     },
     {
       "path": "src/evaluate.spec.ts",
-      "line": 65,
-      "text": "[{ id: 'todo', label: 'TODOs', count: 7, matches: [] }],"
+      "line": 118,
+      "text": "pattern: 'TODO',"
     },
     {
       "path": "src/evaluate.spec.ts",
-      "line": 69,
+      "line": 155,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 170,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 185,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 284,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 318,
       "text": "label: 'TODOs',"
     },
     {
       "path": "src/evaluate.spec.ts",
-      "line": 72,
+      "line": 323,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 332,
+      "text": "[{ id: 'todo', label: 'TODOs', count: 3, matches: [] }],"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 333,
+      "text": "[{ id: 'todo', label: 'TODOs', count: 1, matches: [] }],"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 337,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 357,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 362,
+      "text": "pattern: 'TODO',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 371,
+      "text": "[{ id: 'todo', label: 'TODOs', count: 10, matches: [] }],"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 372,
+      "text": "[{ id: 'todo', label: 'TODOs', count: 7, matches: [] }],"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 376,
+      "text": "label: 'TODOs',"
+    },
+    {
+      "path": "src/evaluate.spec.ts",
+      "line": 379,
       "text": "matches: [{ path: 'src/index.ts', line: 10, text: '// TODO: new' }],"
     },
     {
