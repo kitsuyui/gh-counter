@@ -1,0 +1,44 @@
+diff --git a/.github/workflows/codeql.yml b/.github/workflows/codeql.yml
+index 8d812f7..e4c72ba 100644
+--- a/.github/workflows/codeql.yml
++++ b/.github/workflows/codeql.yml
+@@ -19,6 +19,7 @@ permissions:
+ jobs:
+   analyze:
+     runs-on: ubuntu-latest
++    timeout-minutes: 30
+ 
+     steps:
+       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+index 2231c96..528d111 100644
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -17,6 +17,7 @@ permissions:
+ jobs:
+   release:
+     runs-on: ubuntu-latest
++    timeout-minutes: 10
+     steps:
+       - name: Checkout
+         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+diff --git a/.github/workflows/test.yml b/.github/workflows/test.yml
+index 3c1fb78..5f3c700 100644
+--- a/.github/workflows/test.yml
++++ b/.github/workflows/test.yml
+@@ -13,6 +13,7 @@ concurrency:
+ jobs:
+   test:
+     runs-on: ubuntu-latest
++    timeout-minutes: 15
+     permissions:
+       contents: read
+       pull-requests: write
+@@ -54,6 +55,7 @@ jobs:
+   octocov:
+     needs: test
+     runs-on: ubuntu-latest
++    timeout-minutes: 10
+     permissions:
+       actions: read
+       contents: read
