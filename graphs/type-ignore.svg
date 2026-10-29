@@ -6,7 +6,7 @@
 <line x1="40" y1="24" x2="40" y2="186" stroke="#8c959f" stroke-width="1"/>
 <line x1="537.78" y1="24" x2="537.78" y2="186" stroke="#8c959f" stroke-dasharray="4 4"/>
 <path d="M 40.00 24.00 L 40.01 24.00 L 40.02 24.00 L 40.07 24.00 L 56.45 24.00 L 56.74 24.00 L 61.01 24.00 L 61.11 24.00 L 71.94 24.00 L 91.73 24.00 L 105.84 24.00 L 123.52 24.00 L 123.97 24.00 L 124.04 24.00 L 125.50 24.00 L 127.05 24.00 L 127.55 24.00 L 134.65 24.00 L 146.07 24.00 L 155.75 24.00 L 156.60 24.00 L 157.71 24.00 L 159.42 24.00 L 159.42 24.00 L 159.42 24.00 L 160.19 24.00 L 177.37 24.00 L 181.42 24.00 L 189.65 24.00 L 189.66 24.00 L 198.00 24.00 L 200.77 24.00 L 209.58 24.00 L 209.58 24.00 L 223.80 24.00 L 223.97 24.00 L 228.99 24.00 L 257.37 24.00 L 257.41 24.00 L 257.41 24.00 L 273.58 24.00 L 306.14 24.00 L 312.85 24.00 L 312.85 24.00 L 317.57 24.00 L 320.22 24.00 L 335.68 24.00 L 363.64 24.00 L 616.90 24.00" fill="none" stroke="#dbab09" stroke-width="2" stroke-dasharray="4 4" opacity="0.65"/>
-<path d="M 363.64 24.00 L 616.90 24.00 L 621.94 24.00 L 621.96 24.00 L 621.97 24.00 L 621.98 24.00 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
+<path d="M 363.64 24.00 L 616.90 24.00 L 621.94 24.00 L 621.96 24.00 L 621.97 24.00 L 621.97 24.00 L 622.00 24.00 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
 <circle cx="40.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
 <circle cx="40.01" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
 <circle cx="40.02" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
@@ -59,7 +59,8 @@
 <circle cx="621.94" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="621.96" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="621.97" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="621.98" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="621.97" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="622.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="4.5" fill="#dbab09" stroke="#ffffff" stroke-width="2"/>
 <text x="40" y="16" fill="#24292f" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13">@ts-ignore trend</text>
