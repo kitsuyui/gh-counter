@@ -5,8 +5,8 @@
 <line x1="40" y1="186" x2="622" y2="186" stroke="#8c959f" stroke-width="1"/>
 <line x1="40" y1="24" x2="40" y2="186" stroke="#8c959f" stroke-width="1"/>
 <line x1="547.17" y1="24" x2="547.17" y2="186" stroke="#8c959f" stroke-dasharray="4 4"/>
-<path d="M 40.00 24.00 L 40.01 24.00 L 40.02 24.00 L 40.06 24.00 L 54.62 24.00 L 54.88 24.00 L 58.67 24.00 L 58.76 24.00 L 68.38 24.00 L 85.96 24.00 L 98.50 24.00 L 114.21 24.00 L 114.61 24.00 L 114.67 24.00 L 115.96 24.00 L 117.35 24.00 L 117.79 24.00 L 124.09 24.00 L 134.24 24.00 L 142.84 24.00 L 143.60 24.00 L 144.59 24.00 L 146.10 24.00 L 146.10 24.00 L 146.11 24.00 L 146.79 24.00 L 162.05 24.00 L 165.65 24.00 L 172.97 24.00 L 172.97 24.00 L 180.39 24.00 L 182.84 24.00 L 190.68 24.00 L 190.68 24.00 L 203.31 24.00 L 203.46 24.00 L 207.92 24.00 L 233.13 24.00 L 233.17 24.00 L 233.17 24.00 L 247.54 24.00 L 276.46 24.00 L 282.43 24.00 L 282.43 24.00 L 286.63 24.00 L 288.98 24.00 L 302.72 24.00 L 327.55 24.00 L 552.58 24.00" fill="none" stroke="#dbab09" stroke-width="2" stroke-dasharray="4 4" opacity="0.65"/>
-<path d="M 327.55 24.00 L 552.58 24.00 L 557.06 24.00 L 557.08 24.00 L 557.08 24.00 L 557.09 24.00 L 557.11 24.00 L 557.11 24.00 L 569.47 24.00 L 587.01 24.00 L 587.01 24.00 L 599.24 24.00 L 604.67 24.00 L 604.67 24.00 L 604.67 24.00 L 606.94 24.00 L 613.92 24.00 L 616.04 24.00 L 616.06 24.00 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
+<path d="M 40.00 24.00 L 40.01 24.00 L 40.02 24.00 L 40.06 24.00 L 54.62 24.00 L 54.88 24.00 L 58.67 24.00 L 58.76 24.00 L 68.38 24.00 L 85.96 24.00 L 98.50 24.00 L 114.21 24.00 L 114.61 24.00 L 114.67 24.00 L 115.96 24.00 L 117.35 24.00 L 117.79 24.00 L 124.09 24.00 L 134.24 24.00 L 142.84 24.00 L 143.60 24.00 L 144.59 24.00 L 146.10 24.00 L 146.10 24.00 L 146.10 24.00 L 146.79 24.00 L 162.05 24.00 L 165.65 24.00 L 172.97 24.00 L 172.97 24.00 L 180.39 24.00 L 182.84 24.00 L 190.68 24.00 L 190.68 24.00 L 203.31 24.00 L 203.46 24.00 L 207.92 24.00 L 233.13 24.00 L 233.17 24.00 L 233.17 24.00 L 247.54 24.00 L 276.46 24.00 L 282.43 24.00 L 282.43 24.00 L 286.63 24.00 L 288.98 24.00 L 302.72 24.00 L 327.55 24.00 L 552.58 24.00" fill="none" stroke="#dbab09" stroke-width="2" stroke-dasharray="4 4" opacity="0.65"/>
+<path d="M 327.55 24.00 L 552.58 24.00 L 557.06 24.00 L 557.08 24.00 L 557.08 24.00 L 557.09 24.00 L 557.11 24.00 L 557.11 24.00 L 569.47 24.00 L 587.00 24.00 L 587.01 24.00 L 599.24 24.00 L 604.67 24.00 L 604.67 24.00 L 604.67 24.00 L 606.94 24.00 L 613.92 24.00 L 616.04 24.00 L 616.06 24.00 L 622.00 24.00 L 622.00 24.00" fill="none" stroke="#dbab09" stroke-width="3"/>
 <circle cx="40.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
 <circle cx="40.01" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
 <circle cx="40.02" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
@@ -31,7 +31,7 @@
 <circle cx="144.59" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
 <circle cx="146.10" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
 <circle cx="146.10" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
-<circle cx="146.11" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
+<circle cx="146.10" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
 <circle cx="146.79" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
 <circle cx="162.05" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
 <circle cx="165.65" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2" stroke-dasharray="3 3" opacity="0.75"/>
@@ -63,7 +63,7 @@
 <circle cx="557.11" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="557.11" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="569.47" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
-<circle cx="587.01" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="587.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="587.01" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="599.24" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="604.67" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
@@ -73,6 +73,7 @@
 <circle cx="613.92" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="616.04" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="616.06" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
+<circle cx="622.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="3.5" fill="#ffffff" stroke="#dbab09" stroke-width="2"/>
 <circle cx="622.00" cy="24.00" r="4.5" fill="#dbab09" stroke="#ffffff" stroke-width="2"/>
 <text x="40" y="16" fill="#24292f" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="13">@ts-ignore trend</text>
