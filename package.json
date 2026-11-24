@@ -27,7 +27,7 @@
     "@types/mustache": "^4.2.6",
     "@types/node": "^24.5.2",
     "@vitest/coverage-v8": "^4.0.18",
-    "rollup-plugin-license": "^3.6.0",
+    "rollup-plugin-license": "^3.7.2",
     "tsdown": "^0.23.7",
     "typescript": "^7.0.2",
     "vitest": "^4.0.18"
